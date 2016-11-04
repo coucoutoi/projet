@@ -4,7 +4,7 @@
 """
 :mod:`sudoku_grid` module
 
-:author: HULSKEN Alexandre & KARTI Adeniss
+:author: Le grand et majestueux HULSKEN Alexandre & KARTI Adeniss
 
 :date: 2016, november
 
