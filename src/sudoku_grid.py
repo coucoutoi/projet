@@ -4,7 +4,7 @@
 """
 :mod:`sudoku_grid` module
 
-:author: Le grand, majestueux, le magnifique, le gigantesque et intelligent HULSKEN Alexandre & et le petit KARTI Adeniss
+:author: HULSKEN Alexandre & KARTI Adeniss
 
 :date: 2016, november
 
