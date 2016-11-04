@@ -9,9 +9,20 @@
 :date: 2016, november
 
 This module provides grid's primitive operations for the sudoku solver.
+
+:Provides:
+
+* `get_line`
+* `get_colomn`
+* `get_square`
+* `get_value`
+* `set_value`
 """
 
 
+#############################
+# Exceptions for gthe grid
+#############################
 
 class NotInGridError(Exception):
     """
@@ -20,14 +31,14 @@ class NotInGridError(Exception):
     def __init__(self, msg):
         self.message = msg
 
-def NotCorrectValueError(Exception):
+class NotCorrectValueError(Exception):
     """
     Exception for not correct values of the grid
     """
     def __init__(self, msg):
         self.message = msg
 
-def NotGoodTypeError(Exception):
+class NotGoodTypeError(Exception):
     """
     Exception for not correct type of values
     """
@@ -36,13 +47,15 @@ def NotGoodTypeError(Exception):
 
 
 ##############################################
-# Functions for game's setup and management
+# Functions for grid's setup and management
 ##############################################
 
 
 default = ''
 for i in range(9*9):
     default += '0'
+
+val_test = '012345678'*9
 
 def make_grid(s=default):
     """
@@ -56,9 +69,8 @@ def make_grid(s=default):
     """
     if type(s) == str:
         grid = [[[] for y in range(9)] for x in range(9)]
-        for line in range(9):
-            for col in range(9):
-                grid[line][col] = int(s[col+line*8])
+        for ind in range(9*9):
+            grid[ind//9][ind%9] = int(s[ind])
         return grid
     else:
         raise NotGoodTypeError("s must be a string")
@@ -76,17 +88,27 @@ def get_line(grid,nth):
     :UC: nth must be an integer between 0 and 8
 
     :Examples:
-    >>> grid = make_grid()
+    >>> grid = make_grid(val_test)
     >>> get_line(grid,0)
     [0, 1, 2, 3, 4, 5, 6, 7, 8]
 
     >>> get_line(grid,10)
     Traceback (most recent call last):
     ...
-    AssertionError: nth must be an integer between 0 and 8
+    NotInGridError: nth is not in grid
+
+    >>> get_line(grid,{4})
+    Traceback (most recent call last):
+    ...
+    NotGoodTypeError: you don't choose a correct type of value
     """
-    assert type(nth) == int and 0<=nth<9,"nth must be an integer between 0 and 8"
-    return grid[nth]
+    try:
+        if -1<nth<9:
+            return grid[nth]
+        else:
+            raise NotInGridError('nth is not in grid')
+    except TypeError:
+        raise NotGoodTypeError("you don't choose a correct type of value")
 
 def get_colomn(grid,nth):
     """
@@ -101,17 +123,27 @@ def get_colomn(grid,nth):
     :UC: nth must be between 0 and 8
 
     :Examples:
-    >>> grid = make_grid()
+    >>> grid = make_grid(val_test)
     >>> get_colomn(grid,8)
-    [8, 16, 24, 32, 40, 48, 56, 64, 72]
+    [8, 8, 8, 8, 8, 8, 8, 8, 8]
 
     >>> get_colomn(grid,9)
     Traceback (most recent call last):
     ...
-    AssertionError: nth must be an integer between 0 and 8
+    NotInGridError: nth is not in grid
+
+    >>> get_colomn(grid,(4,))
+    Traceback (most recent call last):
+    ...
+    NotGoodTypeError: you don't choose a correct type of value
     """
-    assert type(nth) == int and 0<=nth<9,"nth must be an integer between 0 and 8"
-    return [line[nth] for line in grid]
+    try:
+        if -1<nth<9:
+            return [line[nth] for line in grid]
+        else:
+            raise NotInGridError('nth is not in grid')
+    except TypeError:
+        raise NotGoodTypeError("you don't choose a correct type of value")
 
 def get_square(grid,nth):
     """
@@ -126,17 +158,27 @@ def get_square(grid,nth):
     :UC: nth must be between 0 and 8
 
     :Examples:
-    >>> grid = make_grid()
+    >>> grid = make_grid(val_test)
     >>> get_square(grid,5)
-    [10, 11, 12, 18, 19, 20, 26, 27, 28]
+    [2, 3, 4, 2, 3, 4, 2, 3, 4]
 
     >>> get_square(grid,-1)
     Traceback (most recent call last):
     ...
-    AssertionError: nth must be an integer between 0 and 8
+    NotInGridError: nth is not in grid
+
+    >>> get_square(grid,[4])
+    Traceback (most recent call last):
+    ...
+    NotGoodTypeError: you don't choose a correct type of value
     """
-    assert type(nth) == int and 0<=nth<9,"nth must be an integer between 0 and 8"
-    return [grid[line+nth//3][col+nth%3] for line in range(3) for col in range(3)]
+    try:
+        if -1<nth<9:
+            return [grid[line+nth//3][col+nth%3] for line in range(3) for col in range(3)]
+        else:
+            raise NotInGridError('nth is not in grid')
+    except TypeError:
+        raise NotGoodTypeError("you don't choose a correct type of value")
 
 def get_value(grid,nthline,nthcol):
     """
@@ -153,23 +195,39 @@ def get_value(grid,nthline,nthcol):
     :UC: nthline and nthcol must be integers between 0 and 8
 
     :Examples:
-    >>> grid = make_grid()
+    >>> grid = make_grid(val_test)
     >>> get_value(grid,5,5)
-    45
+    5
 
     >>> get_value(grid,-10,5)
     Traceback (most recent call last):
     ...
-    AssertionError: nthline must be an integer between 0 and 8
+    NotInGridError: nthline is not in grid
 
+    >>> get_value(grid,[4],4)
+    Traceback (most recent call last):
+    ...
+    NotGoodTypeError: you don't choose a correct type of value
+    
     >>> get_value(grid,5,31)
     Traceback (most recent call last):
     ...
-    AssertionError: nthcol must be an integer between 0 and 8
+    NotInGridError: nthcol is not in grid
+
+    >>> get_value(grid,{'r':5},5)
+    Traceback (most recent call last):
+    ...
+    NotGoodTypeError: you don't choose a correct type of value
     """
-    assert type(nthcol) == int and 0<=nthcol<9,"nthcol must be an integer between 0 and 8"
-    assert type(nthline) == int and 0<=nthline<9,"nthline must be an integer between 0 and 8"
-    return grid[nthline][nthcol]
+    try:
+        if not -1<nthline<9:
+            raise NotInGridError('nthline is not in grid')
+        elif not -1<nthcol<9:
+            raise NotInGridError('nthcol is not in grid')
+        else:
+            return grid[nthline][nthcol]
+    except TypeError:
+        raise NotGoodTypeError("you don't choose a correct type of value")
 
 def set_value(grid,nthline,nthcol,value):
     """
