@@ -173,7 +173,15 @@ def get_colomn(grid,nth):
 def get_square(grid,nth):
     """
     return all cells' value in the nth square of the grid.
-
+    the disposition of nth's square in the grid:
+                +---+---+---+
+                | 0 | 1 | 2 |
+                +---+---+---+
+                | 3 | 4 | 5 |
+                +---+---+---+
+                | 6 | 7 | 8 |
+                +---+---+---+
+    
     :param grid: the sudoku's grid
     :type grid: grid
     :param nth: a number of square
