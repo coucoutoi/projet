@@ -17,6 +17,8 @@ This module provides grid's primitive operations for the sudoku solver.
 * `get_square`
 * `get_value`
 * `set_value`
+* `default`
+* `val_test`
 """
 
 
