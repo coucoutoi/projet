@@ -57,6 +57,10 @@ for i in range(9*9):
 
 val_test = '012345678'*9
 
+   ###############
+   # Constructor #
+   ###############
+   
 def make_grid(s=default):
     """
     return a sudoku's grid.
@@ -74,6 +78,10 @@ def make_grid(s=default):
         return grid
     else:
         raise NotGoodTypeError("s must be a string")
+
+   #############
+   # Selectors #
+   #############
 
 def get_line(grid,nth):
     """
@@ -228,6 +236,10 @@ def get_value(grid,nthline,nthcol):
             return grid[nthline][nthcol]
     except TypeError:
         raise NotGoodTypeError("you don't choose a correct type of value")
+
+   ############
+   # modifier #
+   ############
 
 def set_value(grid,nthline,nthcol,value):
     """
