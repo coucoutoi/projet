@@ -72,12 +72,27 @@ def make_grid(s=default):
     :return: a fresh grid of sudoku
     :rtype: list of list of numbers
     :UC: type(s) == str
+
+    :Examples:
+    >>> grid = make_grid('1'*81)
+    >>> make_grid('1'*80)
+    Traceback (most recent call last):
+    ...
+    NotCorrectValueError: len of s must be 81
+
+    >>> make_grid(0000000000000000000)
+    Traceback (most recent call last):
+    ...
+    NotGoodTypeError: s must be a string
     """
     if type(s) == str:
-        grid = [[[] for y in range(9)] for x in range(9)]
-        for ind in range(9*9):
-            grid[ind//9][ind%9] = int(s[ind])
-        return grid
+        if len(s) == 81:
+            grid = [[[] for y in range(9)] for x in range(9)]
+            for ind in range(9*9):
+                grid[ind//9][ind%9] = int(s[ind])
+            return grid
+        else:
+            raise NotCorrectValueError("len of s must be 81")
     else:
         raise NotGoodTypeError("s must be a string")
 
