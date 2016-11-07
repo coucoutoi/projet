@@ -12,7 +12,8 @@ This module provides sudoku solver's primitive operations
 
 :Provides:
 
-* ``
+* `print_grid`
+* `MAJ_hipothetic`
 """
 
 

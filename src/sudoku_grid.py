@@ -22,7 +22,7 @@ This module provides grid's primitive operations for the sudoku solver.
 """
 
 
-import cell
+import cell,solver
 
 #############################
 # Exceptions for gthe grid
@@ -326,6 +326,7 @@ def set_value(grid,nthline,nthcol,value):
             raise NotCorrectValueError('value is not a correct value')
         else:
             cell.set_cellvalue(grid[nthline][nthcol],value)
+            solver.MAJ_hipothetic(grid,nthline,nthvol,value)
     except TypeError:
         raise NotGoodTypeError("you don't choose a good type of value")
 
