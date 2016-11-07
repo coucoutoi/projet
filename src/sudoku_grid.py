@@ -22,6 +22,8 @@ This module provides grid's primitive operations for the sudoku solver.
 """
 
 
+import cell
+
 #############################
 # Exceptions for gthe grid
 #############################
@@ -89,7 +91,7 @@ def make_grid(s=default):
         if len(s) == 81:
             grid = [[[] for y in range(9)] for x in range(9)]
             for ind in range(9*9):
-                grid[ind//9][ind%9] = int(s[ind])
+                grid[ind//9][ind%9] = cell.create(int(s[ind]))
             return grid
         else:
             raise NotCorrectValueError("len of s must be 81")
@@ -129,7 +131,7 @@ def get_line(grid,nth):
     """
     try:
         if -1<nth<9:
-            return grid[nth]
+            return [cell.get_cellvalue(grid[nth][i]) for i in range(9)]
         else:
             raise NotInGridError('nth is not in grid')
     except TypeError:
@@ -164,7 +166,7 @@ def get_colomn(grid,nth):
     """
     try:
         if -1<nth<9:
-            return [line[nth] for line in grid]
+            return [cell.get_cellvalue(line[nth]) for line in grid]
         else:
             raise NotInGridError('nth is not in grid')
     except TypeError:
@@ -207,7 +209,7 @@ def get_square(grid,nth):
     """
     try:
         if -1<nth<9:
-            return [grid[line+nth//3][col+nth%3] for line in range(3) for col in range(3)]
+            return [cell.get_cellvalue(grid[line+nth//3][col+nth%3]) for line in range(3) for col in range(3)]
         else:
             raise NotInGridError('nth is not in grid')
     except TypeError:
@@ -258,7 +260,7 @@ def get_value(grid,nthline,nthcol):
         elif not -1<nthcol<9:
             raise NotInGridError('nthcol is not in grid')
         else:
-            return grid[nthline][nthcol]
+            return cell.get_cellvalue(grid[nthline][nthcol])
     except TypeError:
         raise NotGoodTypeError("you don't choose a correct type of value")
 
@@ -323,7 +325,7 @@ def set_value(grid,nthline,nthcol,value):
         elif not -1<value<10:
             raise NotCorrectValueError('value is not a correct value')
         else:
-            grid[nthline][nthcol] = value
+            cell.set_cellvalue(grid[nthline][nthcol],value)
     except TypeError:
         raise NotGoodTypeError("you don't choose a good type of value")
 
