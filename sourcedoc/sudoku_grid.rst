@@ -1,6 +1,6 @@
-====================
-:mod:`stack` module
-====================
+=========================
+:mod:`sudoku_grid` module
+=========================
 
 .. automodule:: sudoku_grid
    :members: __doc__
@@ -19,4 +19,9 @@ Selectors
 
 .. autofunction:: sudoku_grid.get_square
 
-.. autofunction:: sudoku_grid.get_value
+.. autofunction:: sudoku_grid.get_cell
+
+Modifier
+========
+
+.. autofunction:: sudoku_grid.set_value
