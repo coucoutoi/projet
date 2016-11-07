@@ -16,6 +16,7 @@ This module provides cells' primitive operations for the sudoku solver.
 * `get_cellvalue`
 * `get_cellhipo`
 * `set_cellvalue`
+* `unset_cellhipothetic`
 """
 
 import sudoku_grid
@@ -114,10 +115,23 @@ def set_cellvalue(cell,value):
     {}
     """
     cell['value'] = value
-    if value !=0:
-        cell['hipothetic'] = {}
-    else:
-        cell['hipothetic'] = {1,2,3,4,5,6,7,8,9}
+    cell['hipothetic'] = {}
+
+def unset_cellhipothetic(cell,hipo):
+    """
+    :param cell: a cell of the sudoku's grid
+    :type cell: cell
+    :param hipo: an hipothetic value
+    :type hipo: int
+    :return: None
+    :rtype: NoneType
+    :Action: unset hipo of the hipothetics value of the cell
+    :UC: none
+
+    :Examples:
+    """
+    if hipo in get_cellhipo(cell):
+        cell['hipothetic'].remove(hipo)
 
 
 

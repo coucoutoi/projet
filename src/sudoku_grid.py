@@ -15,7 +15,7 @@ This module provides grid's primitive operations for the sudoku solver.
 * `get_line`
 * `get_colomn`
 * `get_square`
-* `get_value`
+* `get_cell`
 * `set_value`
 * `default`
 * `val_test`
@@ -116,7 +116,7 @@ def get_line(grid,nth):
 
     :Examples:
     >>> grid = make_grid(val_test)
-    >>> get_line(grid,0)
+    >>> [cell.get_cellvalue(c) for c in get_line(grid,0)]
     [0, 1, 2, 3, 4, 5, 6, 7, 8]
 
     >>> get_line(grid,10)
@@ -131,7 +131,7 @@ def get_line(grid,nth):
     """
     try:
         if -1<nth<9:
-            return [cell.get_cellvalue(grid[nth][i]) for i in range(9)]
+            return [grid[nth][i] for i in range(9)]
         else:
             raise NotInGridError('nth is not in grid')
     except TypeError:
@@ -151,7 +151,7 @@ def get_colomn(grid,nth):
 
     :Examples:
     >>> grid = make_grid(val_test)
-    >>> get_colomn(grid,8)
+    >>> [cell.get_cellvalue(c) for c in get_colomn(grid,8)]
     [8, 8, 8, 8, 8, 8, 8, 8, 8]
 
     >>> get_colomn(grid,9)
@@ -166,7 +166,7 @@ def get_colomn(grid,nth):
     """
     try:
         if -1<nth<9:
-            return [cell.get_cellvalue(line[nth]) for line in grid]
+            return [line[nth] for line in grid]
         else:
             raise NotInGridError('nth is not in grid')
     except TypeError:
@@ -194,7 +194,7 @@ def get_square(grid,nth):
 
     :Examples:
     >>> grid = make_grid(val_test)
-    >>> get_square(grid,5)
+    >>> [cell.get_cellvalue(c) for c in get_square(grid,5)]
     [2, 3, 4, 2, 3, 4, 2, 3, 4]
 
     >>> get_square(grid,-1)
@@ -209,13 +209,13 @@ def get_square(grid,nth):
     """
     try:
         if -1<nth<9:
-            return [cell.get_cellvalue(grid[line+nth//3][col+nth%3]) for line in range(3) for col in range(3)]
+            return [grid[line+nth//3][col+nth%3] for line in range(3) for col in range(3)]
         else:
             raise NotInGridError('nth is not in grid')
     except TypeError:
         raise NotGoodTypeError("you don't choose a correct type of value")
 
-def get_value(grid,nthline,nthcol):
+def get_cell(grid,nthline,nthcol):
     """
     return the value in coordonates nthline,nthcol of the sudoku's grid.
 
@@ -231,25 +231,25 @@ def get_value(grid,nthline,nthcol):
 
     :Examples:
     >>> grid = make_grid(val_test)
-    >>> get_value(grid,5,5)
-    5
+    >>> get_cell(grid,5,5)
+    {'hipothetic': {}, 'value': 5}
 
-    >>> get_value(grid,-10,5)
+    >>> get_cell(grid,-10,5)
     Traceback (most recent call last):
     ...
     NotInGridError: nthline is not in grid
 
-    >>> get_value(grid,[4],4)
+    >>> get_cell(grid,[4],4)
     Traceback (most recent call last):
     ...
     NotGoodTypeError: you don't choose a correct type of value
     
-    >>> get_value(grid,5,31)
+    >>> get_cell(grid,5,31)
     Traceback (most recent call last):
     ...
     NotInGridError: nthcol is not in grid
 
-    >>> get_value(grid,{'r':5},5)
+    >>> get_cell(grid,{'r':5},5)
     Traceback (most recent call last):
     ...
     NotGoodTypeError: you don't choose a correct type of value
@@ -260,7 +260,7 @@ def get_value(grid,nthline,nthcol):
         elif not -1<nthcol<9:
             raise NotInGridError('nthcol is not in grid')
         else:
-            return cell.get_cellvalue(grid[nthline][nthcol])
+            return grid[nthline][nthcol]
     except TypeError:
         raise NotGoodTypeError("you don't choose a correct type of value")
 
@@ -285,11 +285,11 @@ def set_value(grid,nthline,nthcol,value):
 
     :Exemples:
     >>> grid = make_grid()
-    >>> get_value(grid,5,5)
+    >>> cell.get_cellvalue(get_cell(grid,5,5))
     0
     
     >>> set_value(grid,5,5,9)
-    >>> get_value(grid,5,5)
+    >>> cell.get_cellvalue(get_cell(grid,5,5))
     9
 
     >>> set_value(grid,-1,1,1)
