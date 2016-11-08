@@ -22,7 +22,7 @@ This module provides grid's primitive operations for the sudoku solver.
 """
 
 
-import cells,solver
+import cells
 
 #############################
 # Exceptions for gthe grid
