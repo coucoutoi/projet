@@ -12,13 +12,13 @@ This module provides grid's primitive operations for the sudoku solver.
 
 :Provides:
 
+* `NotInGridError`
+* `NotGoodTypeError`
 * `get_line`
 * `get_colomn`
 * `get_square`
 * `get_cell`
 * `set_value`
-* `default`
-* `val_test`
 """
 
 
@@ -31,13 +31,6 @@ import cell,solver
 class NotInGridError(Exception):
     """
     Exception for coordonates values not in grid
-    """
-    def __init__(self, msg):
-        self.message = msg
-
-class NotCorrectValueError(Exception):
-    """
-    Exception for not correct values of the grid
     """
     def __init__(self, msg):
         self.message = msg
@@ -80,7 +73,7 @@ def make_grid(s=default):
     >>> make_grid('1'*80)
     Traceback (most recent call last):
     ...
-    NotCorrectValueError: len of s must be 81
+    cell.NotCorrectValueError: len of s must be 81
 
     >>> make_grid(0000000000000000000)
     Traceback (most recent call last):
@@ -94,7 +87,7 @@ def make_grid(s=default):
                 grid[ind//9][ind%9] = cell.create(int(s[ind]))
             return grid
         else:
-            raise NotCorrectValueError("len of s must be 81")
+            raise cell.NotCorrectValueError("len of s must be 81")
     else:
         raise NotGoodTypeError("s must be a string")
 
@@ -231,8 +224,8 @@ def get_cell(grid,nthline,nthcol):
 
     :Examples:
     >>> grid = make_grid(val_test)
-    >>> get_cell(grid,5,5)
-    {'hipothetic': {}, 'value': 5}
+    >>> get_cell(grid,5,5) == ({'hipothetic': {}, 'value': 5} or {'value': 5, 'hipothetic': {}})
+    True
 
     >>> get_cell(grid,-10,5)
     Traceback (most recent call last):
@@ -305,12 +298,12 @@ def set_value(grid,nthline,nthcol,value):
     >>> set_value(grid,0,0,55)
     Traceback (most recent call last):
     ...
-    NotCorrectValueError: value is not a correct value
+    cell.NotCorrectValueError: value must be an integer between 1 and 9
     
     >>> set_value(grid,1,1,'a')
     Traceback (most recent call last):
     ...
-    NotGoodTypeError: you don't choose a good type of value
+    cell.NotCorrectValueError: value must be an integer between 1 and 9
 
     >>> set_value(grid,'a',1,1)
     Traceback (most recent call last):
@@ -322,11 +315,9 @@ def set_value(grid,nthline,nthcol,value):
             raise NotInGridError('nthline is not in grid')
         elif not -1<nthcol<9:
             raise NotInGridError('nthcol is not in grid')
-        elif not -1<value<10:
-            raise NotCorrectValueError('value is not a correct value')
         else:
             cell.set_cellvalue(grid[nthline][nthcol],value)
-            solver.MAJ_hipothetic(grid,nthline,nthvol,value)
+            solver.MAJ_hipothetic(grid,nthline,nthcol,value)
     except TypeError:
         raise NotGoodTypeError("you don't choose a good type of value")
 
