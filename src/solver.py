@@ -17,7 +17,7 @@ This module provides sudoku solver's primitive operations
 """
 
 
-import sudoku_grid,cell
+import sudoku_grid,cells
 
 def print_grid(grid):
     """
@@ -44,8 +44,8 @@ def print_grid(grid):
             print('|',end='')
             for c1 in range(3):
                 for c2 in range(3):
-                    if cell.get_cellvalue(sudoku_grid.get_cell(grid,l1*3+l2,c1*3+c2)):
-                        print(' {:d}'.format(cell.get_cellvalue(sudoku_grid.get_cell(grid,l1*3+l2,c1*3+c2))),end='')
+                    if cells.get_cellvalue(sudoku_grid.get_cell(grid,l1*3+l2,c1*3+c2)):
+                        print(' {:d}'.format(cells.get_cellvalue(sudoku_grid.get_cell(grid,l1*3+l2,c1*3+c2))),end='')
                     else:
                         print(' .',end='')
                 print(' |',end='')
@@ -58,9 +58,9 @@ def MAJ_hipothetic(grid,nthline,nthcol,set_value):
     """square = sudoku_grid.get_square(grid,)"""
     for k in [line,col]:
         for c in k:
-            cell.unset_cellhipothetic(c,set_value)
+            cells.unset_cellhipothetic(c,set_value)
             if len(cell.get_cellhipo(c)) == 1:
-                cell.set_cellvalue(c,cell.get_cellhipo(c).pop())
+                cells.set_cellvalue(c,cell.get_cellhipo(c).pop())
 
 
 

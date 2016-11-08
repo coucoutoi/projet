@@ -22,7 +22,7 @@ This module provides grid's primitive operations for the sudoku solver.
 """
 
 
-import cell,solver
+import cells,solver
 
 #############################
 # Exceptions for gthe grid
@@ -73,7 +73,7 @@ def make_grid(s=default):
     >>> make_grid('1'*80)
     Traceback (most recent call last):
     ...
-    cell.NotCorrectValueError: len of s must be 81
+    cells.NotCorrectValueError: len of s must be 81
 
     >>> make_grid(0000000000000000000)
     Traceback (most recent call last):
@@ -84,10 +84,10 @@ def make_grid(s=default):
         if len(s) == 81:
             grid = [[[] for y in range(9)] for x in range(9)]
             for ind in range(9*9):
-                grid[ind//9][ind%9] = cell.create(int(s[ind]))
+                grid[ind//9][ind%9] = cells.create(int(s[ind]))
             return grid
         else:
-            raise cell.NotCorrectValueError("len of s must be 81")
+            raise cells.NotCorrectValueError("len of s must be 81")
     else:
         raise NotGoodTypeError("s must be a string")
 
@@ -298,12 +298,12 @@ def set_value(grid,nthline,nthcol,value):
     >>> set_value(grid,0,0,55)
     Traceback (most recent call last):
     ...
-    cell.NotCorrectValueError: value must be an integer between 1 and 9
+    cells.NotCorrectValueError: value must be an integer between 1 and 9
     
     >>> set_value(grid,1,1,'a')
     Traceback (most recent call last):
     ...
-    cell.NotCorrectValueError: value must be an integer between 1 and 9
+    cells.NotCorrectValueError: value must be an integer between 1 and 9
 
     >>> set_value(grid,'a',1,1)
     Traceback (most recent call last):
@@ -316,8 +316,7 @@ def set_value(grid,nthline,nthcol,value):
         elif not -1<nthcol<9:
             raise NotInGridError('nthcol is not in grid')
         else:
-            cell.set_cellvalue(grid[nthline][nthcol],value)
-            solver.MAJ_hipothetic(grid,nthline,nthcol,value)
+            cells.set_cellvalue(grid[nthline][nthcol],value)
     except TypeError:
         raise NotGoodTypeError("you don't choose a good type of value")
 
