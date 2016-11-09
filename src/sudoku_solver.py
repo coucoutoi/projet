@@ -26,16 +26,16 @@ def print_grid(grid):
     >>> print_grid(grid)
     +-------+-------+-------+
     | . 1 2 | 3 4 5 | 6 7 8 |
-    | . 1 2 | 3 4 5 | 6 7 8 |
-    | . 1 2 | 3 4 5 | 6 7 8 |
+    | 1 2 3 | 4 5 6 | 7 8 . |
+    | 2 3 4 | 5 6 7 | 8 . 1 |
     +-------+-------+-------+
-    | . 1 2 | 3 4 5 | 6 7 8 |
-    | . 1 2 | 3 4 5 | 6 7 8 |
-    | . 1 2 | 3 4 5 | 6 7 8 |
+    | 3 4 5 | 6 7 8 | . 1 2 |
+    | 4 5 6 | 7 8 . | 1 2 3 |
+    | 5 6 7 | 8 . 1 | 2 3 4 |
     +-------+-------+-------+
-    | . 1 2 | 3 4 5 | 6 7 8 |
-    | . 1 2 | 3 4 5 | 6 7 8 |
-    | . 1 2 | 3 4 5 | 6 7 8 |
+    | 6 7 8 | . 1 2 | 3 4 5 |
+    | 7 8 . | 1 2 3 | 4 5 6 |
+    | 8 . 1 | 2 3 4 | 5 6 7 |
     +-------+-------+-------+
     """
     print('+'+'-------+'*3)
@@ -52,17 +52,39 @@ def print_grid(grid):
             print()
         print('+'+'-------+'*3)
 
-def MAJ_hipothetic(grid,nthline,nthcol,set_value):
-    line = sudoku_grid.get_line(grid,nthline)
-    col = sudoku_grid.get_colomn(grid,nthcol)
-    """square = sudoku_grid.get_square(grid,)"""
-    for k in [line,col]:
-        for c in k:
-            cells.unset_cellhipothetic(c,set_value)
-            if len(cell.get_cellhipo(c)) == 1:
-                cells.set_cellvalue(c,cell.get_cellhipo(c).pop())
+def is_solved(grid):
+    """
+    verify if the grid is solved
 
+    :param grid: the sudoku's grid
+    :type grid: grid
+    :return: True if the sudoku is solved and False if not
+    :rtype: bool
 
+    :Example:
+    >>> grid1 = sudoku_grid.make_grid()
+    >>> grid2 = sudoku_grid.make_grid(sudoku_grid.sud_finished)
+    >>> is_solved(grid1)
+    False
+
+    >>> is_solved(grid2)
+    True
+    """
+    for i in range(9):
+        for cell in sudoku_grid.get_line(grid,i):
+            if not cells.get_cellvalue(cell):
+                return False
+    return True
+
+def MAJ_hipothetic(cell_list):
+    hipos = [cells.get_cellvalue(cell) for cell in cell_list]
+    for cell in cell_list:
+        for hipo_value in hipos:
+            cells.unset_cellhipothetic(cell,hipo_value)
+
+def solver(string):
+    grid = sudoku_grid.make_grid(string)
+    
 
 if __name__ == '__main__':
     import doctest

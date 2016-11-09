@@ -12,7 +12,6 @@ This module provides cells' primitive operations for the sudoku solver.
 
 :Provides:
 
-* `NotCorrectValueError`
 * `create`
 * `get_cellvalue`
 * `get_cellhipo`

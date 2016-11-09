@@ -12,8 +12,6 @@ This module provides grid's primitive operations for the sudoku solver.
 
 :Provides:
 
-* `NotInGridError`
-* `NotGoodTypeError`
 * `get_line`
 * `get_colomn`
 * `get_square`
@@ -22,7 +20,7 @@ This module provides grid's primitive operations for the sudoku solver.
 """
 
 
-import cells
+import cells,sudoku_solver
 
 #############################
 # Exceptions for gthe grid
@@ -52,7 +50,13 @@ default = ''
 for i in range(9*9):
     default += '0'
 
-val_test = '012345678'*9
+val_test = ''
+inter = "012345678"
+inter2 = "123456789"
+sud_finished = ''
+for i in range(9):
+    val_test += inter[:i] + inter[i:]
+    sud_finished += inter2[:i] + inter2[i:]
 
    ###############
    # Constructor #
@@ -83,8 +87,18 @@ def make_grid(s=default):
     if type(s) == str:
         if len(s) == 81:
             grid = [[[] for y in range(9)] for x in range(9)]
-            for ind in range(9*9):
-                grid[ind//9][ind%9] = cells.create(int(s[ind]))
+            for ind_line in range(9):
+                for ind_col in range(9):
+                    grid[ind_line][ind_col] = cells.create(int(s[ind_line+ind_col]))
+                sudoku_solver.MAJ_hipothetic(grid[ind_line])
+                if not ind_line%3+1:
+                    for i in range(3):
+                        square = get_square(grid,i)
+                        for cell_list in square:
+                            sudoku_solver.MAJ_hipothetic(cell_list)
+            for i in range(9):
+                col = get_colomn(grid,i)
+                sudoku_solver.MAJ_hipothetic(col)
             return grid
         else:
             raise cells.NotCorrectValueError("len of s must be 81")
@@ -109,7 +123,7 @@ def get_line(grid,nth):
 
     :Examples:
     >>> grid = make_grid(val_test)
-    >>> [cell.get_cellvalue(c) for c in get_line(grid,0)]
+    >>> [cells.get_cellvalue(c) for c in get_line(grid,0)]
     [0, 1, 2, 3, 4, 5, 6, 7, 8]
 
     >>> get_line(grid,10)
@@ -144,8 +158,8 @@ def get_colomn(grid,nth):
 
     :Examples:
     >>> grid = make_grid(val_test)
-    >>> [cell.get_cellvalue(c) for c in get_colomn(grid,8)]
-    [8, 8, 8, 8, 8, 8, 8, 8, 8]
+    >>> [cells.get_cellvalue(c) for c in get_colomn(grid,8)]
+    [8, 0, 1, 2, 3, 4, 5, 6, 7]
 
     >>> get_colomn(grid,9)
     Traceback (most recent call last):
@@ -187,8 +201,8 @@ def get_square(grid,nth):
 
     :Examples:
     >>> grid = make_grid(val_test)
-    >>> [cell.get_cellvalue(c) for c in get_square(grid,5)]
-    [2, 3, 4, 2, 3, 4, 2, 3, 4]
+    >>> [cells.get_cellvalue(c) for c in get_square(grid,5)]
+    [3, 4, 5, 4, 5, 6, 5, 6, 7]
 
     >>> get_square(grid,-1)
     Traceback (most recent call last):
@@ -224,7 +238,7 @@ def get_cell(grid,nthline,nthcol):
 
     :Examples:
     >>> grid = make_grid(val_test)
-    >>> get_cell(grid,5,5) == ({'hipothetic': {}, 'value': 5} or {'value': 5, 'hipothetic': {}})
+    >>> get_cell(grid,0,0) == ({'hipothetic': {9}, 'value': 0} or {'value': 0, 'hipothetic': {9}})
     True
 
     >>> get_cell(grid,-10,5)
@@ -278,11 +292,11 @@ def set_value(grid,nthline,nthcol,value):
 
     :Exemples:
     >>> grid = make_grid()
-    >>> cell.get_cellvalue(get_cell(grid,5,5))
+    >>> cells.get_cellvalue(get_cell(grid,5,5))
     0
     
     >>> set_value(grid,5,5,9)
-    >>> cell.get_cellvalue(get_cell(grid,5,5))
+    >>> cells.get_cellvalue(get_cell(grid,5,5))
     9
 
     >>> set_value(grid,-1,1,1)
