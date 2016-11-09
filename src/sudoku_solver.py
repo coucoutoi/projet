@@ -116,6 +116,7 @@ def solver(string):
     grid = sudoku_grid.make_grid(string)
     boolean = True
     while boolean:
+        print_grid(grid)
         boolean = False
         for line in range(9):
             for col in range(9):
@@ -126,7 +127,7 @@ def solver(string):
                     lists = [sudoku_grid.get_line(grid,line),sudoku_grid.get_colomn(grid,col),sudoku_grid.get_square(grid,(col//3) + (line//3)*3)]
                     for cell_list in lists:
                         MAJ_hipothetic(cell_list)
-        print_grid(grid)
+    print_grid(grid)
                     
                     
 

@@ -91,11 +91,9 @@ def make_grid(s=default):
                 for ind_col in range(9):
                     grid[ind_line][ind_col] = cells.create(int(s[ind_line*9+ind_col]))
                 sudoku_solver.MAJ_hipothetic(grid[ind_line])
-                if not ind_line%3+1:
+                if not (ind_line+1)%3:
                     for i in range(3):
-                        square = get_square(grid,i)
-                        for cell_list in square:
-                            sudoku_solver.MAJ_hipothetic(cell_list)
+                        sudoku_solver.MAJ_hipothetic(get_square(grid,i+ind_line//3))
             for i in range(9):
                 col = get_colomn(grid,i)
                 sudoku_solver.MAJ_hipothetic(col)
