@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-:mod:`solver` module
+:mod:`sudoku_solver` module
 
 :author: HULSKEN Alexandre & KARTI Adeniss
 
@@ -21,6 +21,15 @@ import sudoku_grid,cells
 
 def print_grid(grid):
     """
+    print the sudoku's grid
+
+    :param grid: a sudoku's grid
+    :type grid: grid
+    :return: None
+    :rtype: NoneType
+    :Action: print the grid
+    :UC: none
+    
     :Examples:
     >>> grid = sudoku_grid.make_grid(sudoku_grid.val_test)
     >>> print_grid(grid)
@@ -60,6 +69,7 @@ def is_solved(grid):
     :type grid: grid
     :return: True if the sudoku is solved and False if not
     :rtype: bool
+    :UC: none
 
     :Example:
     >>> grid1 = sudoku_grid.make_grid()
@@ -77,6 +87,25 @@ def is_solved(grid):
     return True
 
 def MAJ_hipothetic(cell_list):
+    """
+    up-date the cells' hipothetics values of cell_list with the value of the other cells of cell_value
+
+    :param cell_list: a list of cells
+    :type cell_list: list
+    :return: None
+    :rtype: NoneType
+    :Action: up-date the hipohtetics value of each cell of cell_list
+    :UC: none
+
+    :Examples:
+    >>> cell_list1 = [cells.create(i) for i in range(9)]
+    >>> for cell in cell_list1: print(cells.get_cellhipo(cell),end="")
+    {1, 2, 3, 4, 5, 6, 7, 8, 9}{}{}{}{}{}{}{}{}
+    
+    >>> MAJ_hipothetic(cell_list1)
+    >>> for cell in cell_list1: print(cells.get_cellhipo(cell),end="")
+    {9}{}{}{}{}{}{}{}{}
+    """
     hipos = [cells.get_cellvalue(cell) for cell in cell_list]
     for cell in cell_list:
         for hipo_value in hipos:
@@ -84,8 +113,9 @@ def MAJ_hipothetic(cell_list):
 
 def solver(string):
     grid = sudoku_grid.make_grid(string)
-    
+
+
 
 if __name__ == '__main__':
     import doctest
-    doctest.testmod
+    doctest.testmod()
