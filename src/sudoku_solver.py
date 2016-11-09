@@ -14,6 +14,7 @@ This module provides sudoku solver's primitive operations
 
 * `print_grid`
 * `MAJ_hipothetic`
+* `is_solved`
 """
 
 
@@ -35,16 +36,16 @@ def print_grid(grid):
     >>> print_grid(grid)
     +-------+-------+-------+
     | . 1 2 | 3 4 5 | 6 7 8 |
-    | 1 2 3 | 4 5 6 | 7 8 . |
-    | 2 3 4 | 5 6 7 | 8 . 1 |
+    | . 1 2 | 3 4 5 | 6 7 8 |
+    | . 1 2 | 3 4 5 | 6 7 8 |
     +-------+-------+-------+
-    | 3 4 5 | 6 7 8 | . 1 2 |
-    | 4 5 6 | 7 8 . | 1 2 3 |
-    | 5 6 7 | 8 . 1 | 2 3 4 |
+    | . 1 2 | 3 4 5 | 6 7 8 |
+    | . 1 2 | 3 4 5 | 6 7 8 |
+    | . 1 2 | 3 4 5 | 6 7 8 |
     +-------+-------+-------+
-    | 6 7 8 | . 1 2 | 3 4 5 |
-    | 7 8 . | 1 2 3 | 4 5 6 |
-    | 8 . 1 | 2 3 4 | 5 6 7 |
+    | . 1 2 | 3 4 5 | 6 7 8 |
+    | . 1 2 | 3 4 5 | 6 7 8 |
+    | . 1 2 | 3 4 5 | 6 7 8 |
     +-------+-------+-------+
     """
     print('+'+'-------+'*3)
@@ -113,6 +114,21 @@ def MAJ_hipothetic(cell_list):
 
 def solver(string):
     grid = sudoku_grid.make_grid(string)
+    boolean = True
+    while boolean:
+        boolean = False
+        for line in range(9):
+            for col in range(9):
+                cell = sudoku_grid.get_cell(grid,line,col)
+                if len(cells.get_cellhipo(cell)) == 1:
+                    boolean = True
+                    cells.set_cellvalue(cell,cells.get_cellhipo(cell).pop())
+                    lists = [sudoku_grid.get_line(grid,line),sudoku_grid.get_colomn(grid,col)]
+                    for cell_list in lists:
+                        MAJ_hipothetic(cell_list)
+        print_grid(grid)
+                    
+                    
 
 
 

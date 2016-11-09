@@ -89,7 +89,7 @@ def make_grid(s=default):
             grid = [[[] for y in range(9)] for x in range(9)]
             for ind_line in range(9):
                 for ind_col in range(9):
-                    grid[ind_line][ind_col] = cells.create(int(s[ind_line+ind_col]))
+                    grid[ind_line][ind_col] = cells.create(int(s[ind_line*9+ind_col]))
                 sudoku_solver.MAJ_hipothetic(grid[ind_line])
                 if not ind_line%3+1:
                     for i in range(3):
@@ -159,7 +159,7 @@ def get_colomn(grid,nth):
     :Examples:
     >>> grid = make_grid(val_test)
     >>> [cells.get_cellvalue(c) for c in get_colomn(grid,8)]
-    [8, 0, 1, 2, 3, 4, 5, 6, 7]
+    [8, 8, 8, 8, 8, 8, 8, 8, 8]
 
     >>> get_colomn(grid,9)
     Traceback (most recent call last):
@@ -202,7 +202,7 @@ def get_square(grid,nth):
     :Examples:
     >>> grid = make_grid(val_test)
     >>> [cells.get_cellvalue(c) for c in get_square(grid,5)]
-    [3, 4, 5, 4, 5, 6, 5, 6, 7]
+    [2, 3, 4, 2, 3, 4, 2, 3, 4]
 
     >>> get_square(grid,-1)
     Traceback (most recent call last):
