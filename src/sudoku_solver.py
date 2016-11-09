@@ -123,7 +123,7 @@ def solver(string):
                 if len(cells.get_cellhipo(cell)) == 1:
                     boolean = True
                     cells.set_cellvalue(cell,cells.get_cellhipo(cell).pop())
-                    lists = [sudoku_grid.get_line(grid,line),sudoku_grid.get_colomn(grid,col)]
+                    lists = [sudoku_grid.get_line(grid,line),sudoku_grid.get_colomn(grid,col),sudoku_grid.get_square(grid,(col//3) + (line//3)*3)]
                     for cell_list in lists:
                         MAJ_hipothetic(cell_list)
         print_grid(grid)
