@@ -146,7 +146,6 @@ def find_cell_min(grid):
     :return: the cell with the most contraints
     :rtype: cell
     :UC: none
-    >>> 
     """
     cell_min = (cells.create('0'),0,0)
     for ind_line in range(9):
@@ -173,6 +172,18 @@ def not_solved(grid):
     return False
 
 def complete_1hipo(grid,talkative=False):
+    """
+    while there is always a cell with a unique hipothetic solution, it's replace this value and up-date the hipothetics values in the grid.
+    :param grid: a sudoku's grid
+    :type grid: grid
+    :param talkative: (optional) defaults set to False. If True,
+                      prints, all stages during the computating
+    :type talkative: bool
+    :return: None
+    :rtype: NoneType
+    :Action: repalce all cell with a unique hipothetic solution wile there is no one.
+    :UC: none
+    """
     global sol_way
     boolean = True
     while boolean:
@@ -195,10 +206,14 @@ def search_sol(grid,talkative=False):
     """
     this algorithm search all solutions of a sudoku
 
-    :param string: a string with all values of a sudoku
-    :type string: str
-    :return:
-    :rtype:
+    :param grid: a sudoku's grid
+    :type string: grid
+    :param talkative: (optional) defaults set to False. If True,
+                      prints, all stages during the computating
+    :type talkative: bool
+    :return: None
+    :rtype: NoneType
+    :Action: print all solutions of the grid
     :UC: none
     """
     global sol_way
