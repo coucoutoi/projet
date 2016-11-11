@@ -25,6 +25,7 @@ import sudoku_grid,cells
 
 sud_notfinished = "490001007000045030382600050003070401800902005907030600030006529020850000500700013"
 sud_finished = "495381267671245938382697154263578491814962375957134682738416529129853746546729813"
+sud_2sol = '495381267671245938382697154263578400814962375957134682738496520129853746546721803'
 
 def print_grid(grid):
     """
@@ -80,7 +81,7 @@ def is_solved(grid):
 
     :Example:
     >>> grid1 = sudoku_grid.make_grid()
-    >>> grid2 = sudoku_grid.make_grid(sudoku_grid.sud_finished)
+    >>> grid2 = sudoku_grid.make_grid(sud_finished)
     >>> is_solved(grid1)
     False
     >>> is_solved(grid2)
@@ -210,10 +211,6 @@ def search_sol(grid):
             string = sudoku_grid.grid2string(grid)
             search_sol(grid)
             grid = sudoku_grid.make_grid(string)
-            for cell_list in func_list:
-                for cell in cell_list:
-                    if not cells.get_cellvalue(cell):
-                        cells.set_cellhipothetic(cell,hipo)
 
 
 
