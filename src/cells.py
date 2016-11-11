@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-:mod:`cell` module
+:mod:`cells` module
 
 :author: HULSKEN Alexandre & KARTI Adeniss
 
@@ -16,6 +16,7 @@ This module provides cells' primitive operations for the sudoku solver.
 * `get_cellvalue`
 * `get_cellhipo`
 * `set_cellvalue`
+* `set_cellhipothetic`
 * `unset_cellhipothetic`
 """
 
@@ -69,11 +70,11 @@ def create(value):
     ...
     NotCorrectValueError: value must be an integer between 0 and 9
     """
-    if value in {0,1,2,3,4,5,6,7,8,9}:
-        res = {'value':value,'hipothetic':{}}
-        if value == 0:
-            res['hipothetic'] = {1,2,3,4,5,6,7,8,9}
-        return res
+    if value in set(i for i in range(10)):
+        cell = {'value':value,'hipothetic':set()}
+        if not value:
+            cell['hipothetic'] = set(i for i in range(1,10))
+        return cell
     else:
         raise NotCorrectValueError("value must be an integer between 0 and 9")
 
@@ -107,12 +108,12 @@ def get_cellhipo(cell):
     
     :Examples:
     >>> cell = create(0)
-    >>> cell2 = create(5)
     >>> get_cellhipo(cell)
     {1, 2, 3, 4, 5, 6, 7, 8, 9}
 
+    >>> cell2 = create(5)
     >>> get_cellhipo(cell2)
-    {}
+    set()
     """
     return cell['hipothetic']
 
@@ -136,37 +137,60 @@ def set_cellvalue(cell,value):
     >>> cell = create(0)
     >>> get_cellvalue(cell)
     0
-
     >>> get_cellhipo(cell)
     {1, 2, 3, 4, 5, 6, 7, 8, 9}
-    
     >>> set_cellvalue(cell,5)
     >>> get_cellvalue(cell)
     5
-    
     >>> get_cellhipo(cell)
     {}
-
-    >>> set_cellvalue(cell,0)
+    >>> set_cellvalue(cell,-1)
     Traceback (most recent call last):
     ...
-    NotCorrectValueError: value must be an integer between 1 and 9
-
+    NotCorrectValueError: value must be an integer between 0 and 9
     >>> set_cellvalue(cell,10)
     Traceback (most recent call last):
     ...
-    NotCorrectValueError: value must be an integer between 1 and 9
-
+    NotCorrectValueError: value must be an integer between 0 and 9
     >>> set_cellvalue(cell,"a")
     Traceback (most recent call last):
     ...
-    NotCorrectValueError: value must be an integer between 1 and 9
+    NotCorrectValueError: value must be an integer between 0 and 9
     """
-    if value in {1,2,3,4,5,6,7,8,9}:
+    if value in {0,1,2,3,4,5,6,7,8,9}:
         cell['value'] = value
-        cell['hipothetic'] = {}
+        if value:
+            cell['hipothetic'] = {}
     else:
-        raise NotCorrectValueError("value must be an integer between 1 and 9")
+        raise NotCorrectValueError("value must be an integer between 0 and 9")
+
+def set_cellhipothetic(cell,hipo):
+    """
+    :param cell: a cell of the sudoku's grid
+    :type cell: cell
+    :param hipo: an hipothetic value
+    :type hipo: int
+    :return: None
+    :rtype: NoneType
+    :Action: set hipo of the hipothetics value of the cell
+    :UC: none
+
+    :Examples:
+    >>> cell = create(5)
+    >>> get_cellhipo(cell)
+    set()
+    >>> set_cellhipothetic(cell,3)
+    >>> get_cellhipo(cell)
+    {3}
+    >>> set_cellhipothetic(cell,10)
+    Traceback (most recent call last):
+    ...
+    NotCorrectValueError: hipo must be an integer between 1 and 9
+    """
+    if hipo in {i for i in range(1,10)}:
+        cell['hipothetic'].add(hipo)
+    else:
+        raise NotCorrectValueError("hipo must be an integer between 1 and 9")
 
 def unset_cellhipothetic(cell,hipo):
     """
@@ -184,12 +208,10 @@ def unset_cellhipothetic(cell,hipo):
     >>> unset_cellhipothetic(cell,2)
     >>> get_cellhipo(cell)
     {1, 3, 4, 5, 6, 7, 8, 9}
-
     >>> unset_cellhipothetic(cell,2)
     """
     if hipo in get_cellhipo(cell):
         cell['hipothetic'].remove(hipo)
-
 
 
 

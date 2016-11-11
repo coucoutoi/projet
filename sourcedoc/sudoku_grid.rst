@@ -5,23 +5,42 @@
 .. automodule:: sudoku_grid
    :members: __doc__
 
+
 Constructor
 ===========
 
+MAKE GRID
+---------
 .. autofunction:: sudoku_grid.make_grid
+
+GRID TO STRING
+--------------
+.. autofunction:: sudoku_grid.grid2string
+
 
 Selectors
 =========
 
+GET LINE
+--------
 .. autofunction:: sudoku_grid.get_line
 
+GET COLOMN
+----------
 .. autofunction:: sudoku_grid.get_colomn
 
+GET SQUARE
+----------
 .. autofunction:: sudoku_grid.get_square
 
+GET CELL
+--------
 .. autofunction:: sudoku_grid.get_cell
 
-Modifier
-========
 
-.. autofunction:: sudoku_grid.set_value
+Exceptions
+==========
+
+.. autoexception:: sudoku_grid.NotInGridError
+
+.. autoexception:: sudoku_grid.NotGoodTypeError

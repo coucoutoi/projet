@@ -12,11 +12,12 @@ This module provides grid's primitive operations for the sudoku solver.
 
 :Provides:
 
+* `malke_grid`
+* `grid2string`
 * `get_line`
 * `get_colomn`
 * `get_square`
 * `get_cell`
-* `set_value`
 """
 
 
@@ -45,31 +46,24 @@ class NotGoodTypeError(Exception):
 # Functions for grid's setup and management
 ##############################################
 
+   #############
+   # Variables #
+   #############
 
-default = ''
-for i in range(9*9):
-    default += '0'
-
-val_test = ''
-inter = "012345678"
-inter2 = "123456789"
-sud_finished = ''
-for i in range(9):
-    val_test += inter[:i] + inter[i:]
-    sud_finished += inter2[:i] + inter2[i:]
+val_test = "012345678"*9
 
    ###############
    # Constructor #
    ###############
    
-def make_grid(s=default):
+def make_grid(s='0'*81):
     """
     return a sudoku's grid.
 
     :param str: the sudoku
     :type str: list
-    :return: a fresh grid of sudoku
-    :rtype: list of list of numbers
+    :return: a grid of sudoku
+    :rtype: list of list of cells
     :UC: type(s) == str
 
     :Examples:
@@ -78,7 +72,6 @@ def make_grid(s=default):
     Traceback (most recent call last):
     ...
     cells.NotCorrectValueError: len of s must be 81
-
     >>> make_grid(0000000000000000000)
     Traceback (most recent call last):
     ...
@@ -86,22 +79,40 @@ def make_grid(s=default):
     """
     if type(s) == str:
         if len(s) == 81:
-            grid = [[[] for y in range(9)] for x in range(9)]
+            grid = [[cells.create(0) for y in range(9)] for x in range(9)]
             for ind_line in range(9):
                 for ind_col in range(9):
-                    grid[ind_line][ind_col] = cells.create(int(s[ind_line*9+ind_col]))
-                sudoku_solver.MAJ_hipothetic(grid[ind_line])
-                if not (ind_line+1)%3:
-                    for i in range(3):
-                        sudoku_solver.MAJ_hipothetic(get_square(grid,i+ind_line//3))
-            for i in range(9):
-                col = get_colomn(grid,i)
-                sudoku_solver.MAJ_hipothetic(col)
+                    cells.set_cellvalue(grid[ind_line][ind_col],int(s[ind_line*9+ind_col]))
+                    func_list = [get_line(grid,ind_line),get_colomn(grid,ind_col),get_square(grid,(ind_col//3) + (ind_line//3)*3)]
+                    for cell_list in func_list:
+                        sudoku_solver.MAJ_hipothetic(cell_list,int(s[ind_line*9+ind_col]))
             return grid
         else:
             raise cells.NotCorrectValueError("len of s must be 81")
     else:
         raise NotGoodTypeError("s must be a string")
+
+def grid2string(grid):
+    """
+    return the string from the grid
+
+    :param grid: a grid of sudoku
+    :type grid: grid
+    :return: a srting of values from the sudoku
+    :rtype: str
+    :UC: none
+
+    :Examples:
+    >>> string = "490001007000045030382600050003070401800902005907030600030006529020850000500700013"
+    >>> grid = make_grid(string)
+    >>> grid2string(grid) == string
+    True
+    """
+    string = ''
+    for ind_line in range(9):
+        for cell in get_line(grid,ind_line):
+            string += str(cells.get_cellvalue(cell))
+    return string
 
    #############
    # Selectors #
@@ -115,20 +126,18 @@ def get_line(grid,nth):
     :type grid: grid
     :param nth: a number of line
     :type nth: int
-    :return: a list of all cells' value in the nth line
-    :rtype: list of numbers
+    :return: a list of all cells in the nth line
+    :rtype: list of cells
     :UC: nth must be an integer between 0 and 8
 
     :Examples:
     >>> grid = make_grid(val_test)
     >>> [cells.get_cellvalue(c) for c in get_line(grid,0)]
     [0, 1, 2, 3, 4, 5, 6, 7, 8]
-
     >>> get_line(grid,10)
     Traceback (most recent call last):
     ...
     NotInGridError: nth is not in grid
-
     >>> get_line(grid,{4})
     Traceback (most recent call last):
     ...
@@ -150,20 +159,18 @@ def get_colomn(grid,nth):
     :type grid: grid
     :param nth: a number of colomn
     :type nth: int
-    :return: a list of all cells' value in the nth colomn
-    :rtype: list of numbers
+    :return: a list of all cells in the nth colomn
+    :rtype: list of cells
     :UC: nth must be between 0 and 8
 
     :Examples:
     >>> grid = make_grid(val_test)
     >>> [cells.get_cellvalue(c) for c in get_colomn(grid,8)]
     [8, 8, 8, 8, 8, 8, 8, 8, 8]
-
     >>> get_colomn(grid,9)
     Traceback (most recent call last):
     ...
     NotInGridError: nth is not in grid
-
     >>> get_colomn(grid,(4,))
     Traceback (most recent call last):
     ...
@@ -193,20 +200,18 @@ def get_square(grid,nth):
     :type grid: grid
     :param nth: a number of square
     :type nth: int
-    :return: a list of all cells' value in the nth square
-    :rtype: list of numbers
+    :return: a list of all cells in the nth square
+    :rtype: list of cells
     :UC: nth must be between 0 and 8
 
     :Examples:
     >>> grid = make_grid(val_test)
     >>> [cells.get_cellvalue(c) for c in get_square(grid,5)]
-    [2, 3, 4, 2, 3, 4, 2, 3, 4]
-
+    [6, 7, 8, 6, 7, 8, 6, 7, 8]
     >>> get_square(grid,-1)
     Traceback (most recent call last):
     ...
     NotInGridError: nth is not in grid
-
     >>> get_square(grid,[4])
     Traceback (most recent call last):
     ...
@@ -214,7 +219,7 @@ def get_square(grid,nth):
     """
     try:
         if -1<nth<9:
-            return [grid[line+nth//3][col+nth%3] for line in range(3) for col in range(3)]
+            return [grid[line+nth//3*3][col+nth%3*3] for line in range(3) for col in range(3)]
         else:
             raise NotInGridError('nth is not in grid')
     except TypeError:
@@ -230,30 +235,26 @@ def get_cell(grid,nthline,nthcol):
     :type nthline: int
     :param nthcol: a number of colomn
     :type nthcol: int
-    :return: the value at coordonates nthline,nthcol
-    :rtype: int
+    :return: the cell at coordonates nthline,nthcol
+    :rtype: cell
     :UC: nthline and nthcol must be integers between 0 and 8
 
     :Examples:
     >>> grid = make_grid(val_test)
     >>> get_cell(grid,0,0) == ({'hipothetic': {9}, 'value': 0} or {'value': 0, 'hipothetic': {9}})
     True
-
     >>> get_cell(grid,-10,5)
     Traceback (most recent call last):
     ...
     NotInGridError: nthline is not in grid
-
     >>> get_cell(grid,[4],4)
     Traceback (most recent call last):
     ...
     NotGoodTypeError: you don't choose a correct type of value
-    
     >>> get_cell(grid,5,31)
     Traceback (most recent call last):
     ...
     NotInGridError: nthcol is not in grid
-
     >>> get_cell(grid,{'r':5},5)
     Traceback (most recent call last):
     ...
@@ -268,69 +269,6 @@ def get_cell(grid,nthline,nthcol):
             return grid[nthline][nthcol]
     except TypeError:
         raise NotGoodTypeError("you don't choose a correct type of value")
-
-   ############
-   # modifier #
-   ############
-
-def set_value(grid,nthline,nthcol,value):
-    """
-    :param grid: the sudoku's grid
-    :type grid: grid
-    :param nthline: a number of line
-    :type nthline: int
-    :param nthcol: a number of colomn
-    :type nthcol: int
-    :param value: the value of the cell
-    :type value: int
-    :return: None
-    :rtype: NoneType
-    :Action: mofify the value at coordonates nthline,nthcol in the grid
-    :UC: nthline and nthcol must be integers between 0 and 8; value must be an integer between 0 and 9
-
-    :Exemples:
-    >>> grid = make_grid()
-    >>> cells.get_cellvalue(get_cell(grid,5,5))
-    0
-    
-    >>> set_value(grid,5,5,9)
-    >>> cells.get_cellvalue(get_cell(grid,5,5))
-    9
-
-    >>> set_value(grid,-1,1,1)
-    Traceback (most recent call last):
-    ...
-    NotInGridError: nthline is not in grid
-
-    >>> set_value(grid,1,99,1)
-    Traceback (most recent call last):
-    ...
-    NotInGridError: nthcol is not in grid
-
-    >>> set_value(grid,0,0,55)
-    Traceback (most recent call last):
-    ...
-    cells.NotCorrectValueError: value must be an integer between 1 and 9
-    
-    >>> set_value(grid,1,1,'a')
-    Traceback (most recent call last):
-    ...
-    cells.NotCorrectValueError: value must be an integer between 1 and 9
-
-    >>> set_value(grid,'a',1,1)
-    Traceback (most recent call last):
-    ...
-    NotGoodTypeError: you don't choose a good type of value
-    """
-    try:
-        if not -1<nthline<9:
-            raise NotInGridError('nthline is not in grid')
-        elif not -1<nthcol<9:
-            raise NotInGridError('nthcol is not in grid')
-        else:
-            cells.set_cellvalue(grid[nthline][nthcol],value)
-    except TypeError:
-        raise NotGoodTypeError("you don't choose a good type of value")
 
 
 
