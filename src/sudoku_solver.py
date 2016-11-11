@@ -23,9 +23,10 @@ This module provides sudoku solver's primitive operations
 
 import sudoku_grid,cells
 
+sol_way = list()
 sud_notfinished = "490001007000045030382600050003070401800902005907030600030006529020850000500700013"
 sud_finished = "495381267671245938382697154263578491814962375957134682738416529129853746546729813"
-sud_2sol = '495381267671245938382697154263578400814962375957134682738496520129853746546721803'
+sud_2sol = '495381267671245938382697154263578400814962375957134682738426500129853746546791823'
 
 def print_grid(grid):
     """
@@ -147,13 +148,13 @@ def find_cell_min(grid):
     :UC: none
     >>> 
     """
-    cell_min = cells.create(0)
+    cell_min = (cells.create(0),0,0)
     for ind_line in range(9):
         for ind_col in range(9):
             cell = sudoku_grid.get_cell(grid,ind_line,ind_col)
-            if 0<len(cells.get_cellhipo(cell))<=len(cells.get_cellhipo(cell_min)):
-                cell_min = cell
-    return (cell_min,ind_line,ind_col)
+            if 0<len(cells.get_cellhipo(cell))<=len(cells.get_cellhipo(cell_min[0])):
+                cell_min = (cell,ind_col,ind_line)
+    return cell_min
 
 def not_solved(grid):
     """
@@ -172,6 +173,7 @@ def not_solved(grid):
     return False
 
 def complete_1hipo(grid):
+    global sol_way
     boolean = True
     while boolean:
         boolean = False
@@ -181,6 +183,7 @@ def complete_1hipo(grid):
                 if len(cells.get_cellhipo(cell)) == 1:
                     boolean = True
                     value = cells.get_cellhipo(cell).pop()
+                    sol_way += [(str(value),ind_col,ind_line)]
                     cells.set_cellvalue(cell,value)
                     func_lists = [sudoku_grid.get_line(grid,ind_line),sudoku_grid.get_colomn(grid,ind_col),sudoku_grid.get_square(grid,(ind_col//3) + (ind_line//3)*3)]
                     for cell_list in func_lists:
@@ -196,25 +199,21 @@ def search_sol(grid):
     :rtype:
     :UC: none
     """
+    global sol_way
     complete_1hipo(grid)
-    if is_solved(grid):
-        print_grid(grid)
-    elif not_solved(grid):
+    if not_solved(grid) or is_solved(grid):
         pass
     else:
         cell_min = find_cell_min(grid)
+        string = sudoku_grid.grid2string(grid)
         for hipo in cells.get_cellhipo(cell_min[0]):
+            sol_way += [(str(hipo),cell_min[1],cell_min[2])]
             cells.set_cellvalue(cell_min[0],hipo)
-            func_list = [sudoku_grid.get_colomn(grid,cell_min[2]),sudoku_grid.get_line(grid,cell_min[1]),sudoku_grid.get_square(grid,cell_min[2]//3+cell_min[1]//3*3)]
+            func_list = [sudoku_grid.get_colomn(grid,cell_min[1]),sudoku_grid.get_line(grid,cell_min[2]),sudoku_grid.get_square(grid,cell_min[1]//3+cell_min[2]//3*3)]
             for cell_list in func_list:
                 MAJ_hipothetic(cell_list,hipo)
-            string = sudoku_grid.grid2string(grid)
             search_sol(grid)
             grid = sudoku_grid.make_grid(string)
-            """for cell_list in func_list:
-                for cell in cell_list:
-                    if not cells.get_cellvalue(cell):
-                        cells.set_cellhipothetic(cell,hipo)"""
 
 
 
