@@ -211,6 +211,10 @@ def search_sol(grid):
             string = sudoku_grid.grid2string(grid)
             search_sol(grid)
             grid = sudoku_grid.make_grid(string)
+            """for cell_list in func_list:
+                for cell in cell_list:
+                    if not cells.get_cellvalue(cell):
+                        cells.set_cellhipothetic(cell,hipo)"""
 
 
 
