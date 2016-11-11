@@ -173,7 +173,7 @@ def not_solved(grid):
     return False
 
 def complete_1hipo(grid):
-    global sol_way
+    global sol_way,ens_sol
     boolean = True
     while boolean:
         boolean = False
@@ -201,19 +201,20 @@ def search_sol(grid):
     """
     global sol_way
     complete_1hipo(grid)
-    if not_solved(grid) or is_solved(grid):
+    if is_solved(grid):
+        print_grid(grid)
+    elif not_solved(grid):
         pass
     else:
+        grid_list = list()
         cell_min = find_cell_min(grid)
-        string = sudoku_grid.grid2string(grid)
-        for hipo in cells.get_cellhipo(cell_min[0]):
+        list_hipo = cells.get_cellhipo(cell_min[0])
+        for hipo in list_hipo:
             sol_way += [(str(hipo),cell_min[1],cell_min[2])]
             cells.set_cellvalue(cell_min[0],hipo)
-            func_list = [sudoku_grid.get_colomn(grid,cell_min[1]),sudoku_grid.get_line(grid,cell_min[2]),sudoku_grid.get_square(grid,cell_min[1]//3+cell_min[2]//3*3)]
-            for cell_list in func_list:
-                MAJ_hipothetic(cell_list,hipo)
-            search_sol(grid)
-            grid = sudoku_grid.make_grid(string)
+            grid_list += [sudoku_grid.grid2string(grid)]
+        for gr in grid_list:
+            search_sol(sudoku_grid.make_grid(gr))
 
 
 
