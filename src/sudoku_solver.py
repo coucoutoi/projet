@@ -172,7 +172,7 @@ def not_solved(grid):
                 return True
     return False
 
-def complete_1hipo(grid):
+def complete_1hipo(grid,talkative=False):
     global sol_way
     boolean = True
     while boolean:
@@ -185,11 +185,13 @@ def complete_1hipo(grid):
                     value = cells.get_cellhipo(cell).pop()
                     sol_way += [(value,ind_col,ind_line)]
                     cells.set_cellvalue(cell,value)
+                    if talkative:
+                        print_grid(grid)
                     func_lists = [sudoku_grid.get_line(grid,ind_line),sudoku_grid.get_colomn(grid,ind_col),sudoku_grid.get_square(grid,(ind_col//3) + (ind_line//3)*3)]
                     for cell_list in func_lists:
                         MAJ_hipothetic(cell_list,value)
 
-def search_sol(grid):
+def search_sol(grid,talkative=False):
     """
     this algorithm search all solutions of a sudoku
 
@@ -200,8 +202,9 @@ def search_sol(grid):
     :UC: none
     """
     global sol_way
-    complete_1hipo(grid)
+    complete_1hipo(grid,talkative=talkative)
     if is_solved(grid):
+        print("a solution:")
         print_grid(grid)
     elif not_solved(grid):
         pass
@@ -214,7 +217,9 @@ def search_sol(grid):
             cells.set_cellvalue(cell_min[0],hipo)
             grid_list += [sudoku_grid.grid2string(grid)]
         for gr in grid_list:
-            search_sol(sudoku_grid.make_grid(gr))
+            if talkative:
+                print_grid(gr)
+            search_sol(sudoku_grid.make_grid(gr),talkative=talkative)
 
 
 
