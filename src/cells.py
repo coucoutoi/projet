@@ -46,37 +46,37 @@ class NotCorrectValueError(Exception):
 def create(value):
     """
     :param value: the cell's value
-    :type value: int
+    :type value: str
     :return: a new cell of a sudoku's grid.
     :rtype: cell
     :UC: none
 
     :Examples:
-    >>> create(0) == ({'hipothetic': {1, 2, 3, 4, 5, 6, 7, 8, 9}, 'value': 0} or {'value': 0, 'hipothetic': {1, 2, 3, 4, 5, 6, 7, 8, 9}})
+    >>> create('0') == ({'hipothetic': {'1', '2', '3', '4', '5', '6', '7', '8', '9'}, 'value': '0'} or {'value': '0', 'hipothetic': {'1', '2', '3', '4', '5', '6', '7', '8', '9'}})
     True
     
     >>> create(-1)
     Traceback (most recent call last):
     ...
-    NotCorrectValueError: value must be an integer between 0 and 9
+    NotCorrectValueError: value must be an integer between 0 and 9 in a string
     
-    >>> create(10)
+    >>> create('10')
     Traceback (most recent call last):
     ...
-    NotCorrectValueError: value must be an integer between 0 and 9
+    NotCorrectValueError: value must be an integer between 0 and 9 in a string
     
     >>> create("a")
     Traceback (most recent call last):
     ...
-    NotCorrectValueError: value must be an integer between 0 and 9
+    ValueError: invalid literal for int() with base 10: 'a'
     """
-    if value in set(i for i in range(10)):
+    if int(value) in range(10):
         cell = {'value':value,'hipothetic':set()}
-        if not value:
-            cell['hipothetic'] = set(i for i in range(1,10))
+        if value == '0':
+            cell['hipothetic'] = set(str(i) for i in range(1,10))
         return cell
     else:
-        raise NotCorrectValueError("value must be an integer between 0 and 9")
+        raise NotCorrectValueError("value must be an integer between 0 and 9 in a string")
 
 
    #############
@@ -88,13 +88,13 @@ def get_cellvalue(cell):
     :param cell: a cell of the sudoku's grid
     :type cell: cell
     :return: the value of the cell
-    :rtype: int
+    :rtype: str
     :UC: none
 
     :Examples:
-    >>> cell = create(5)
+    >>> cell = create('5')
     >>> get_cellvalue(cell)
-    5
+    '5'
     """
     return cell['value']
 
@@ -107,13 +107,12 @@ def get_cellhipo(cell):
     :UC: none
     
     :Examples:
-    >>> cell = create(0)
-    >>> get_cellhipo(cell)
-    {1, 2, 3, 4, 5, 6, 7, 8, 9}
-
-    >>> cell2 = create(5)
-    >>> get_cellhipo(cell2)
-    set()
+    >>> cell = create('0')
+    >>> get_cellhipo(cell) == {str(i) for i in range(1,10)}
+    True
+    >>> cell2 = create('5')
+    >>> len(get_cellhipo(cell2))
+    0
     """
     return cell['hipothetic']
 
@@ -127,23 +126,23 @@ def set_cellvalue(cell,value):
     :param cell: a cell of the sudoku's grid
     :type cell: cell
     :param value: the value of the cell
-    :type value: int
+    :type value: str
     :return: None
     :rtype: NoneType
     :Action: modify the value of the cell
     :UC: value must be between 0 and 9
 
     :Examples:
-    >>> cell = create(0)
+    >>> cell = create('0')
     >>> get_cellvalue(cell)
+    '0'
+    >>> len(get_cellhipo(cell))
+    9
+    >>> set_cellvalue(cell,'5')
+    >>> get_cellvalue(cell)
+    '5'
+    >>> len(get_cellhipo(cell))
     0
-    >>> get_cellhipo(cell)
-    {1, 2, 3, 4, 5, 6, 7, 8, 9}
-    >>> set_cellvalue(cell,5)
-    >>> get_cellvalue(cell)
-    5
-    >>> get_cellhipo(cell)
-    {}
     >>> set_cellvalue(cell,-1)
     Traceback (most recent call last):
     ...
@@ -152,14 +151,10 @@ def set_cellvalue(cell,value):
     Traceback (most recent call last):
     ...
     NotCorrectValueError: value must be an integer between 0 and 9
-    >>> set_cellvalue(cell,"a")
-    Traceback (most recent call last):
-    ...
-    NotCorrectValueError: value must be an integer between 0 and 9
     """
-    if value in {0,1,2,3,4,5,6,7,8,9}:
+    if int(value) in range(10):
         cell['value'] = value
-        if value:
+        if value != '0':
             cell['hipothetic'] = {}
     else:
         raise NotCorrectValueError("value must be an integer between 0 and 9")
@@ -176,18 +171,18 @@ def set_cellhipothetic(cell,hipo):
     :UC: none
 
     :Examples:
-    >>> cell = create(5)
+    >>> cell = create('5')
     >>> get_cellhipo(cell)
     set()
-    >>> set_cellhipothetic(cell,3)
+    >>> set_cellhipothetic(cell,'3')
     >>> get_cellhipo(cell)
-    {3}
+    {'3'}
     >>> set_cellhipothetic(cell,10)
     Traceback (most recent call last):
     ...
     NotCorrectValueError: hipo must be an integer between 1 and 9
     """
-    if hipo in {i for i in range(1,10)}:
+    if hipo in [str(i) for i in range(1,10)]:
         cell['hipothetic'].add(hipo)
     else:
         raise NotCorrectValueError("hipo must be an integer between 1 and 9")
@@ -204,11 +199,10 @@ def unset_cellhipothetic(cell,hipo):
     :UC: none
 
     :Examples:
-    >>> cell = create(0)
-    >>> unset_cellhipothetic(cell,2)
-    >>> get_cellhipo(cell)
-    {1, 3, 4, 5, 6, 7, 8, 9}
-    >>> unset_cellhipothetic(cell,2)
+    >>> cell = create('0')
+    >>> unset_cellhipothetic(cell,'2')
+    >>> '2' in get_cellhipo(cell)
+    False
     """
     if hipo in get_cellhipo(cell):
         cell['hipothetic'].remove(hipo)

@@ -62,10 +62,10 @@ def print_grid(grid):
             print('|',end='')
             for c1 in range(3):
                 for c2 in range(3):
-                    if cells.get_cellvalue(sudoku_grid.get_cell(grid,l1*3+l2,c1*3+c2)):
-                        print(' {:d}'.format(cells.get_cellvalue(sudoku_grid.get_cell(grid,l1*3+l2,c1*3+c2))),end='')
-                    else:
+                    if cells.get_cellvalue(sudoku_grid.get_cell(grid,l1*3+l2,c1*3+c2)) == '0':
                         print(' .',end='')
+                    else:
+                        print(' '+cells.get_cellvalue(sudoku_grid.get_cell(grid,l1*3+l2,c1*3+c2)),end='')
                 print(' |',end='')
             print()
         print('+'+'-------+'*3)
@@ -92,7 +92,7 @@ def is_solved(grid):
         ens_cell_in_line = set()
         for cell in sudoku_grid.get_line(grid,i):
             ens_cell_in_line.add(cells.get_cellvalue(cell))
-            if not cells.get_cellvalue(cell):
+            if cells.get_cellvalue(cell) == '0':
                 return False
         if len(ens_cell_in_line) != len(sudoku_grid.get_line(grid,i)):
             return False
@@ -110,8 +110,8 @@ def MAJ_hipothetic(cell_list,hipo):
     :UC: none
 
     :Examples:
-    >>> cell_list = [cells.create(0) for i in range(9)]
-    >>> for cell in cell_list: print(cells.get_cellhipo(cell))
+    >>> cell_list = [cells.create('0') for i in range(9)]
+    >>> for cell in cell_list: print(set(int(i) for i in cells.get_cellhipo(cell)))
     {1, 2, 3, 4, 5, 6, 7, 8, 9}
     {1, 2, 3, 4, 5, 6, 7, 8, 9}
     {1, 2, 3, 4, 5, 6, 7, 8, 9}
@@ -122,9 +122,9 @@ def MAJ_hipothetic(cell_list,hipo):
     {1, 2, 3, 4, 5, 6, 7, 8, 9}
     {1, 2, 3, 4, 5, 6, 7, 8, 9}
     >>> cells.set_cellvalue(cell_list[0],1)
-    >>> MAJ_hipothetic(cell_list,1)
-    >>> for cell in cell_list: print(cells.get_cellhipo(cell))
-    {}
+    >>> MAJ_hipothetic(cell_list,'1')
+    >>> for cell in cell_list: print(set(int(i) for i in cells.get_cellhipo(cell)))
+    set()
     {2, 3, 4, 5, 6, 7, 8, 9}
     {2, 3, 4, 5, 6, 7, 8, 9}
     {2, 3, 4, 5, 6, 7, 8, 9}
@@ -148,7 +148,7 @@ def find_cell_min(grid):
     :UC: none
     >>> 
     """
-    cell_min = (cells.create(0),0,0)
+    cell_min = (cells.create('0'),0,0)
     for ind_line in range(9):
         for ind_col in range(9):
             cell = sudoku_grid.get_cell(grid,ind_line,ind_col)
@@ -168,12 +168,12 @@ def not_solved(grid):
     """
     for i in range(9):
         for cell in sudoku_grid.get_line(grid,i):
-            if not cells.get_cellvalue(cell) and not cells.get_cellhipo(cell):
+            if cells.get_cellvalue(cell) == '0' and not cells.get_cellhipo(cell):
                 return True
     return False
 
 def complete_1hipo(grid):
-    global sol_way,ens_sol
+    global sol_way
     boolean = True
     while boolean:
         boolean = False
@@ -183,7 +183,7 @@ def complete_1hipo(grid):
                 if len(cells.get_cellhipo(cell)) == 1:
                     boolean = True
                     value = cells.get_cellhipo(cell).pop()
-                    sol_way += [(str(value),ind_col,ind_line)]
+                    sol_way += [(value,ind_col,ind_line)]
                     cells.set_cellvalue(cell,value)
                     func_lists = [sudoku_grid.get_line(grid,ind_line),sudoku_grid.get_colomn(grid,ind_col),sudoku_grid.get_square(grid,(ind_col//3) + (ind_line//3)*3)]
                     for cell_list in func_lists:
