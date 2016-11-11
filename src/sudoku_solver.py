@@ -204,8 +204,8 @@ def search_sol(grid,talkative=False):
     global sol_way
     complete_1hipo(grid,talkative=talkative)
     if is_solved(grid):
-        print("a solution:")
-        print_grid(grid)
+        if not talkative:
+            print_grid(grid)
     elif not_solved(grid):
         pass
     else:
@@ -216,10 +216,11 @@ def search_sol(grid,talkative=False):
             sol_way += [(str(hipo),cell_min[1],cell_min[2])]
             cells.set_cellvalue(cell_min[0],hipo)
             grid_list += [sudoku_grid.grid2string(grid)]
-        for gr in grid_list:
+        for string in grid_list:
+            grid = sudoku_grid.make_grid(string)
             if talkative:
-                print_grid(gr)
-            search_sol(sudoku_grid.make_grid(gr),talkative=talkative)
+                print_grid(grid)
+            search_sol(grid,talkative=talkative)
 
 
 
