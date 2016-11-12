@@ -129,8 +129,6 @@ def set_cellvalue(cell,value):
         cell['value'] = value
         if value != '0':
             cell['hipothetic'] = set() #on enlève toutes les valeurs hipothetiques si la valeur que l'on donne est différente de 0
-        else:
-            cell['hipothetic'] = set(str(i) for i in range(1,10)) #et on ajoute toutes les valeurs hipothetiques possibles si la valeur que l'on donne à la cellule est nul
     else:
         raise NotCorrectValueError("value must be an integer between 0 and 9")
 
