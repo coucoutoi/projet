@@ -82,8 +82,8 @@ def make_grid(string='0'*81):
     ...
     NotGoodTypeError: s must be a string
     """
-    if type(s) == str:
-        if len(s) == 81:
+    if type(string) == str:
+        if len(string) == 81:
             grid = [[cells.create() for y in range(9)] for x in range(9)] #construction d'une grille vide
             for ind_line in range(9):
                 for ind_col in range(9):
