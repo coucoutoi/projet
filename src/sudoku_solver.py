@@ -110,7 +110,7 @@ def MAJ_hipothetic(cell_list,hipo):
     :UC: none
 
     :Examples:
-    >>> cell_list = [cells.create('0') for i in range(9)]
+    >>> cell_list = [cells.create() for i in range(9)]
     >>> for cell in cell_list: print(set(int(i) for i in cells.get_cellhipo(cell)))
     {1, 2, 3, 4, 5, 6, 7, 8, 9}
     {1, 2, 3, 4, 5, 6, 7, 8, 9}
@@ -147,7 +147,7 @@ def find_cell_min(grid):
     :rtype: cell
     :UC: none
     """
-    cell_min = (cells.create('0'),0,0)
+    cell_min = (cells.create(),0,0)
     for ind_line in range(9):
         for ind_col in range(9):
             cell = sudoku_grid.get_cell(grid,ind_line,ind_col)
@@ -198,7 +198,8 @@ def complete_1hipo(grid,talkative=False):
                     cells.set_cellvalue(cell,value)
                     if talkative:
                         print_grid(grid)
-                    func_lists = [sudoku_grid.get_line(grid,ind_line),sudoku_grid.get_colomn(grid,ind_col),sudoku_grid.get_square(grid,(ind_col//3) + (ind_line//3)*3)]
+                    ind_square = sudoku_grid.get_nthsquare(ind_line,ind_col)
+                    func_lists = [sudoku_grid.get_line(grid,ind_line),sudoku_grid.get_colomn(grid,ind_col),sudoku_grid.get_square(grid,ind_square)]
                     for cell_list in func_lists:
                         MAJ_hipothetic(cell_list,value)
 
