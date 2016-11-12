@@ -32,10 +32,7 @@ if __name__ == '__main__':
             help_options()
         string = sys.argv[-1]
         grid = sudoku_grid.make_grid(string)
-        talkative = False
-        if len(sys.argv) == 2:
-            pass
-        
+        talkative = False        
         if '-t' in sys.argv[1]:
             talkative = True
         sudoku_solver.search_sol(grid,talkative)
