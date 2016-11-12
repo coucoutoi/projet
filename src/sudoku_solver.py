@@ -22,10 +22,24 @@ This module provides sudoku solver's primitive operations
 
 import sudoku_grid,cells
 
-sol_way = list()
+##############################################
+# Functions for grid's setup and management
+##############################################
+
+   #############
+   # Variables #
+   #############
+
+sol_way,ens_sol = list(),set() #initialisation des deux variables globales qui nous servirons de sauvegarde dans le système résolution
+# 3 grilles de sudoku qui ont permi de test aux fonctions
 sud_notfinished = "490001007000045030382600050003070401800902005907030600030006529020850000500700013"
 sud_finished = "495381267671245938382697154263578491814962375957134682738416529129853746546729813"
 sud_2sol = '495381267671245938382697154263578400814962375957134682738426500129853746546791823'
+
+
+   #############
+   # Fonctions #
+   #############
 
 def is_solved(grid):
     """
@@ -49,11 +63,11 @@ def is_solved(grid):
         ens_cell_in_line = set()
         for cell in sudoku_grid.get_line(grid,i):
             ens_cell_in_line.add(cells.get_cellvalue(cell))
-            if cells.get_cellvalue(cell) == '0':
+            if cells.get_cellvalue(cell) == '0': #si trouve une valeur de cellule nulle, renvoie False
                 return False
-        if len(ens_cell_in_line) != len(sudoku_grid.get_line(grid,i)):
+        if len(ens_cell_in_line) != len(sudoku_grid.get_line(grid,i)): #si une valeure est 2 fois sur la même ligne, renvoie False
             return False
-    return True
+    return True #renvoie True si tous les tests sont passés
 
 def MAJ_hipothetic(cell_list,hipo):
     """
@@ -109,7 +123,7 @@ def find_cell_min(grid):
         for ind_col in range(9):
             cell = sudoku_grid.get_cell(grid,ind_line,ind_col)
             if 0<len(cells.get_cellhipo(cell))<=len(cells.get_cellhipo(cell_min[0])):
-                cell_min = (cell,ind_col,ind_line)
+                cell_min = (cell,ind_col,ind_line) #réatribue cell dans la valeur cell_min avec ses coordonnées si elle possède plus de contraintes que l'ancienne valeure de cell_min 
     return cell_min
 
 def not_solved(grid):
@@ -125,7 +139,7 @@ def not_solved(grid):
     for i in range(9):
         for cell in sudoku_grid.get_line(grid,i):
             if cells.get_cellvalue(cell) == '0' and not cells.get_cellhipo(cell):
-                return True
+                return True #renvoie True si une cellules ne possède aucune valeur hipothetic et que sa valeur est 0
     return False
 
 def complete_1hipo(grid,talkative=False):
@@ -142,23 +156,23 @@ def complete_1hipo(grid,talkative=False):
     :UC: none
     """
     global sol_way
-    boolean = True
+    boolean = True #on initialise un booléen qui nous permettra de savoir quand on sortira de la boucke while
     while boolean:
-        boolean = False
+        boolean = False #on lui réattribue la valeur False que l'on changera si il y a au moins une valeur de cellule qui sera changer dans la boucle. Cela nous permet de sortir de celle-ci si on parcour toute la grille sans changer aucune valeur
         for ind_line in range(9):
             for ind_col in range(9):
                 cell = sudoku_grid.get_cell(grid,ind_line,ind_col)
-                if len(cells.get_cellhipo(cell)) == 1:
+                if len(cells.get_cellhipo(cell)) == 1: #on vérifie si la cellule ne possède qu'une seule valeur hipothétiques
                     boolean = True
-                    value = cells.get_cellhipo(cell).pop()
-                    sol_way += [(value,ind_col,ind_line)]
+                    value = cells.get_cellhipo(cell).pop() #on stock cette valeur hipothétique
+                    sol_way += [(value,ind_col,ind_line)] #on sauvegarde la valeur et les coordonnées de la cellule que l'on a modifiée
                     cells.set_cellvalue(cell,value)
                     if talkative:
                         sudoku_grid.print_grid(grid)
                     ind_square = sudoku_grid.get_nthsquare(ind_line,ind_col)
-                    func_lists = [sudoku_grid.get_line(grid,ind_line),sudoku_grid.get_colomn(grid,ind_col),sudoku_grid.get_square(grid,ind_square)]
+                    func_lists = [sudoku_grid.get_line(grid,ind_line),sudoku_grid.get_colomn(grid,ind_col),sudoku_grid.get_square(grid,ind_square)] #on construit une liste 3 listes des cellules influencées par la cellule que l'on viens de modifier
                     for cell_list in func_lists:
-                        MAJ_hipothetic(cell_list,value)
+                        MAJ_hipothetic(cell_list,value) #on mets à jour les valeurs hipothetiques des cellules de chaqu'une de ces 3 listes
 
 def search_sol(grid,talkative=False):
     """
@@ -174,22 +188,24 @@ def search_sol(grid,talkative=False):
     :Action: print all solutions of the grid
     :UC: none
     """
-    global sol_way
-    complete_1hipo(grid,talkative=talkative)
-    if is_solved(grid):
-        if not talkative:
+    global sol_way,ens_sol
+    
+    complete_1hipo(grid,talkative=talkative) #on remplis toutes les cases qui n'ont qu'une seule valeur hipothetique
+    if is_solved(grid): #si la grille est résolue, on imprimera la grille et stockera la chaine de caractère correspondante à cette grille dans une variable globale
+        if not talkative: #cette condition nous permet de ne pas imprimer 2 fois de suite chaque grille résolue si l'on choisi de mettre l'obtion talkative à la fonction
             sudoku_grid.print_grid(grid)
-    elif not_solved(grid):
+            ens_sol.add(sudoku_grid.grid2string(grid))
+    elif not_solved(grid): #si la grille que l'on a est insoluble on passe la fonction sans rien faire.
         pass
     else:
         grid_list = list()
-        cell_min = find_cell_min(grid)
+        cell_min = find_cell_min(grid) #on cherche la cellule ayant le plus de contraintes
         list_hipo = cells.get_cellhipo(cell_min[0])
-        for hipo in list_hipo:
-            sol_way += [(str(hipo),cell_min[1],cell_min[2])]
+        for hipo in list_hipo: #pour chaque valeur hipothetiques de la cellule, on applique l'une de ces valeurs puis on stock la chaine de caractère correspondant à la grille obtenu dans une liste
+            sol_way += [(str(hipo),cell_min[1],cell_min[2])] #on sauvegarde la modifivation que l'on a fait
             cells.set_cellvalue(cell_min[0],hipo)
             grid_list += [sudoku_grid.grid2string(grid)]
-        for string in grid_list:
+        for string in grid_list: #pour chaque grille de la liste que l'on a construite, on teste de la résoudre par une relation de récursion
             grid = sudoku_grid.make_grid(string)
             if talkative:
                 sudoku_grid.print_grid(grid)
