@@ -12,7 +12,6 @@ This module provides sudoku solver's primitive operations
 
 :Provides:
 
-* `print_grid`
 * `MAJ_hipothetic`
 * `is_solved`
 * `find_cell_min`
@@ -27,48 +26,6 @@ sol_way = list()
 sud_notfinished = "490001007000045030382600050003070401800902005907030600030006529020850000500700013"
 sud_finished = "495381267671245938382697154263578491814962375957134682738416529129853746546729813"
 sud_2sol = '495381267671245938382697154263578400814962375957134682738426500129853746546791823'
-
-def print_grid(grid):
-    """
-    print the sudoku's grid
-
-    :param grid: a sudoku's grid
-    :type grid: grid
-    :return: None
-    :rtype: NoneType
-    :Action: print the grid
-    :UC: none
-    
-    :Examples:
-    >>> grid = sudoku_grid.make_grid(sudoku_grid.val_test)
-    >>> print_grid(grid)
-    +-------+-------+-------+
-    | . 1 2 | 3 4 5 | 6 7 8 |
-    | . 1 2 | 3 4 5 | 6 7 8 |
-    | . 1 2 | 3 4 5 | 6 7 8 |
-    +-------+-------+-------+
-    | . 1 2 | 3 4 5 | 6 7 8 |
-    | . 1 2 | 3 4 5 | 6 7 8 |
-    | . 1 2 | 3 4 5 | 6 7 8 |
-    +-------+-------+-------+
-    | . 1 2 | 3 4 5 | 6 7 8 |
-    | . 1 2 | 3 4 5 | 6 7 8 |
-    | . 1 2 | 3 4 5 | 6 7 8 |
-    +-------+-------+-------+
-    """
-    print('+'+'-------+'*3)
-    for l1 in range(3):
-        for l2 in range(3):
-            print('|',end='')
-            for c1 in range(3):
-                for c2 in range(3):
-                    if cells.get_cellvalue(sudoku_grid.get_cell(grid,l1*3+l2,c1*3+c2)) == '0':
-                        print(' .',end='')
-                    else:
-                        print(' '+cells.get_cellvalue(sudoku_grid.get_cell(grid,l1*3+l2,c1*3+c2)),end='')
-                print(' |',end='')
-            print()
-        print('+'+'-------+'*3)
 
 def is_solved(grid):
     """
@@ -197,7 +154,7 @@ def complete_1hipo(grid,talkative=False):
                     sol_way += [(value,ind_col,ind_line)]
                     cells.set_cellvalue(cell,value)
                     if talkative:
-                        print_grid(grid)
+                        sudoku_grid.print_grid(grid)
                     ind_square = sudoku_grid.get_nthsquare(ind_line,ind_col)
                     func_lists = [sudoku_grid.get_line(grid,ind_line),sudoku_grid.get_colomn(grid,ind_col),sudoku_grid.get_square(grid,ind_square)]
                     for cell_list in func_lists:
@@ -221,7 +178,7 @@ def search_sol(grid,talkative=False):
     complete_1hipo(grid,talkative=talkative)
     if is_solved(grid):
         if not talkative:
-            print_grid(grid)
+            sudoku_grid.print_grid(grid)
     elif not_solved(grid):
         pass
     else:
@@ -235,7 +192,7 @@ def search_sol(grid,talkative=False):
         for string in grid_list:
             grid = sudoku_grid.make_grid(string)
             if talkative:
-                print_grid(grid)
+                sudoku_grid.print_grid(grid)
             search_sol(grid,talkative=talkative)
 
 

@@ -19,6 +19,7 @@ This module provides grid's primitive operations for the sudoku solver.
 * `get_square`
 * `get_cell`
 * `get_nthsquare`
+* `print_grid`
 """
 
 
@@ -312,6 +313,48 @@ def get_nthsquare(nthline,nthcol):
             return (nthcol//3) + (nthline//3)*3
     except TypeError:
         raise NotGoodTypeError("you don't choose a correct type of value")
+
+def print_grid(grid):
+    """
+    print the sudoku's grid
+
+    :param grid: a sudoku's grid
+    :type grid: grid
+    :return: None
+    :rtype: NoneType
+    :Action: print the grid
+    :UC: none
+    
+    :Examples:
+    >>> grid = make_grid(val_test)
+    >>> print_grid(grid)
+    +-------+-------+-------+
+    | . 1 2 | 3 4 5 | 6 7 8 |
+    | . 1 2 | 3 4 5 | 6 7 8 |
+    | . 1 2 | 3 4 5 | 6 7 8 |
+    +-------+-------+-------+
+    | . 1 2 | 3 4 5 | 6 7 8 |
+    | . 1 2 | 3 4 5 | 6 7 8 |
+    | . 1 2 | 3 4 5 | 6 7 8 |
+    +-------+-------+-------+
+    | . 1 2 | 3 4 5 | 6 7 8 |
+    | . 1 2 | 3 4 5 | 6 7 8 |
+    | . 1 2 | 3 4 5 | 6 7 8 |
+    +-------+-------+-------+
+    """
+    print('+'+'-------+'*3)
+    for l1 in range(3):
+        for l2 in range(3):
+            print('|',end='')
+            for c1 in range(3):
+                for c2 in range(3):
+                    if cells.get_cellvalue(get_cell(grid,l1*3+l2,c1*3+c2)) == '0':
+                        print(' .',end='')
+                    else:
+                        print(' '+cells.get_cellvalue(get_cell(grid,l1*3+l2,c1*3+c2)),end='')
+                print(' |',end='')
+            print()
+        print('+'+'-------+'*3)
 
 
 
