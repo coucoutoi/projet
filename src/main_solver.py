@@ -24,6 +24,7 @@ def help_options():
     print("  [-t] for print all stages of the solving")
     print("  [-i] for create a picture of the solving's tree")
     print("  [-rm] for remove a maximal of cell but with always one solution at the grid")
+    print("  [-rec] for give the number of recursion of the resolving function")
     exit(1)
     
 if __name__ == '__main__':
@@ -32,15 +33,26 @@ if __name__ == '__main__':
             help_options()
         string = sys.argv[-1]
         grid = sudoku_grid.make_grid(string)
-        talkative = False        
-        if '-t' in sys.argv[1]:
-            talkative = True
-        sudoku_solver.search_sol(grid,talkative)
-        if '-i' in sys.argv[1]:
-            pass #create img
-        elif '-rm' in sys.argv[1]:
-            pass #remove a cell
+        if len(sys.argv) == 2:
+            sudoku_solver.search_sol(grid)
+        else:
+            if '-t' in sys.argv:
+                sudoku_solver.search_sol(grid,True)
+            if '-rec' in sys.argv:
+                if sudoku_solver.is_solved(sudoku_solver.complete_1hipo(grid)):
+                    sudoku_grid.print_grid(grid)
+                    print("The algorithm don't used any recursion.")
+                else:
+                    sudoku_solver.search_sol(grid)
+                    print("There are {:d} recursion used for the resolution.".format(sudoku_solver.compt_rec))
+            if '-i' in sys.argv:
+                pass #create img
+            elif '-rm' in sys.argv:
+                pass #remove a cell
     except:
         usage()
 
 # eof
+"""
+ajout option -rec avec compt_rec
+"""

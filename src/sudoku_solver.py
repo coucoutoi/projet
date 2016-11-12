@@ -30,7 +30,7 @@ import sudoku_grid,cells
    # Variables #
    #############
 
-sol_way,ens_sol = list(),set() #initialisation des deux variables globales qui nous servirons de sauvegarde dans le système résolution
+sol_way, ens_sol, compt_rec = list(), set(), 0 #initialisation des variables globales qui nous servirons de sauvegarde dans le système résolution
 # 3 grilles de sudoku qui ont permi de test aux fonctions
 sud_notfinished = "490001007000045030382600050003070401800902005907030600030006529020850000500700013"
 sud_finished = "495381267671245938382697154263578491814962375957134682738416529129853746546729813"
@@ -188,7 +188,7 @@ def search_sol(grid,talkative=False):
     :Action: print all solutions of the grid
     :UC: none
     """
-    global sol_way,ens_sol
+    global sol_way, ens_sol, compt_rec
     
     complete_1hipo(grid,talkative=talkative) #on remplis toutes les cases qui n'ont qu'une seule valeur hipothetique
     if is_solved(grid): #si la grille est résolue, on imprimera la grille et stockera la chaine de caractère correspondante à cette grille dans une variable globale
@@ -210,6 +210,7 @@ def search_sol(grid,talkative=False):
             if talkative:
                 sudoku_grid.print_grid(grid)
             search_sol(grid,talkative=talkative)
+            compt_rec += 1
 
 
 
