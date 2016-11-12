@@ -25,6 +25,7 @@ This module provides grid's primitive operations for the sudoku solver.
 
 import cells,sudoku_solver
 
+
 #############################
 # Exceptions for gthe grid
 #############################
@@ -48,22 +49,24 @@ class NotGoodTypeError(Exception):
 # Functions for grid's setup and management
 ##############################################
 
-   #############
-   # Variables #
-   #############
+
+   ############
+   # Variable #
+   ############
 
 val_test = "012345678"*9
+
 
    ###############
    # Constructor #
    ###############
    
-def make_grid(s='0'*81):
+def make_grid(string='0'*81):
     """
     return a sudoku's grid.
 
-    :param str: the sudoku
-    :type str: str
+    :param string: the sudoku
+    :type string: str
     :return: a grid of sudoku
     :rtype: list of list of cells
     :UC: none
@@ -81,13 +84,13 @@ def make_grid(s='0'*81):
     """
     if type(s) == str:
         if len(s) == 81:
-            grid = [[cells.create() for y in range(9)] for x in range(9)]
+            grid = [[cells.create() for y in range(9)] for x in range(9)] #construction d'une grille vide
             for ind_line in range(9):
                 for ind_col in range(9):
-                    cells.set_cellvalue(grid[ind_line][ind_col],s[ind_line*9+ind_col])
-                    func_list = [get_line(grid,ind_line),get_colomn(grid,ind_col),get_square(grid,(ind_col//3) + (ind_line//3)*3)]
+                    cells.set_cellvalue(grid[ind_line][ind_col],string[ind_line*9+ind_col]) #on modifie la valeur de chaque cellule avec la valeur de string correspondante
+                    func_list = [get_line(grid,ind_line),get_colomn(grid,ind_col),get_square(grid,(ind_col//3) + (ind_line//3)*3)] #on récupère les cellules sur la même ligne, même colonne et même carré que celle que l'on a modifié
                     for cell_list in func_list:
-                        sudoku_solver.MAJ_hipothetic(cell_list,s[ind_line*9+ind_col])
+                        sudoku_solver.MAJ_hipothetic(cell_list,string[ind_line*9+ind_col]) #on mets à jour les valeurs hipothetiques des cellules par rapport à la cellule que l'on a modifié
             return grid
         else:
             raise cells.NotCorrectValueError("len of s must be 81")
@@ -113,21 +116,22 @@ def grid2string(grid):
     string = ''
     for ind_line in range(9):
         for cell in get_line(grid,ind_line):
-            string += str(cells.get_cellvalue(cell))
+            string += cells.get_cellvalue(cell) #on cherche à reconstruire la chaîne de caractères correspondante à la grille que l'on donne
     return string
+
 
    #############
    # Selectors #
    #############
 
-def get_line(grid,nth):
+def get_line(grid,nthline):
     """
     return all cells' value in the nth line.
     
     :param grid: the sudoku's grid
     :type grid: grid
-    :param nth: a number of line
-    :type nth: int
+    :param nthline: a number of line
+    :type nthline: int
     :return: a list of all cells in the nth line
     :rtype: list of cells
     :UC: nth must be an integer between 0 and 8
@@ -139,28 +143,28 @@ def get_line(grid,nth):
     >>> get_line(grid,10)
     Traceback (most recent call last):
     ...
-    NotInGridError: nth is not in grid
+    NotInGridError: nthline is not in grid
     >>> get_line(grid,{4})
     Traceback (most recent call last):
     ...
     NotGoodTypeError: you don't choose a correct type of value
     """
     try:
-        if -1<nth<9:
-            return [grid[nth][i] for i in range(9)]
+        if -1<nthline<9:
+            return [grid[nthline][i] for i in range(9)] #on construit une liste de toutes les cellules se trouvant sur la ligne d'indice nthline
         else:
-            raise NotInGridError('nth is not in grid')
+            raise NotInGridError('nthline is not in grid')
     except TypeError:
         raise NotGoodTypeError("you don't choose a correct type of value")
 
-def get_colomn(grid,nth):
+def get_colomn(grid,nthcol):
     """
     return all cells' value in the nth colomn.
 
     :param grid: the sudoku's grid
     :type grid: grid
-    :param nth: a number of colomn
-    :type nth: int
+    :param nthcol: a number of colomn
+    :type nthcol: int
     :return: a list of all cells in the nth colomn
     :rtype: list of cells
     :UC: nth must be between 0 and 8
@@ -172,21 +176,21 @@ def get_colomn(grid,nth):
     >>> get_colomn(grid,9)
     Traceback (most recent call last):
     ...
-    NotInGridError: nth is not in grid
+    NotInGridError: nthcol is not in grid
     >>> get_colomn(grid,(4,))
     Traceback (most recent call last):
     ...
     NotGoodTypeError: you don't choose a correct type of value
     """
     try:
-        if -1<nth<9:
-            return [line[nth] for line in grid]
+        if -1<nthcol<9:
+            return [line[nthcol] for line in grid] #on construit une liste de toutes les cellules se trouvant sur la colonne d'indice nthcol
         else:
-            raise NotInGridError('nth is not in grid')
+            raise NotInGridError('nthcol is not in grid')
     except TypeError:
         raise NotGoodTypeError("you don't choose a correct type of value")
 
-def get_square(grid,nth):
+def get_square(grid,nthsquare):
     """
     return all cells' value in the nth square of the grid.
     the disposition of nth's square in the grid:
@@ -200,8 +204,8 @@ def get_square(grid,nth):
     
     :param grid: the sudoku's grid
     :type grid: grid
-    :param nth: a number of square
-    :type nth: int
+    :param nthsquare: a number of square
+    :type nthsquare: int
     :return: a list of all cells in the nth square
     :rtype: list of cells
     :UC: nth must be between 0 and 8
@@ -213,17 +217,17 @@ def get_square(grid,nth):
     >>> get_square(grid,-1)
     Traceback (most recent call last):
     ...
-    NotInGridError: nth is not in grid
+    NotInGridError: nthsquare is not in grid
     >>> get_square(grid,[4])
     Traceback (most recent call last):
     ...
     NotGoodTypeError: you don't choose a correct type of value
     """
     try:
-        if -1<nth<9:
-            return [grid[line+nth//3*3][col+nth%3*3] for line in range(3) for col in range(3)]
+        if -1<nthsquare<9:
+            return [grid[line+nthsquare//3*3][col+nthsquare%3*3] for line in range(3) for col in range(3)] #on construit une liste de toutes les cellules se trouvant dans le carré d'indice nthsquare
         else:
-            raise NotInGridError('nth is not in grid')
+            raise NotInGridError('nthsquare is not in grid')
     except TypeError:
         raise NotGoodTypeError("you don't choose a correct type of value")
 
@@ -310,7 +314,7 @@ def get_nthsquare(nthline,nthcol):
         elif not -1<nthcol<9:
             raise NotInGridError('nthcol is not in grid')
         else:
-            return (nthcol//3) + (nthline//3)*3
+            return (nthcol//3) + (nthline//3)*3 #on calcule l'indice du carré dans lequel se trouve la cellule de coordonnées données
     except TypeError:
         raise NotGoodTypeError("you don't choose a correct type of value")
 
