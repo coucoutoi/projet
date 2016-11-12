@@ -18,6 +18,7 @@ This module provides grid's primitive operations for the sudoku solver.
 * `get_colomn`
 * `get_square`
 * `get_cell`
+* `get_nthsquare`
 """
 
 
@@ -79,7 +80,7 @@ def make_grid(s='0'*81):
     """
     if type(s) == str:
         if len(s) == 81:
-            grid = [[cells.create('0') for y in range(9)] for x in range(9)]
+            grid = [[cells.create() for y in range(9)] for x in range(9)]
             for ind_line in range(9):
                 for ind_col in range(9):
                     cells.set_cellvalue(grid[ind_line][ind_col],s[ind_line*9+ind_col])
@@ -241,7 +242,7 @@ def get_cell(grid,nthline,nthcol):
 
     :Examples:
     >>> grid = make_grid()
-    >>> get_cell(grid,0,0) == cells.create('0')
+    >>> get_cell(grid,0,0) == cells.create()
     True
     >>> get_cell(grid,-10,5)
     Traceback (most recent call last):
@@ -267,6 +268,48 @@ def get_cell(grid,nthline,nthcol):
             raise NotInGridError('nthcol is not in grid')
         else:
             return grid[nthline][nthcol]
+    except TypeError:
+        raise NotGoodTypeError("you don't choose a correct type of value")
+
+
+    ##################
+    # other function #
+    ##################
+
+def get_nthsquare(nthline,nthcol):
+    """
+    return the nthsquare correspondate at the nthline and nthcol
+
+    :param nthline: a number of line
+    :type nthline: int
+    :param nthcol: a number of colomn
+    :type nthcol: int
+    :return: the number of the square at the coordonate nthline,nthcol
+    :rtype: int
+
+    :Examples:
+    >>> get_nthsquare(8,8)
+    8
+    >>> get_nthsquare(-1,8)
+    Traceback (most recent call last):
+    ...
+    NotInGridError: nthline is not in grid
+    >>> get_nthsquare(8,9)
+    Traceback (most recent call last):
+    ...
+    NotInGridError: nthcol is not in grid
+    >>> get_nthsquare("2",5)
+    Traceback (most recent call last):
+    ...
+    NotGoodTypeError: you don't choose a correct type of value
+    """
+    try:
+        if not -1<nthline<9:
+            raise NotInGridError('nthline is not in grid')
+        elif not -1<nthcol<9:
+            raise NotInGridError('nthcol is not in grid')
+        else:
+            return (nthcol//3) + (nthline//3)*3
     except TypeError:
         raise NotGoodTypeError("you don't choose a correct type of value")
 
