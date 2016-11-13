@@ -31,24 +31,26 @@ if __name__ == '__main__':
     try:
         if '--help' in sys.argv[1]:
             help_options()
+            
         string = sys.argv[-1]
         grid = sudoku_grid.make_grid(string)
-        if len(sys.argv) == 2:
-            sudoku_solver.search_sol(grid)
-        else:
-            if '-t' in sys.argv:
-                sudoku_solver.search_sol(grid,True)
-            if '-rec' in sys.argv:
-                if sudoku_solver.is_solved(sudoku_solver.complete_1hipo(grid)):
-                    sudoku_grid.print_grid(grid)
-                    print("The algorithm don't used any recursion.")
-                else:
-                    sudoku_solver.search_sol(grid)
-                    print("There are {:d} recursion used for the resolution.".format(sudoku_solver.compt_rec))
-            if '-i' in sys.argv:
-                pass #create img
-            elif '-rm' in sys.argv:
-                pass #remove a cell
+        talkative = False
+        
+        if '-t' in sys.argv:
+            talkative = True
+
+        sudoku_solver.search_sol(grid,talkative)
+        
+        if '-rec' in sys.argv:
+            if compt_rec:
+                print("There are {:d} recursion used for the resolution.".format(compt_rec))
+            else:
+                print("The algorithm don't used any recursion.")
+        elif '-i' in sys.argv:
+            pass #create img
+
+        elif '-rm' in sys.argv:
+            pass #remove a cell
     except:
         usage()
 

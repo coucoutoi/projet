@@ -20,7 +20,7 @@ This module provides sudoku solver's primitive operations
 """
 
 
-import sudoku_grid,cells
+import sudoku_grid, cells
 
 ##############################################
 # Functions for grid's setup and management
@@ -30,7 +30,7 @@ import sudoku_grid,cells
    # Variables #
    #############
 
-sol_way, ens_sol, compt_rec = list(), set(), 0 #initialisation des variables globales qui nous servirons de sauvegarde dans le système résolution
+sol_way, ens_sol, compt_rec = list(), set(), int() #initialisation des variables globales qui nous servirons de sauvegarde dans le système résolution
 # 3 grilles de sudoku qui ont permi de test aux fonctions
 sud_notfinished = "490001007000045030382600050003070401800902005907030600030006529020850000500700013"
 sud_finished = "495381267671245938382697154263578491814962375957134682738416529129853746546729813"
@@ -189,7 +189,9 @@ def search_sol(grid,talkative=False):
     :UC: none
     """
     global sol_way, ens_sol, compt_rec
-    
+
+    if talkative:
+        sudoku_grid.print_grid(grid)
     complete_1hipo(grid,talkative=talkative) #on remplis toutes les cases qui n'ont qu'une seule valeur hipothetique
     if is_solved(grid): #si la grille est résolue, on imprimera la grille et stockera la chaine de caractère correspondante à cette grille dans une variable globale
         if not talkative: #cette condition nous permet de ne pas imprimer 2 fois de suite chaque grille résolue si l'on choisi de mettre l'obtion talkative à la fonction
@@ -207,10 +209,9 @@ def search_sol(grid,talkative=False):
             grid_list += [sudoku_grid.grid2string(grid)]
         for string in grid_list: #pour chaque grille de la liste que l'on a construite, on teste de la résoudre par une relation de récursion
             grid = sudoku_grid.make_grid(string)
-            if talkative:
-                sudoku_grid.print_grid(grid)
             search_sol(grid,talkative=talkative)
             compt_rec += 1
+    return compt_rec
 
 
 
