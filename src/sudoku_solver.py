@@ -183,8 +183,8 @@ def search_sol(grid,talkative=False):
     :param talkative: (optional) defaults set to False. If True,
                       prints, all stages during the computating
     :type talkative: bool
-    :return: None
-    :rtype: NoneType
+    :return: the number of recursion used by the function
+    :rtype: int
     :Action: print all solutions of the grid
     :UC: none
     """

@@ -15,7 +15,7 @@ def usage():
     print('Usage : {:s} -options sudoku'.format(sys.argv[0]))
     print('  with sudoku a string of number correspondate at a sudoku, the empty cells as 0')
     print('  and -options (optional) the options of the solver')
-    print('  --help for give the help to use the algorithm.')
+    print('  --help for give the help to use this algorithm.')
     exit(1)
 
 def help_options():
@@ -39,7 +39,7 @@ if __name__ == '__main__':
         if '-t' in sys.argv:
             talkative = True
 
-        sudoku_solver.search_sol(grid,talkative)
+        compt_rec = sudoku_solver.search_sol(grid,talkative)
         
         if '-rec' in sys.argv:
             if compt_rec:
