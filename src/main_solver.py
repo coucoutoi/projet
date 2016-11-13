@@ -35,22 +35,22 @@ if __name__ == '__main__':
         string = sys.argv[-1]
         grid = sudoku_grid.make_grid(string)
         talkative = False
-        
-        if '-t' in sys.argv:
-            talkative = True
 
-        compt_rec = sudoku_solver.search_sol(grid,talkative)
-        
-        if '-rec' in sys.argv:
-            if compt_rec:
-                print("There are {:d} recursion used for the resolution.".format(compt_rec))
-            else:
-                print("The algorithm don't used any recursion.")
-        elif '-i' in sys.argv:
-            pass #create img
+        if 'rm' in sys.argv:
+            pass #remove cell
+        else:
+            if '-t' in sys.argv:
+                talkative = True
 
-        elif '-rm' in sys.argv:
-            pass #remove a cell
+            compt_rec = sudoku_solver.search_sol(grid,talkative)
+        
+            if '-rec' in sys.argv:
+                if compt_rec:
+                    print("There are {:d} recursion used for the resolution.".format(compt_rec))
+                else:
+                    print("The algorithm don't used any recursion.")
+            elif '-i' in sys.argv:
+                pass #create img
     except:
         usage()
 
