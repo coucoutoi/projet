@@ -277,9 +277,9 @@ def get_cell(grid,nthline,nthcol):
         raise NotGoodTypeError("you don't choose a correct type of value")
 
 
-    ##################
-    # other function #
-    ##################
+    ####################
+    # others functions #
+    ####################
 
 def get_nthsquare(nthline,nthcol):
     """
