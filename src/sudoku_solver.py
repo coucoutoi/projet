@@ -237,6 +237,7 @@ def remove(grid):
     cell_list = ens_cell0(grid,reverse = True)
     if len(cell_list) <= 17: #il est impossible d'avoir une grille de sudoku avec moins de 17 remplies si l'on veut avoir une unique solution
         print(" It's impossible to remove a cell if we want to keep only one solution")
+        sudoku_grid.print_grid(grid)
     else:
         cell = cell_list[random.randint(1,len(cell_list)-1)] #on récupère une cellule au hasard dans l'ensemble des cellules non vides
         value = cells.get_cellvalue(cell)
