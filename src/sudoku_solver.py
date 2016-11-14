@@ -13,10 +13,12 @@ This module provides sudoku solver's primitive operations
 :Provides:
 
 * `MAJ_hipothetic`
-* `is_solved`
 * `find_cell_min`
 * `not_solved`
 * `search_sol`
+* `complete_1hipo`
+* `ens_cell0`
+* `remove`
 """
 
 
@@ -40,26 +42,6 @@ sud_2sol = '49538126767124593838269715426357840081496237595713468273842650012985
    #############
    # Fonctions #
    #############
-
-def is_solved(grid):
-    """
-    verify if the grid is solved
-
-    :param grid: the sudoku's grid
-    :type grid: grid
-    :return: True if the sudoku is solved and False if not
-    :rtype: bool
-    :UC: none
-
-    :Example:
-    >>> grid1 = sudoku_grid.make_grid()
-    >>> grid2 = sudoku_grid.make_grid(sud_finished)
-    >>> is_solved(grid1)
-    False
-    >>> is_solved(grid2)
-    True
-    """
-    return len(ens_cell0(grid)) == 0
 
 def MAJ_hipothetic(cell_list,hipo):
     """
@@ -175,6 +157,9 @@ def search_sol(grid,talkative=False,background=False):
     :param talkative: (optional) defaults set to False. If True,
                       prints, all stages during the computating
     :type talkative: bool
+    :param background: (optional) defaults set to False. If True,
+                       the algorithm don't print anything
+    :type background: bool
     :return: the number of recursion used by the function
     :rtype: int
     :Action: print all solutions of the grid
@@ -186,7 +171,7 @@ def search_sol(grid,talkative=False,background=False):
     if talkative:
         sudoku_grid.print_grid(grid)
     complete_1hipo(grid, talkative = talkative) #on remplis toutes les cases qui n'ont qu'une seule valeur hipothetique
-    if is_solved(grid): #si la grille est résolue, on imprimera la grille et stockera la chaine de caractère correspondante à cette grille dans une variable globale
+    if len(ens_cell0(grid)) == 0: #si la grille est résolue (il n'y a aucune cellule à valeur 0), on imprimera la grille et stockera la chaine de caractère correspondante à cette grille dans une variable globale
         if not talkative and not background: #cette condition nous permet de ne pas imprimer 2 fois de suite chaque grille résolue si l'on choisi de mettre l'obtion talkative à la fonction
             sudoku_grid.print_grid(grid)
         ens_sol.add(sudoku_grid.grid2string(grid))
@@ -208,6 +193,25 @@ def search_sol(grid,talkative=False,background=False):
     return compt_rec
 
 def ens_cell0(grid,reverse = False):
+    """
+    return all cells with a value equal at 0 or if reverse is True, return all cells with a value different at 0
+
+    :param grid: a sudoku grid
+    :type grid: grid
+    :param reverse: (optional) defaults set to False. If True,
+                    return the reverse of a normal using
+    :type reverse: bool
+    :return: a list of all cell with a value at 0 if reverse is True and the reverse if not
+    :rtype: list of cells
+    :UC: none
+
+    :Examples:
+    >>> grid = sudoku_grid.make_grid()
+    >>> len(ens_cell0(grid))
+    81
+    >>> len(ens_cell0(grid,reverse=True))
+    0
+    """
     cell_list = list()
     for ind_line in range(9):
         for cell in sudoku_grid.get_line(grid,ind_line):
@@ -218,20 +222,30 @@ def ens_cell0(grid,reverse = False):
     return cell_list
 
 def remove(grid):
+    """
+    print a random grid with removing cells from grid with one solution
+
+    :param grid: a sudoku grid
+    :type grid: grid
+    :return: None
+    :rtype: NoneType
+    :Action: print a random grid with more emptys cells but with one solution
+    :UC: none
+    """
     global ens_sol
 
     cell_list = ens_cell0(grid,reverse = True)
-    if len(cell_list) <= 17:
+    if len(cell_list) <= 17: #il est impossible d'avoir une grille de sudoku avec moins de 17 remplies si l'on veut avoir une unique solution
         print(" It's impossible to remove a cell if we want to keep only one solution")
     else:
-        cell = cell_list[random.randint(1,len(cell_list)-1)]
+        cell = cell_list[random.randint(1,len(cell_list)-1)] #on récupère une cellule au hasard dans l'ensemble des cellules non vides
         value = cells.get_cellvalue(cell)
         cells.set_cellvalue(cell,'0')
         string = sudoku_grid.grid2string(grid)
         search_sol(sudoku_grid.make_grid(string),background = True)
         if len(ens_sol) == 1:
             ens_sol = set()
-            return remove(sudoku_grid.make_grid(string))
+            remove(sudoku_grid.make_grid(string))
         else:
             ens_sol = set()
             cells.set_cellvalue(cell,value)

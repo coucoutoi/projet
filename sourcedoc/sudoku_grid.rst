@@ -38,6 +38,14 @@ GET CELL
 .. autofunction:: sudoku_grid.get_cell
 
 
+Others functions
+================
+
+.. autofunction:: sudoku_grid.get_nthsquare
+
+.. autofunction:: sudoku_grid.print_grid
+
+
 Exceptions
 ==========
 

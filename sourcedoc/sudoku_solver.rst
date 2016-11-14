@@ -1,30 +1,34 @@
-=========================
+===========================
 :mod:`sudoku_solver` module
-=========================
+===========================
 
 .. automodule:: sudoku_solver
    :members: __doc__
-
-PRINT GRID
-----------
-.. autofunction:: sudoku_solver.print_grid
 
 UP-DATE HIPOTHETIC
 ------------------
 .. autofunction:: sudoku_solver.MAJ_hipothetic
 
-IS SOLVED
----------
-.. autofunction:: sudoku_solver.is_solved
+NOT SOLVED
+----------
+.. autofunction:: sudoku_solver.not_solved
+
+ENS CELL 0
+----------
+.. autofunction:: sudoku_solver.ens_cell0
 
 FIND CELL MIN
 -------------
 .. autofunction:: sudoku_solver.find_cell_min
 
-NOT SOLVED
-----------
-.. autofunction:: sudoku_solver.not_solved
+COMPLETE 1 HIPOTHETIC
+---------------------
+.. autofunction:: sudoku_solver.complete_1hipo
 
 SEARCH SOL
 ----------
 .. autofunction:: sudoku_solver.search_sol
+
+REMOVE CELLS
+------------
+.. autofunction:: sudoku_solver.remove
