@@ -184,10 +184,9 @@ def search_sol(grid,talkative=False,background=False):
         for hipo in list_hipo: #pour chaque valeur hipothetiques de la cellule, on applique l'une de ces valeurs puis on stock la chaine de caractère correspondant à la grille obtenu dans une liste
             sol_way += [(str(hipo),cell_min[1],cell_min[2])] #on sauvegarde la modifivation que l'on a fait
             cells.set_cellvalue(cell_min[0],hipo)
-            grid_list += [sudoku_grid.grid2string(grid)]
-        for string in grid_list: #pour chaque grille de la liste que l'on a construite, on teste de la résoudre par une relation de récursion
-            grid = sudoku_grid.make_grid(string)
-            search_sol(grid, talkative = talkative, background = background)
+            string = sudoku_grid.grid2string(grid)
+            grid_bis = sudoku_grid.make_grid(string)
+            search_sol(grid_bis, talkative = talkative, background = background)
             compt_rec += 1
 
     return compt_rec
