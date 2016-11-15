@@ -1,0 +1,24 @@
+digraph G {
+   bgcolor="#FFFF00";
+   node[style=filled];
+   A[shape=hexagon, fillcolor="#FF0000"];
+   A -> A[shape=hexagon,fillcolor="#FF0000"];
+   A->('2', 3, 1);
+   ('2', 3, 1)[label='('2', 3, 1)',shape=square,fillcolor='#00FF00'];
+   ('2', 3, 1)->('9', 4, 2);('9', 4, 2)[label='('9', 4, 2)',shape=square,fillcolor='#00FF00'];
+   ('9', 4, 2)->('7', 5, 2);('7', 5, 2)[label='('7', 5, 2)',shape=square,fillcolor='#00FF00'];
+   ('7', 5, 2)->('1', 6, 2);('1', 6, 2)[label='('1', 6, 2)',shape=square,fillcolor='#00FF00'];
+   ('1', 6, 2)->('4', 8, 2);('4', 8, 2)[label='('4', 8, 2)',shape=square,fillcolor='#00FF00'];
+   ('4', 8, 2)->('5', 3, 3);('5', 3, 3)[label='('5', 3, 3)',shape=square,fillcolor='#00FF00'];
+   ('5', 3, 3)->('8', 5, 3);('8', 5, 3)[label='('8', 5, 3)',shape=square,fillcolor='#00FF00'];
+   ('8', 5, 3)->('9', 7, 3);('9', 7, 3)[label='('9', 7, 3)',shape=square,fillcolor='#00FF00'];
+   ('9', 7, 3)->('7', 7, 4);('7', 7, 4)[label='('7', 7, 4)',shape=square,fillcolor='#00FF00'];
+   ('7', 7, 4)->('4', 5, 5);('4', 5, 5)[label='('4', 5, 5)',shape=square,fillcolor='#00FF00'];
+   ('4', 5, 5)->('8', 7, 5);('8', 7, 5)[label='('8', 7, 5)',shape=square,fillcolor='#00FF00'];
+   ('8', 7, 5)->('2', 8, 5);('2', 8, 5)[label='('2', 8, 5)',shape=square,fillcolor='#00FF00'];
+   ('2', 8, 5)->('1', 4, 6);('1', 4, 6)[label='('1', 4, 6)',shape=square,fillcolor='#00FF00'];
+   ('1', 4, 6)->('7', 6, 7);('7', 6, 7)[label='('7', 6, 7)',shape=square,fillcolor='#00FF00'];
+   ('7', 6, 7)->('6', 8, 7);('6', 8, 7)[label='('6', 8, 7)',shape=square,fillcolor='#00FF00'];
+   ('6', 8, 7)->('2', 4, 8);('2', 4, 8)[label='('2', 4, 8)',shape=square,fillcolor='#00FF00'];
+   ('2', 4, 8)->('9', 5, 8);('9', 5, 8)[label='('9', 5, 8)',shape=square,fillcolor='#00FF00'];
+}

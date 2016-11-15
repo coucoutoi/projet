@@ -252,6 +252,17 @@ def remove(grid):
             print(" A random sudoku grid with remove cells from the grid given:")
             sudoku_grid.print_grid(grid)
 
+def image(text = "A[shape=haxagon,fillcolor='#FF0000']; A->"):
+    global sol_way
+
+    for liste in sol_way:
+        while len(liste) != 0 and type(liste[0]) == tuple:
+            text += str(liste[0])+";"+str(liste[0])+"[label='"+str(liste[0])+"',shape=square,fillcolor='#00FF00'];"+str(liste[0])+"->"
+            liste.remove(liste[0])
+        if len(sol_way[0]) == 0:
+            sol_way.remove(sol_way[0])
+    return text
+
 
 
 if __name__ == '__main__':

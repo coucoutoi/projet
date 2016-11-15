@@ -1,0 +1,368 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>cells module &mdash; sudoku solver 0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="sudoku solver 0 documentation" href="index.html" />
+    <link rel="next" title="sudoku_grid module" href="sudoku_grid.html" />
+    <link rel="prev" title="Index" href="index.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="sudoku_grid.html" title="sudoku_grid module"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Index"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">sudoku solver 0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-cells">
+<span id="cells-module"></span><h1><a class="reference internal" href="#module-cells" title="cells"><code class="xref py py-mod docutils literal"><span class="pre">cells</span></code></a> module<a class="headerlink" href="#module-cells" title="Permalink to this headline">¶</a></h1>
+<p><a class="reference internal" href="#module-cells" title="cells"><code class="xref py py-mod docutils literal"><span class="pre">cells</span></code></a> module</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">author:</th><td class="field-body">HULSKEN Alexandre &amp; KARTI Adeniss</td>
+</tr>
+<tr class="field-even field"><th class="field-name">date:</th><td class="field-body">2016, november</td>
+</tr>
+</tbody>
+</table>
+<p>This module provides cells&#8217; primitive operations for the sudoku solver.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Provides:</th><td class="field-body"></td>
+</tr>
+</tbody>
+</table>
+<ul class="simple">
+<li><cite>create</cite></li>
+<li><cite>get_cellvalue</cite></li>
+<li><cite>get_cellhipo</cite></li>
+<li><cite>set_cellvalue</cite></li>
+<li><cite>unset_cellhipothetic</cite></li>
+</ul>
+<div class="section" id="constructor">
+<h2>Constructor<a class="headerlink" href="#constructor" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="create">
+<h3>CREATE<a class="headerlink" href="#create" title="Permalink to this headline">¶</a></h3>
+<dl class="function">
+<dt id="cells.create">
+<code class="descclassname">cells.</code><code class="descname">create</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/cells.html#create"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cells.create" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">a new cell of a sudoku&#8217;s grid.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">cell</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">UC:</th><td class="field-body">none</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Examples:</th><td class="field-body"></td>
+</tr>
+</tbody>
+</table>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">create</span><span class="p">()</span> <span class="o">==</span> <span class="p">({</span><span class="s1">&#39;hipothetic&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;1&#39;</span><span class="p">,</span> <span class="s1">&#39;2&#39;</span><span class="p">,</span> <span class="s1">&#39;3&#39;</span><span class="p">,</span> <span class="s1">&#39;4&#39;</span><span class="p">,</span> <span class="s1">&#39;5&#39;</span><span class="p">,</span> <span class="s1">&#39;6&#39;</span><span class="p">,</span> <span class="s1">&#39;7&#39;</span><span class="p">,</span> <span class="s1">&#39;8&#39;</span><span class="p">,</span> <span class="s1">&#39;9&#39;</span><span class="p">},</span> <span class="s1">&#39;value&#39;</span><span class="p">:</span> <span class="s1">&#39;0&#39;</span><span class="p">}</span> <span class="ow">or</span> <span class="p">{</span><span class="s1">&#39;value&#39;</span><span class="p">:</span> <span class="s1">&#39;0&#39;</span><span class="p">,</span> <span class="s1">&#39;hipothetic&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;1&#39;</span><span class="p">,</span> <span class="s1">&#39;2&#39;</span><span class="p">,</span> <span class="s1">&#39;3&#39;</span><span class="p">,</span> <span class="s1">&#39;4&#39;</span><span class="p">,</span> <span class="s1">&#39;5&#39;</span><span class="p">,</span> <span class="s1">&#39;6&#39;</span><span class="p">,</span> <span class="s1">&#39;7&#39;</span><span class="p">,</span> <span class="s1">&#39;8&#39;</span><span class="p">,</span> <span class="s1">&#39;9&#39;</span><span class="p">}})</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+</div>
+<div class="section" id="selectors">
+<h2>Selectors<a class="headerlink" href="#selectors" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="get-cell-value">
+<h3>GET CELL VALUE<a class="headerlink" href="#get-cell-value" title="Permalink to this headline">¶</a></h3>
+<dl class="function">
+<dt id="cells.get_cellvalue">
+<code class="descclassname">cells.</code><code class="descname">get_cellvalue</code><span class="sig-paren">(</span><em>cell</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cells.html#get_cellvalue"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cells.get_cellvalue" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>cell</strong> (<em>cell</em>) &#8211; a cell of the sudoku&#8217;s grid</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">the value of the cell</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">str</td>
+</tr>
+<tr class="field-even field"><th class="field-name">UC:</th><td class="field-body">none</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Examples:</th><td class="field-body"></td>
+</tr>
+</tbody>
+</table>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">cell</span> <span class="o">=</span> <span class="n">create</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">get_cellvalue</span><span class="p">(</span><span class="n">cell</span><span class="p">)</span>
+<span class="go">&#39;0&#39;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="get-cell-hipothetics-values">
+<h3>GET CELL HIPOTHETICS VALUES<a class="headerlink" href="#get-cell-hipothetics-values" title="Permalink to this headline">¶</a></h3>
+<dl class="function">
+<dt id="cells.get_cellhipo">
+<code class="descclassname">cells.</code><code class="descname">get_cellhipo</code><span class="sig-paren">(</span><em>cell</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cells.html#get_cellhipo"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cells.get_cellhipo" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>cell</strong> (<em>cell</em>) &#8211; a cell of the sudoku&#8217;s grid</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">all of hipothetic values of the cell</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">set</td>
+</tr>
+<tr class="field-even field"><th class="field-name">UC:</th><td class="field-body">none</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Examples:</th><td class="field-body"></td>
+</tr>
+</tbody>
+</table>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">cell</span> <span class="o">=</span> <span class="n">create</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">get_cellhipo</span><span class="p">(</span><span class="n">cell</span><span class="p">)</span> <span class="o">==</span> <span class="p">{</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">10</span><span class="p">)}</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+</div>
+<div class="section" id="modifier">
+<h2>Modifier<a class="headerlink" href="#modifier" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="set-cell-value">
+<h3>SET CELL VALUE<a class="headerlink" href="#set-cell-value" title="Permalink to this headline">¶</a></h3>
+<dl class="function">
+<dt id="cells.set_cellvalue">
+<code class="descclassname">cells.</code><code class="descname">set_cellvalue</code><span class="sig-paren">(</span><em>cell</em>, <em>value</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cells.html#set_cellvalue"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cells.set_cellvalue" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>cell</strong> (<em>cell</em>) &#8211; a cell of the sudoku&#8217;s grid</li>
+<li><strong>value</strong> (<em>str</em>) &#8211; the value of the cell</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">None</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first">NoneType</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Action:</th><td class="field-body"><p class="first">modify the value of the cell</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">UC:</th><td class="field-body"><p class="first">value must be between 0 and 9</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Examples:</th><td class="field-body"></td>
+</tr>
+</tbody>
+</table>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">cell</span> <span class="o">=</span> <span class="n">create</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">get_cellvalue</span><span class="p">(</span><span class="n">cell</span><span class="p">)</span>
+<span class="go">&#39;0&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">len</span><span class="p">(</span><span class="n">get_cellhipo</span><span class="p">(</span><span class="n">cell</span><span class="p">))</span>
+<span class="go">9</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">set_cellvalue</span><span class="p">(</span><span class="n">cell</span><span class="p">,</span><span class="s1">&#39;5&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">get_cellvalue</span><span class="p">(</span><span class="n">cell</span><span class="p">)</span>
+<span class="go">&#39;5&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">len</span><span class="p">(</span><span class="n">get_cellhipo</span><span class="p">(</span><span class="n">cell</span><span class="p">))</span>
+<span class="go">0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">set_cellvalue</span><span class="p">(</span><span class="n">cell</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+<span class="gt">Traceback (most recent call last):</span>
+<span class="c">...</span>
+<span class="gr">NotCorrectValueError</span>: <span class="n">value must be an integer between 0 and 9</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">set_cellvalue</span><span class="p">(</span><span class="n">cell</span><span class="p">,</span><span class="mi">10</span><span class="p">)</span>
+<span class="gt">Traceback (most recent call last):</span>
+<span class="c">...</span>
+<span class="gr">NotCorrectValueError</span>: <span class="n">value must be an integer between 0 and 9</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="unset-cell-hiothetic-value">
+<h3>UNSET CELL HIOTHETIC VALUE<a class="headerlink" href="#unset-cell-hiothetic-value" title="Permalink to this headline">¶</a></h3>
+<dl class="function">
+<dt id="cells.unset_cellhipothetic">
+<code class="descclassname">cells.</code><code class="descname">unset_cellhipothetic</code><span class="sig-paren">(</span><em>cell</em>, <em>hipo</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cells.html#unset_cellhipothetic"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cells.unset_cellhipothetic" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>cell</strong> (<em>cell</em>) &#8211; a cell of the sudoku&#8217;s grid</li>
+<li><strong>hipo</strong> (<em>int</em>) &#8211; an hipothetic value</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">None</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first">NoneType</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Action:</th><td class="field-body"><p class="first">unset hipo of the hipothetics value of the cell</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">UC:</th><td class="field-body"><p class="first">none</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Examples:</th><td class="field-body"></td>
+</tr>
+</tbody>
+</table>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">cell</span> <span class="o">=</span> <span class="n">create</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">unset_cellhipothetic</span><span class="p">(</span><span class="n">cell</span><span class="p">,</span><span class="s1">&#39;2&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="s1">&#39;2&#39;</span> <span class="ow">in</span> <span class="n">get_cellhipo</span><span class="p">(</span><span class="n">cell</span><span class="p">)</span>
+<span class="go">False</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+</div>
+<div class="section" id="exception">
+<h2>Exception<a class="headerlink" href="#exception" title="Permalink to this headline">¶</a></h2>
+<dl class="exception">
+<dt id="cells.NotCorrectValueError">
+<em class="property">exception </em><code class="descclassname">cells.</code><code class="descname">NotCorrectValueError</code><span class="sig-paren">(</span><em>msg</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cells.html#NotCorrectValueError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cells.NotCorrectValueError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Exception for not correct values of the grid</p>
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="index.html">
+              <img class="logo" src="_static/logo_FIL.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#"><code class="docutils literal"><span class="pre">cells</span></code> module</a><ul>
+<li><a class="reference internal" href="#constructor">Constructor</a><ul>
+<li><a class="reference internal" href="#create">CREATE</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#selectors">Selectors</a><ul>
+<li><a class="reference internal" href="#get-cell-value">GET CELL VALUE</a></li>
+<li><a class="reference internal" href="#get-cell-hipothetics-values">GET CELL HIPOTHETICS VALUES</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#modifier">Modifier</a><ul>
+<li><a class="reference internal" href="#set-cell-value">SET CELL VALUE</a></li>
+<li><a class="reference internal" href="#unset-cell-hiothetic-value">UNSET CELL HIOTHETIC VALUE</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#exception">Exception</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="index.html"
+                        title="previous chapter">Index</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="sudoku_grid.html"
+                        title="next chapter"><code class="docutils literal"><span class="pre">sudoku_grid</span></code> module</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/cells.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="sudoku_grid.html" title="sudoku_grid module"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Index"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">sudoku solver 0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        ;<a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/fr/"> <img alt="Licence Creative Commons" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a>. <a href="http://www.fil.univ-lille1.fr">2016, HULSKEN Alexandre copyright =  KARTI Adeniss, Univ. Lille1</a>.
+      Last updated on 15/11/2016.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.6.
+    </div>
+  </body>
+</html>
