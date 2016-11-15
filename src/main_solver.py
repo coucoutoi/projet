@@ -40,10 +40,8 @@ if __name__ == '__main__':
         if args.remove:
             sudoku_solver.remove(grid)
         else:
-            if args.talkative:
-                talkative = True
 
-            compt_rec = sudoku_solver.search_sol(grid,talkative=talkative)
+            compt_rec = sudoku_solver.search_sol(grid,talkative=args.talkative)
 
             if args.recursion:
                 if compt_rec:
