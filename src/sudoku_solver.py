@@ -32,7 +32,7 @@ import sudoku_grid, cells, random
    # Variables #
    #############
 
-sol_way, ens_sol = list(), set() #initialisation des variables globales qui nous servirons de sauvegarde dans le système résolution
+sol_way, ens_sol = [[]], set() #initialisation des variables globales qui nous servirons de sauvegarde dans le système résolution
 # 3 grilles de sudoku qui ont permi de test aux fonctions
 sud_notfinished = "490001007000045030382600050003070401800902005907030600030006529020850000500700013"
 sud_finished = "495381267671245938382697154263578491814962375957134682738416529129853746546729813"
@@ -139,7 +139,7 @@ def complete_1hipo(grid,talkative=False):
                 if len(cells.get_cellhipo(cell)) == 1: #on vérifie si la cellule ne possède qu'une seule valeur hipothétiques
                     boolean = True
                     value = cells.get_cellhipo(cell).pop() #on stock cette valeur hipothétique
-                    sol_way += [(value,ind_col,ind_line)] #on sauvegarde la valeur et les coordonnées de la cellule que l'on a modifiée
+                    sol_way[-1] += [(value,ind_col,ind_line)] #on sauvegarde la valeur et les coordonnées de la cellule que l'on a modifiée
                     cells.set_cellvalue(cell,value)
                     if talkative:
                         sudoku_grid.print_grid(grid)
@@ -182,7 +182,7 @@ def search_sol(grid,talkative=False,background=False):
         cell_min = find_cell_min(grid) #on cherche la cellule ayant le plus de contraintes
         list_hipo = cells.get_cellhipo(cell_min[0])
         for hipo in list_hipo: #pour chaque valeur hipothetiques de la cellule, on applique l'une de ces valeurs puis on stock la chaine de caractère correspondant à la grille obtenu dans une liste
-            sol_way += [(str(hipo),cell_min[1],cell_min[2])] #on sauvegarde la modifivation que l'on a fait
+            sol_way += [[(str(hipo),cell_min[1],cell_min[2])]] #on sauvegarde la modifivation que l'on a fait
             cells.set_cellvalue(cell_min[0],hipo)
             string = sudoku_grid.grid2string(grid)
             grid_bis = sudoku_grid.make_grid(string)
