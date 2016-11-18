@@ -260,7 +260,7 @@ def remove(grid):
             print(" A random sudoku grid with remove cells from the grid given:")
             sudoku_grid.print_grid(grid)
 
-def make_image(file_name):
+def make_image(file_name="arbre"):
     global sol_way
 
     text = 'digraph G {\n   bgcolor="#FFFF00";\n   node[style=filled];\n'
