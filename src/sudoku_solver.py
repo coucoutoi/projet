@@ -264,23 +264,23 @@ def make_image(file_name):
     global sol_way
 
     text = 'digraph G {\n   bgcolor="#FFFF00";\n   node[style=filled];\n'
-    for dic in sol_way:
-        if dic["father"] == "SUDO":
-            text += '   "'+str(dic["father"])+'"[shape=hexagon, fillcolor="#FF0000"];\n'
+    for ind_dic in range(len(sol_way)):
+        if sol_way[ind_dic]["father"] == "SUDO":
+            text += '   "'+str(sol_way[ind_dic]["father"])+'"[shape=hexagon, fillcolor="#FF0000"];\n'
         else:
-            text += '   "'+str(dic["father"])+'"[label="'+str(dic["father"])+'"];\n'
+            text += '   "'+str(sol_way[ind_dic]["father"])+'"[label="'+str(sol_way[ind_dic]["father"])+'"];\n'
 
-        if dic["resolved"]:
-            text += '   "'+str(dic["son"])+'"[label="'+str(dic["son"])+'", shape=square, fillcolor="#00FF00"];\n'
+        if sol_way[ind_dic]["resolved"]:
+            text += '   "'+str(sol_way[ind_dic]["son"])+'"[label="'+str(sol_way[ind_dic]["son"])+'", shape=square, fillcolor="#00FF00"];\n'
         else:
-            text += '   "'+str(dic["son"])+'"[label="'+str(dic["son"])+'"];\n'
+            text += '   "'+str(sol_way[ind_dic]["son"])+'"[label="'+str(sol_way[ind_dic]["son"])+'"];\n'
 
-        text += '   "'+str(dic["father"])+'"->"'+str(dic["son"])+'";\n'
+        text += '   "'+str(sol_way[ind_dic]["father"])+'"->"'+str(sol_way[ind_dic]["son"])+'";\n'
 
-    with open(file_name,'w') as stream:
+    with open(file_name+".dot",'w') as stream:
         stream.write(text+"}")
     import os
-    os.system("dot -Tpng -o arbre.png arbre.dot")
+    os.system("dot -Tpng -o "+file_name+".png "+file_name+".dot")
 
 
 
