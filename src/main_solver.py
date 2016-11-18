@@ -33,6 +33,6 @@ if __name__ == '__main__':
             else:
                 print("The algorithm don't used any recursion.")
         elif args.image:
-            pass #create image
+            sudoku_solver.make_image("arbre.dot")
 
 # eof

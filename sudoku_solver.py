@@ -32,7 +32,7 @@ import sudoku_grid, cells, random
    # Variables #
    #############
 
-sol_way, ens_sol, father = list(), set(), "SUDO" #initialisation des variables globales qui nous servirons de sauvegarde dans le système résolution
+ens_sol, sol_way = set(), list() #initialisation des variables globales qui nous servirons de sauvegarde dans le système résolution
 # 3 grilles de sudoku qui ont permi de test aux fonctions
 sud_notfinished = "490001007000045030382600050003070401800902005907030600030006529020850000500700013"
 sud_finished = "495381267671245938382697154263578491814962375957134682738416529129853746546729813"
@@ -96,8 +96,8 @@ def find_cell_min(grid):
     for ind_line in range(9):
         for ind_col in range(9):
             cell = sudoku_grid.get_cell(grid,ind_line,ind_col)
-            if 0<len(cells.get_cellhipo(cell))<len(cells.get_cellhipo(cell_min[0])):
-                cell_min = (cell,ind_col,ind_line) #réatribue cell dans la valeur cell_min avec ses coordonnées si elle possède plus de contraintes que l'ancienne valeure de cell_min 
+            if 0<len(cells.get_cellhipo(cell))<=len(cells.get_cellhipo(cell_min[0])):
+                cell_min = (cell,ind_line,ind_col) #réatribue cell dans la valeur cell_min avec ses coordonnées si elle possède plus de contraintes que l'ancienne valeure de cell_min 
     return cell_min
 
 def not_solved(grid):
@@ -129,7 +129,7 @@ def complete_1hipo(grid,talkative=False):
     :Action: repalce all cell with a unique hipothetic solution wile there is no one.
     :UC: none
     """
-    global sol_way, father
+    global text_img, father
     boolean = True #on initialise un booléen qui nous permettra de savoir quand on sortira de la boucke while
     while boolean:
         boolean = False #on lui réattribue la valeur False que l'on changera si il y a au moins une valeur de cellule qui sera changer dans la boucle. Cela nous permet de sortir de celle-ci si on parcour toute la grille sans changer aucune valeur
@@ -139,7 +139,7 @@ def complete_1hipo(grid,talkative=False):
                 if len(cells.get_cellhipo(cell)) == 1: #on vérifie si la cellule ne possède qu'une seule valeur hipothétiques
                     boolean = True
                     value = cells.get_cellhipo(cell).pop() #on stock cette valeur hipothétique
-                    sol_way += [{"resolved":False,'father':father,'son':(value,ind_line,ind_col)}] #on sauvegarde la valeur et les coordonnées de la cellule que l'on a modifiée
+                    
                     father = (value,ind_line,ind_col)
                     cells.set_cellvalue(cell,value)
                     if talkative:
@@ -166,36 +166,34 @@ def search_sol(grid,talkative=False,background=False):
     :Action: print all solutions of the grid
     :UC: none
     """
-    global sol_way, ens_sol, father
+    global text_img, ens_sol, father
     compt_rec = 0
 
     if talkative:
         sudoku_grid.print_grid(grid)
     complete_1hipo(grid, talkative = talkative) #on remplis toutes les cases qui n'ont qu'une seule valeur hipothetique
-
     if len(ens_cell0(grid)) == 0: #si la grille est résolue (il n'y a aucune cellule à valeur 0), on imprimera la grille et stockera la chaine de caractère correspondante à cette grille dans une variable globale
         if not talkative and not background: #cette condition nous permet de ne pas imprimer 2 fois de suite chaque grille résolue si l'on choisi de mettre l'obtion talkative à la fonction
             sudoku_grid.print_grid(grid)
         ens_sol.add(sudoku_grid.grid2string(grid))
-        sol_way[-1]["resolved"] = True
-
     elif not_solved(grid): #si la grille que l'on a est insoluble on passe la fonction sans rien faire.
         pass
-    
     else:
         grid_list = list()
         cell_min = find_cell_min(grid) #on cherche la cellule ayant le plus de contraintes
         list_hipo = cells.get_cellhipo(cell_min[0])
         for hipo in list_hipo: #pour chaque valeur hipothetiques de la cellule, on applique l'une de ces valeurs puis on stock la chaine de caractère correspondant à la grille obtenu dans une liste
-            sol_way += [{"resolved":False,'father':father,'son':(str(hipo),cell_min[2],cell_min[1])}] #on sauvegarde la modifivation que l'on a fait
-            save_father = father
-            father = (str(hipo),cell_min[2],cell_min[1])
             cells.set_cellvalue(cell_min[0],hipo)
+            ind = len(text_img)
+            text_img += str(father)+"[shape=square]+\n   "+str(father)+'->'+str((hipo,cell_min[1],cell_min[2]))+";" #on sauvegarde la modifivation que l'on a fait
+            father = (hipo,cell_min[1],cell_min[2])
             string = sudoku_grid.grid2string(grid)
             grid_bis = sudoku_grid.make_grid(string)
             search_sol(grid_bis, talkative = talkative, background = background)
+            father = text_img[ind-11:ind]
+            if not father:
+                father = "SUDO"
             compt_rec += 1
-            father = save_father
 
     return compt_rec
 
@@ -260,27 +258,11 @@ def remove(grid):
             print(" A random sudoku grid with remove cells from the grid given:")
             sudoku_grid.print_grid(grid)
 
-def make_image(file_name):
-    global sol_way
+def make_text_image(file):
+    global text_img
 
-    text = 'digraph G {\n   bgcolor="#FFFF00";\n   node[style=filled];\n'
-    for dic in sol_way:
-        if dic["father"] == "SUDO":
-            text += '   "'+str(dic["father"])+'"[shape=hexagon, fillcolor="#FF0000"];\n'
-        else:
-            text += '   "'+str(dic["father"])+'"[label="'+str(dic["father"])+'"];\n'
-
-        if dic["resolved"]:
-            text += '   "'+str(dic["son"])+'"[label="'+str(dic["son"])+'", shape=square, fillcolor="#00FF00"];\n'
-        else:
-            text += '   "'+str(dic["son"])+'"[label="'+str(dic["son"])+'"];\n'
-
-        text += '   "'+str(dic["father"])+'"->"'+str(dic["son"])+'";\n'
-
-    with open(file_name,'w') as stream:
-        stream.write(text+"}")
-    import os
-    os.system("dot -Tpng -o arbre.png arbre.dot")
+    with open(file,'w') as stream:
+        stream.write("digraph G {\n   bgcolor='#FFFF00';\n   node[style=filled]\n;"+text_img+"\n}")
 
 
 
