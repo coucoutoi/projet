@@ -260,6 +260,16 @@ def remove(grid):
             sudoku_grid.print_grid(grid)
 
 def make_image(file_name="arbre"):
+    """
+    create a picture with file_name.dot as name of the differents part of sol_way
+
+    :param file_name: (optional) the nale of the picture who is created
+    :type file_name: str
+    :return: None
+    :rtype: NoneType
+    :Action: create a picture of the resolved way
+    :UC: none
+    """
     global sol_way
 
     text = 'digraph G {\n   bgcolor="#FFFF00";\n   node[style=filled];\n'

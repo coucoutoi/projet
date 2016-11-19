@@ -32,3 +32,7 @@ SEARCH SOL
 REMOVE CELLS
 ------------
 .. autofunction:: sudoku_solver.remove
+
+MAKE IMAGE
+----------
+.. autofunction:: sudoku_solver.make_image
