@@ -32,7 +32,7 @@ import sudoku_grid, cells, random
    # Variables #
    #############
 
-sol_way, ens_sol, father = list(), set(), "SUDO" #initialisation des variables globales qui nous servirons de sauvegarde dans le système résolution
+sol_way, ens_sol, father, compt_rec = list(), set(), "SUDO", 0 #initialisation des variables globales qui nous servirons de sauvegarde dans le système résolution
 # 3 grilles de sudoku qui ont permi de test aux fonctions
 sud_notfinished = "490001007000045030382600050003070401800902005907030600030006529020850000500700013"
 sud_finished = "495381267671245938382697154263578491814962375957134682738416529129853746546729813"
@@ -129,7 +129,7 @@ def complete_1hipo(grid,talkative=False):
     :Action: repalce all cell with a unique hipothetic solution wile there is no one.
     :UC: none
     """
-    global sol_way, father
+    global sol_way, father, compt_rec
     boolean = True #on initialise un booléen qui nous permettra de savoir quand on sortira de la boucke while
     while boolean:
         boolean = False #on lui réattribue la valeur False que l'on changera si il y a au moins une valeur de cellule qui sera changer dans la boucle. Cela nous permet de sortir de celle-ci si on parcour toute la grille sans changer aucune valeur
@@ -139,8 +139,8 @@ def complete_1hipo(grid,talkative=False):
                 if len(cells.get_cellhipo(cell)) == 1: #on vérifie si la cellule ne possède qu'une seule valeur hipothétiques
                     boolean = True
                     value = cells.get_cellhipo(cell).pop() #on stock cette valeur hipothétique
-                    sol_way += [{"resolved":False,'father':father,'son':(value,ind_line,ind_col)}] #on sauvegarde la valeur et les coordonnées de la cellule que l'on a modifiée
-                    father = (value,ind_line,ind_col)
+                    sol_way += [{"resolved":False,'father':father,'son':[(value,ind_line,ind_col),compt_rec]}] #on sauvegarde la valeur et les coordonnées de la cellule que l'on a modifiée
+                    father = [(value,ind_line,ind_col),compt_rec]
                     cells.set_cellvalue(cell,value)
                     if talkative:
                         sudoku_grid.print_grid(grid)
@@ -166,8 +166,7 @@ def search_sol(grid,talkative=False,background=False):
     :Action: print all solutions of the grid
     :UC: none
     """
-    global sol_way, ens_sol, father
-    compt_rec = 0
+    global sol_way, ens_sol, father, compt_rec
 
     if talkative:
         sudoku_grid.print_grid(grid)
@@ -187,9 +186,9 @@ def search_sol(grid,talkative=False,background=False):
         cell_min = find_cell_min(grid) #on cherche la cellule ayant le plus de contraintes
         list_hipo = cells.get_cellhipo(cell_min[0])
         for hipo in list_hipo: #pour chaque valeur hipothetiques de la cellule, on applique l'une de ces valeurs puis on stock la chaine de caractère correspondant à la grille obtenu dans une liste
-            sol_way += [{"resolved":False,'father':father,'son':(str(hipo),cell_min[2],cell_min[1])}] #on sauvegarde la modifivation que l'on a fait
+            sol_way += [{"resolved":False,'father':father,'son':[(str(hipo),cell_min[2],cell_min[1]),compt_rec]}] #on sauvegarde la modifivation que l'on a fait
             save_father = father
-            father = (str(hipo),cell_min[2],cell_min[1])
+            father = [(str(hipo),cell_min[2],cell_min[1]),compt_rec]
             cells.set_cellvalue(cell_min[0],hipo)
             string = sudoku_grid.grid2string(grid)
             grid_bis = sudoku_grid.make_grid(string)
@@ -268,12 +267,12 @@ def make_image(file_name="arbre"):
         if sol_way[ind_dic]["father"] == "SUDO":
             text += '   "'+str(sol_way[ind_dic]["father"])+'"[shape=hexagon, fillcolor="#FF0000"];\n'
         else:
-            text += '   "'+str(sol_way[ind_dic]["father"])+'"[label="'+str(sol_way[ind_dic]["father"])+'"];\n'
+            text += '   "'+str(sol_way[ind_dic]["father"])+'"[label="'+str(sol_way[ind_dic]["father"][0])+'"];\n'
 
         if sol_way[ind_dic]["resolved"]:
-            text += '   "'+str(sol_way[ind_dic]["son"])+'"[label="'+str(sol_way[ind_dic]["son"])+'", shape=square, fillcolor="#00FF00"];\n'
+            text += '   "'+str(sol_way[ind_dic]["son"])+'"[label="'+str(sol_way[ind_dic]["son"][0])+'", shape=square, fillcolor="#00FF00"];\n'
         else:
-            text += '   "'+str(sol_way[ind_dic]["son"])+'"[label="'+str(sol_way[ind_dic]["son"])+'"];\n'
+            text += '   "'+str(sol_way[ind_dic]["son"])+'"[label="'+str(sol_way[ind_dic]["son"][0])+'"];\n'
 
         text += '   "'+str(sol_way[ind_dic]["father"])+'"->"'+str(sol_way[ind_dic]["son"])+'";\n'
 
