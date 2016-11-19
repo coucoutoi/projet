@@ -270,7 +270,7 @@ def make_image(file_name="arbre"):
             text += '   "'+str(sol_way[ind_dic]["father"])+'"[label="'+str(sol_way[ind_dic]["father"][0])+'"];\n'
 
         if sol_way[ind_dic]["resolved"]:
-            text += '   "'+str(sol_way[ind_dic]["son"])+'"[label="'+str(sol_way[ind_dic]["son"][0])+'", shape=square, fillcolor="#00FF00"];\n'
+            text += '   "'+str(sol_way[ind_dic]["son"])+'"[label="'+str(sol_way[ind_dic]["son"][0])+'", shape=hexagon, fillcolor="#00FF00"];\n'
         else:
             text += '   "'+str(sol_way[ind_dic]["son"])+'"[label="'+str(sol_way[ind_dic]["son"][0])+'"];\n'
 
