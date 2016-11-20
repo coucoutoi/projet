@@ -21,10 +21,6 @@ FIND CELL MIN
 -------------
 .. autofunction:: sudoku_solver.find_cell_min
 
-COMPLETE 1 HIPOTHETIC
----------------------
-.. autofunction:: sudoku_solver.complete_1hipo
-
 SEARCH SOL
 ----------
 .. autofunction:: sudoku_solver.search_sol

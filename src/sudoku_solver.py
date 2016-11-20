@@ -16,7 +16,6 @@ This module provides sudoku solver's primitive operations
 * `find_cell_min`
 * `not_solved`
 * `search_sol`
-* `complete_1hipo`
 * `ens_cell0`
 * `remove`
 """
@@ -116,39 +115,6 @@ def not_solved(grid):
                 return True #renvoie True si une cellules ne possède aucune valeur hipothetic et que sa valeur est 0
     return False
 
-def complete_1hipo(grid,talkative=False):
-    """
-    while there is always a cell with a unique hipothetic solution, it's replace this value and up-date the hipothetics values in the grid.
-    :param grid: a sudoku's grid
-    :type grid: grid
-    :param talkative: (optional) defaults set to False. If True,
-                      prints, all stages during the computating
-    :type talkative: bool
-    :return: None
-    :rtype: NoneType
-    :Action: repalce all cell with a unique hipothetic solution wile there is no one.
-    :UC: none
-    """
-    global sol_way, father, compt_rec
-    boolean = True #on initialise un booléen qui nous permettra de savoir quand on sortira de la boucke while
-    while boolean:
-        boolean = False #on lui réattribue la valeur False que l'on changera si il y a au moins une valeur de cellule qui sera changer dans la boucle. Cela nous permet de sortir de celle-ci si on parcour toute la grille sans changer aucune valeur
-        for ind_line in range(9):
-            for ind_col in range(9):
-                cell = sudoku_grid.get_cell(grid,ind_line,ind_col)
-                if len(cells.get_cellhipo(cell)) == 1: #on vérifie si la cellule ne possède qu'une seule valeur hipothétiques
-                    boolean = True
-                    value = cells.get_cellhipo(cell).pop() #on stock cette valeur hipothétique
-                    sol_way += [{"resolved":False,'father':father,'son':[(value,ind_line,ind_col),compt_rec]}] #on sauvegarde la valeur et les coordonnées de la cellule que l'on a modifiée
-                    father = [(value,ind_line,ind_col),compt_rec]
-                    cells.set_cellvalue(cell,value)
-                    if talkative:
-                        sudoku_grid.print_grid(grid)
-                    ind_square = sudoku_grid.get_nthsquare(ind_line,ind_col)
-                    func_lists = [sudoku_grid.get_line(grid,ind_line),sudoku_grid.get_colomn(grid,ind_col),sudoku_grid.get_square(grid,ind_square)] #on construit une liste 3 listes des cellules influencées par la cellule que l'on viens de modifier
-                    for cell_list in func_lists:
-                        MAJ_hipothetic(cell_list,value) #on mets à jour les valeurs hipothetiques des cellules de chaqu'une de ces 3 listes
-
 def search_sol(grid,talkative=False,background=False):
     """
     this algorithm search all solutions of a sudoku
@@ -170,7 +136,6 @@ def search_sol(grid,talkative=False,background=False):
 
     if talkative:
         sudoku_grid.print_grid(grid)
-    complete_1hipo(grid, talkative = talkative) #on remplis toutes les cases qui n'ont qu'une seule valeur hipothetique
 
     if len(ens_cell0(grid)) == 0: #si la grille est résolue (il n'y a aucune cellule à valeur 0), on imprimera la grille et stockera la chaine de caractère correspondante à cette grille dans une variable globale
         if not talkative and not background: #cette condition nous permet de ne pas imprimer 2 fois de suite chaque grille résolue si l'on choisi de mettre l'obtion talkative à la fonction
