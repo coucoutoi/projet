@@ -16,6 +16,7 @@ This module provides sudoku solver's primitive operations
 * `find_cell_min`
 * `not_solved`
 * `search_sol`
+* `complete_1hipo`
 * `ens_cell0`
 * `remove`
 """
@@ -32,6 +33,7 @@ import sudoku_grid, cells, random
    #############
 
 sol_way, ens_sol, father, compt_rec = list(), set(), "SUDO", 0 #initialisation des variables globales qui nous servirons de sauvegarde dans le système résolution
+
 # 3 grilles de sudoku qui ont permi de test aux fonctions
 sud_notfinished = "490001007000045030382600050003070401800902005907030600030006529020850000500700013"
 sud_finished = "495381267671245938382697154263578491814962375957134682738416529129853746546729813"
@@ -143,7 +145,7 @@ def search_sol(grid,talkative=False,background=False):
         ens_sol.add(sudoku_grid.grid2string(grid))
         sol_way[-1]["resolved"] = True
 
-    elif not_solved(grid): #si la grille que l'on a est insoluble on passe la fonction sans rien faire.
+    elif not_solved(grid): #si la grille que l'on a est insoluble on passe à la suite sans rien faire.
         pass
     
     else:
@@ -151,9 +153,9 @@ def search_sol(grid,talkative=False,background=False):
         cell_min = find_cell_min(grid) #on cherche la cellule ayant le plus de contraintes
         list_hipo = cells.get_cellhipo(cell_min[0])
         for hipo in list_hipo: #pour chaque valeur hipothetiques de la cellule, on applique l'une de ces valeurs puis on stock la chaine de caractère correspondant à la grille obtenu dans une liste
-            sol_way += [{"resolved":False,'father':father,'son':[(str(hipo),cell_min[2],cell_min[1]),compt_rec]}] #on sauvegarde la modifivation que l'on a fait
-            save_father = father
-            father = [(str(hipo),cell_min[2],cell_min[1]),compt_rec]
+            sol_way += [{"resolved":False,'father':father,'son':[(str(hipo),cell_min[2],cell_min[1]),compt_rec]}] #on sauvegarde la modifivation que l'on a fait en y sauvegardant le compteur de récursion ce qui nous sera utile dans la fonction make_image
+            save_father = father #on sauvegarde father temporairement
+            father = [(str(hipo),cell_min[2],cell_min[1]),compt_rec] # on réattribue la nouvelle valuer de father
             cells.set_cellvalue(cell_min[0],hipo)
             string = sudoku_grid.grid2string(grid)
             grid_bis = sudoku_grid.make_grid(string)
@@ -207,21 +209,21 @@ def remove(grid):
 
     cell_list = ens_cell0(grid,reverse = True)
     if len(cell_list) <= 17: #il est impossible d'avoir une grille de sudoku avec moins de 17 remplies si l'on veut avoir une unique solution
-        print(" It's impossible to remove a cell if we want to keep only one solution")
+        print("The most number of cell was remove")
         sudoku_grid.print_grid(grid)
     else:
         cell = cell_list[random.randint(1,len(cell_list)-1)] #on récupère une cellule au hasard dans l'ensemble des cellules non vides
         value = cells.get_cellvalue(cell)
         cells.set_cellvalue(cell,'0')
-        string = sudoku_grid.grid2string(grid)
+        string = sudoku_grid.grid2string(grid) #le fait de faire cette transformation nous permet de faire une mise à jour des valeurs hipothétiques
         search_sol(sudoku_grid.make_grid(string),background = True)
+        print(" A random sudoku grid with remove cells from the grid given:")
         if len(ens_sol) == 1:
             ens_sol = set()
             remove(sudoku_grid.make_grid(string))
         else:
             ens_sol = set()
             cells.set_cellvalue(cell,value)
-            print(" A random sudoku grid with remove cells from the grid given:")
             sudoku_grid.print_grid(grid)
 
 def make_image(file_name="arbre"):
@@ -239,6 +241,7 @@ def make_image(file_name="arbre"):
 
     text = 'digraph G {\n   bgcolor="#FFFF00";\n   node[style=filled];\n'
     for ind_dic in range(len(sol_way)):
+        #le fait d'avoir gardé le compteur de récursion nous premet d'avoir des noms uniques et ainsi ne pas avoir les mêmes nom parce qu'une case à été modifiée de la même manière mais dans deux branches de récursion différentes
         if sol_way[ind_dic]["father"] == "SUDO":
             text += '   "'+str(sol_way[ind_dic]["father"])+'"[shape=hexagon, fillcolor="#FF0000"];\n'
         else:
