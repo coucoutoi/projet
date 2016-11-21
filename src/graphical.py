@@ -5,9 +5,9 @@ import sudoku_grid, cells
 
 img = []
 
-def create(string='0'*81):
+def create():
     global img,win
-    grid = sudoku_grid.make_grid(string)
+    grid = sudoku_grid.make_grid()
     win = tk.Tk()
     win.title('Sudoku Solver')
     iconpath = os.path.join(os.path.dirname(os.path.abspath(__file__)), "icons")

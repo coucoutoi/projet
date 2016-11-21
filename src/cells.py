@@ -49,7 +49,7 @@ def create():
     :UC: none
 
     :Examples:
-    >>> create() == ({'hipothetic': {'1', '2', '3', '4', '5', '6', '7', '8', '9'}, 'value': '0'} or {'value': '0', 'hipothetic': {'1', '2', '3', '4', '5', '6', '7', '8', '9'}})
+    >>> create() == {'hipothetic': set(str(i) for i in range(1,10)), 'value': '0'}
     True
     """
     return {'value':'0','hipothetic':set(str(i) for i in range(1,10))}
@@ -109,8 +109,8 @@ def set_cellvalue(cell,value):
     >>> cell = create()
     >>> get_cellvalue(cell)
     '0'
-    >>> len(get_cellhipo(cell))
-    9
+    >>> get_cellhipo(cell) == set(str(i) for i in range(1,10))
+    True
     >>> set_cellvalue(cell,'5')
     >>> get_cellvalue(cell)
     '5'

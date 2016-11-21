@@ -12,7 +12,7 @@ This module provides grid's primitive operations for the sudoku solver.
 
 :Provides:
 
-* `malke_grid`
+* `make_grid`
 * `grid2string`
 * `get_line`
 * `get_colomn`
