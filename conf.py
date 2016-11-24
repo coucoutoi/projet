@@ -55,10 +55,9 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-author = "HULSKEN Alexandre author = "" KARTI Adeniss"
-project = "sudoku solver"
-copyright = "2016, HULSKEN Alexandre copyright = "" KARTI Adeniss, Univ. Lille1"
-
+project = ""
+copyright = ""
+author = ""
 
 
 

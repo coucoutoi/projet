@@ -20,6 +20,8 @@ This module provides grid's primitive operations for the sudoku solver.
 * `get_cell`
 * `get_nthsquare`
 * `print_grid`
+* `NotInGridError`
+* `NotGoodTypeError`
 """
 
 

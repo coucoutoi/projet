@@ -82,7 +82,8 @@
    <span class="c1"># Variables #</span>
    <span class="c1">#############</span>
 
-<span class="n">sol_way</span><span class="p">,</span> <span class="n">ens_sol</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(),</span> <span class="nb">set</span><span class="p">()</span> <span class="c1">#initialisation des variables globales qui nous servirons de sauvegarde dans le système résolution</span>
+<span class="n">sol_way</span><span class="p">,</span> <span class="n">ens_sol</span><span class="p">,</span> <span class="n">father</span><span class="p">,</span> <span class="n">compt_rec</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(),</span> <span class="nb">set</span><span class="p">(),</span> <span class="s2">&quot;SUDO&quot;</span><span class="p">,</span> <span class="mi">0</span> <span class="c1">#initialisation des variables globales qui nous servirons de sauvegarde dans le système résolution</span>
+
 <span class="c1"># 3 grilles de sudoku qui ont permi de test aux fonctions</span>
 <span class="n">sud_notfinished</span> <span class="o">=</span> <span class="s2">&quot;490001007000045030382600050003070401800902005907030600030006529020850000500700013&quot;</span>
 <span class="n">sud_finished</span> <span class="o">=</span> <span class="s2">&quot;495381267671245938382697154263578491814962375957134682738416529129853746546729813&quot;</span>
@@ -146,7 +147,7 @@
     <span class="k">for</span> <span class="n">ind_line</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">9</span><span class="p">):</span>
         <span class="k">for</span> <span class="n">ind_col</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">9</span><span class="p">):</span>
             <span class="n">cell</span> <span class="o">=</span> <span class="n">sudoku_grid</span><span class="o">.</span><span class="n">get_cell</span><span class="p">(</span><span class="n">grid</span><span class="p">,</span><span class="n">ind_line</span><span class="p">,</span><span class="n">ind_col</span><span class="p">)</span>
-            <span class="k">if</span> <span class="mi">0</span><span class="o">&lt;</span><span class="nb">len</span><span class="p">(</span><span class="n">cells</span><span class="o">.</span><span class="n">get_cellhipo</span><span class="p">(</span><span class="n">cell</span><span class="p">))</span><span class="o">&lt;=</span><span class="nb">len</span><span class="p">(</span><span class="n">cells</span><span class="o">.</span><span class="n">get_cellhipo</span><span class="p">(</span><span class="n">cell_min</span><span class="p">[</span><span class="mi">0</span><span class="p">])):</span>
+            <span class="k">if</span> <span class="mi">0</span><span class="o">&lt;</span><span class="nb">len</span><span class="p">(</span><span class="n">cells</span><span class="o">.</span><span class="n">get_cellhipo</span><span class="p">(</span><span class="n">cell</span><span class="p">))</span><span class="o">&lt;</span><span class="nb">len</span><span class="p">(</span><span class="n">cells</span><span class="o">.</span><span class="n">get_cellhipo</span><span class="p">(</span><span class="n">cell_min</span><span class="p">[</span><span class="mi">0</span><span class="p">])):</span>
                 <span class="n">cell_min</span> <span class="o">=</span> <span class="p">(</span><span class="n">cell</span><span class="p">,</span><span class="n">ind_col</span><span class="p">,</span><span class="n">ind_line</span><span class="p">)</span> <span class="c1">#réatribue cell dans la valeur cell_min avec ses coordonnées si elle possède plus de contraintes que l&#39;ancienne valeure de cell_min </span>
     <span class="k">return</span> <span class="n">cell_min</span></div>
 
@@ -166,38 +167,6 @@
                 <span class="k">return</span> <span class="bp">True</span> <span class="c1">#renvoie True si une cellules ne possède aucune valeur hipothetic et que sa valeur est 0</span>
     <span class="k">return</span> <span class="bp">False</span></div>
 
-<div class="viewcode-block" id="complete_1hipo"><a class="viewcode-back" href="../sudoku_solver.html#sudoku_solver.complete_1hipo">[docs]</a><span class="k">def</span> <span class="nf">complete_1hipo</span><span class="p">(</span><span class="n">grid</span><span class="p">,</span><span class="n">talkative</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    while there is always a cell with a unique hipothetic solution, it&#39;s replace this value and up-date the hipothetics values in the grid.</span>
-<span class="sd">    :param grid: a sudoku&#39;s grid</span>
-<span class="sd">    :type grid: grid</span>
-<span class="sd">    :param talkative: (optional) defaults set to False. If True,</span>
-<span class="sd">                      prints, all stages during the computating</span>
-<span class="sd">    :type talkative: bool</span>
-<span class="sd">    :return: None</span>
-<span class="sd">    :rtype: NoneType</span>
-<span class="sd">    :Action: repalce all cell with a unique hipothetic solution wile there is no one.</span>
-<span class="sd">    :UC: none</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">global</span> <span class="n">sol_way</span>
-    <span class="n">boolean</span> <span class="o">=</span> <span class="bp">True</span> <span class="c1">#on initialise un booléen qui nous permettra de savoir quand on sortira de la boucke while</span>
-    <span class="k">while</span> <span class="n">boolean</span><span class="p">:</span>
-        <span class="n">boolean</span> <span class="o">=</span> <span class="bp">False</span> <span class="c1">#on lui réattribue la valeur False que l&#39;on changera si il y a au moins une valeur de cellule qui sera changer dans la boucle. Cela nous permet de sortir de celle-ci si on parcour toute la grille sans changer aucune valeur</span>
-        <span class="k">for</span> <span class="n">ind_line</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">9</span><span class="p">):</span>
-            <span class="k">for</span> <span class="n">ind_col</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">9</span><span class="p">):</span>
-                <span class="n">cell</span> <span class="o">=</span> <span class="n">sudoku_grid</span><span class="o">.</span><span class="n">get_cell</span><span class="p">(</span><span class="n">grid</span><span class="p">,</span><span class="n">ind_line</span><span class="p">,</span><span class="n">ind_col</span><span class="p">)</span>
-                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">cells</span><span class="o">.</span><span class="n">get_cellhipo</span><span class="p">(</span><span class="n">cell</span><span class="p">))</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span> <span class="c1">#on vérifie si la cellule ne possède qu&#39;une seule valeur hipothétiques</span>
-                    <span class="n">boolean</span> <span class="o">=</span> <span class="bp">True</span>
-                    <span class="n">value</span> <span class="o">=</span> <span class="n">cells</span><span class="o">.</span><span class="n">get_cellhipo</span><span class="p">(</span><span class="n">cell</span><span class="p">)</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span> <span class="c1">#on stock cette valeur hipothétique</span>
-                    <span class="n">sol_way</span> <span class="o">+=</span> <span class="p">[(</span><span class="n">value</span><span class="p">,</span><span class="n">ind_col</span><span class="p">,</span><span class="n">ind_line</span><span class="p">)]</span> <span class="c1">#on sauvegarde la valeur et les coordonnées de la cellule que l&#39;on a modifiée</span>
-                    <span class="n">cells</span><span class="o">.</span><span class="n">set_cellvalue</span><span class="p">(</span><span class="n">cell</span><span class="p">,</span><span class="n">value</span><span class="p">)</span>
-                    <span class="k">if</span> <span class="n">talkative</span><span class="p">:</span>
-                        <span class="n">sudoku_grid</span><span class="o">.</span><span class="n">print_grid</span><span class="p">(</span><span class="n">grid</span><span class="p">)</span>
-                    <span class="n">ind_square</span> <span class="o">=</span> <span class="n">sudoku_grid</span><span class="o">.</span><span class="n">get_nthsquare</span><span class="p">(</span><span class="n">ind_line</span><span class="p">,</span><span class="n">ind_col</span><span class="p">)</span>
-                    <span class="n">func_lists</span> <span class="o">=</span> <span class="p">[</span><span class="n">sudoku_grid</span><span class="o">.</span><span class="n">get_line</span><span class="p">(</span><span class="n">grid</span><span class="p">,</span><span class="n">ind_line</span><span class="p">),</span><span class="n">sudoku_grid</span><span class="o">.</span><span class="n">get_colomn</span><span class="p">(</span><span class="n">grid</span><span class="p">,</span><span class="n">ind_col</span><span class="p">),</span><span class="n">sudoku_grid</span><span class="o">.</span><span class="n">get_square</span><span class="p">(</span><span class="n">grid</span><span class="p">,</span><span class="n">ind_square</span><span class="p">)]</span> <span class="c1">#on construit une liste 3 listes des cellules influencées par la cellule que l&#39;on viens de modifier</span>
-                    <span class="k">for</span> <span class="n">cell_list</span> <span class="ow">in</span> <span class="n">func_lists</span><span class="p">:</span>
-                        <span class="n">MAJ_hipothetic</span><span class="p">(</span><span class="n">cell_list</span><span class="p">,</span><span class="n">value</span><span class="p">)</span> <span class="c1">#on mets à jour les valeurs hipothetiques des cellules de chaqu&#39;une de ces 3 listes</span></div>
-
 <div class="viewcode-block" id="search_sol"><a class="viewcode-back" href="../sudoku_solver.html#sudoku_solver.search_sol">[docs]</a><span class="k">def</span> <span class="nf">search_sol</span><span class="p">(</span><span class="n">grid</span><span class="p">,</span><span class="n">talkative</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span><span class="n">background</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    this algorithm search all solutions of a sudoku</span>
@@ -215,30 +184,34 @@
 <span class="sd">    :Action: print all solutions of the grid</span>
 <span class="sd">    :UC: none</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">global</span> <span class="n">sol_way</span><span class="p">,</span> <span class="n">ens_sol</span>
-    <span class="n">compt_rec</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">global</span> <span class="n">sol_way</span><span class="p">,</span> <span class="n">ens_sol</span><span class="p">,</span> <span class="n">father</span><span class="p">,</span> <span class="n">compt_rec</span>
 
     <span class="k">if</span> <span class="n">talkative</span><span class="p">:</span>
         <span class="n">sudoku_grid</span><span class="o">.</span><span class="n">print_grid</span><span class="p">(</span><span class="n">grid</span><span class="p">)</span>
-    <span class="n">complete_1hipo</span><span class="p">(</span><span class="n">grid</span><span class="p">,</span> <span class="n">talkative</span> <span class="o">=</span> <span class="n">talkative</span><span class="p">)</span> <span class="c1">#on remplis toutes les cases qui n&#39;ont qu&#39;une seule valeur hipothetique</span>
+
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">ens_cell0</span><span class="p">(</span><span class="n">grid</span><span class="p">))</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span> <span class="c1">#si la grille est résolue (il n&#39;y a aucune cellule à valeur 0), on imprimera la grille et stockera la chaine de caractère correspondante à cette grille dans une variable globale</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">talkative</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">background</span><span class="p">:</span> <span class="c1">#cette condition nous permet de ne pas imprimer 2 fois de suite chaque grille résolue si l&#39;on choisi de mettre l&#39;obtion talkative à la fonction</span>
             <span class="n">sudoku_grid</span><span class="o">.</span><span class="n">print_grid</span><span class="p">(</span><span class="n">grid</span><span class="p">)</span>
         <span class="n">ens_sol</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">sudoku_grid</span><span class="o">.</span><span class="n">grid2string</span><span class="p">(</span><span class="n">grid</span><span class="p">))</span>
-    <span class="k">elif</span> <span class="n">not_solved</span><span class="p">(</span><span class="n">grid</span><span class="p">):</span> <span class="c1">#si la grille que l&#39;on a est insoluble on passe la fonction sans rien faire.</span>
+        <span class="n">sol_way</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="s2">&quot;resolved&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">True</span>
+
+    <span class="k">elif</span> <span class="n">not_solved</span><span class="p">(</span><span class="n">grid</span><span class="p">):</span> <span class="c1">#si la grille que l&#39;on a est insoluble on passe à la suite sans rien faire.</span>
         <span class="k">pass</span>
+    
     <span class="k">else</span><span class="p">:</span>
         <span class="n">grid_list</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
         <span class="n">cell_min</span> <span class="o">=</span> <span class="n">find_cell_min</span><span class="p">(</span><span class="n">grid</span><span class="p">)</span> <span class="c1">#on cherche la cellule ayant le plus de contraintes</span>
         <span class="n">list_hipo</span> <span class="o">=</span> <span class="n">cells</span><span class="o">.</span><span class="n">get_cellhipo</span><span class="p">(</span><span class="n">cell_min</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
         <span class="k">for</span> <span class="n">hipo</span> <span class="ow">in</span> <span class="n">list_hipo</span><span class="p">:</span> <span class="c1">#pour chaque valeur hipothetiques de la cellule, on applique l&#39;une de ces valeurs puis on stock la chaine de caractère correspondant à la grille obtenu dans une liste</span>
-            <span class="n">sol_way</span> <span class="o">+=</span> <span class="p">[(</span><span class="nb">str</span><span class="p">(</span><span class="n">hipo</span><span class="p">),</span><span class="n">cell_min</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="n">cell_min</span><span class="p">[</span><span class="mi">2</span><span class="p">])]</span> <span class="c1">#on sauvegarde la modifivation que l&#39;on a fait</span>
+            <span class="n">sol_way</span> <span class="o">+=</span> <span class="p">[{</span><span class="s2">&quot;resolved&quot;</span><span class="p">:</span><span class="bp">False</span><span class="p">,</span><span class="s1">&#39;father&#39;</span><span class="p">:</span><span class="n">father</span><span class="p">,</span><span class="s1">&#39;son&#39;</span><span class="p">:[(</span><span class="nb">str</span><span class="p">(</span><span class="n">hipo</span><span class="p">),</span><span class="n">cell_min</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span><span class="n">cell_min</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span><span class="n">compt_rec</span><span class="p">]}]</span> <span class="c1">#on sauvegarde la modifivation que l&#39;on a fait en y sauvegardant le compteur de récursion ce qui nous sera utile dans la fonction make_image</span>
+            <span class="n">save_father</span> <span class="o">=</span> <span class="n">father</span> <span class="c1">#on sauvegarde father temporairement</span>
+            <span class="n">father</span> <span class="o">=</span> <span class="p">[(</span><span class="nb">str</span><span class="p">(</span><span class="n">hipo</span><span class="p">),</span><span class="n">cell_min</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span><span class="n">cell_min</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span><span class="n">compt_rec</span><span class="p">]</span> <span class="c1"># on réattribue la nouvelle valuer de father</span>
             <span class="n">cells</span><span class="o">.</span><span class="n">set_cellvalue</span><span class="p">(</span><span class="n">cell_min</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">hipo</span><span class="p">)</span>
-            <span class="n">grid_list</span> <span class="o">+=</span> <span class="p">[</span><span class="n">sudoku_grid</span><span class="o">.</span><span class="n">grid2string</span><span class="p">(</span><span class="n">grid</span><span class="p">)]</span>
-        <span class="k">for</span> <span class="n">string</span> <span class="ow">in</span> <span class="n">grid_list</span><span class="p">:</span> <span class="c1">#pour chaque grille de la liste que l&#39;on a construite, on teste de la résoudre par une relation de récursion</span>
-            <span class="n">grid</span> <span class="o">=</span> <span class="n">sudoku_grid</span><span class="o">.</span><span class="n">make_grid</span><span class="p">(</span><span class="n">string</span><span class="p">)</span>
-            <span class="n">search_sol</span><span class="p">(</span><span class="n">grid</span><span class="p">,</span> <span class="n">talkative</span> <span class="o">=</span> <span class="n">talkative</span><span class="p">,</span> <span class="n">background</span> <span class="o">=</span> <span class="n">background</span><span class="p">)</span>
+            <span class="n">string</span> <span class="o">=</span> <span class="n">sudoku_grid</span><span class="o">.</span><span class="n">grid2string</span><span class="p">(</span><span class="n">grid</span><span class="p">)</span>
+            <span class="n">grid_bis</span> <span class="o">=</span> <span class="n">sudoku_grid</span><span class="o">.</span><span class="n">make_grid</span><span class="p">(</span><span class="n">string</span><span class="p">)</span>
+            <span class="n">search_sol</span><span class="p">(</span><span class="n">grid_bis</span><span class="p">,</span> <span class="n">talkative</span> <span class="o">=</span> <span class="n">talkative</span><span class="p">,</span> <span class="n">background</span> <span class="o">=</span> <span class="n">background</span><span class="p">)</span>
             <span class="n">compt_rec</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="n">father</span> <span class="o">=</span> <span class="n">save_father</span>
 
     <span class="k">return</span> <span class="n">compt_rec</span></div>
 
@@ -286,22 +259,55 @@
 
     <span class="n">cell_list</span> <span class="o">=</span> <span class="n">ens_cell0</span><span class="p">(</span><span class="n">grid</span><span class="p">,</span><span class="n">reverse</span> <span class="o">=</span> <span class="bp">True</span><span class="p">)</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">cell_list</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">17</span><span class="p">:</span> <span class="c1">#il est impossible d&#39;avoir une grille de sudoku avec moins de 17 remplies si l&#39;on veut avoir une unique solution</span>
-        <span class="k">print</span><span class="p">(</span><span class="s2">&quot; It&#39;s impossible to remove a cell if we want to keep only one solution&quot;</span><span class="p">)</span>
+        <span class="k">print</span><span class="p">(</span><span class="s2">&quot;The most number of cell was remove&quot;</span><span class="p">)</span>
         <span class="n">sudoku_grid</span><span class="o">.</span><span class="n">print_grid</span><span class="p">(</span><span class="n">grid</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">cell</span> <span class="o">=</span> <span class="n">cell_list</span><span class="p">[</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">cell_list</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">)]</span> <span class="c1">#on récupère une cellule au hasard dans l&#39;ensemble des cellules non vides</span>
         <span class="n">value</span> <span class="o">=</span> <span class="n">cells</span><span class="o">.</span><span class="n">get_cellvalue</span><span class="p">(</span><span class="n">cell</span><span class="p">)</span>
         <span class="n">cells</span><span class="o">.</span><span class="n">set_cellvalue</span><span class="p">(</span><span class="n">cell</span><span class="p">,</span><span class="s1">&#39;0&#39;</span><span class="p">)</span>
-        <span class="n">string</span> <span class="o">=</span> <span class="n">sudoku_grid</span><span class="o">.</span><span class="n">grid2string</span><span class="p">(</span><span class="n">grid</span><span class="p">)</span>
+        <span class="n">string</span> <span class="o">=</span> <span class="n">sudoku_grid</span><span class="o">.</span><span class="n">grid2string</span><span class="p">(</span><span class="n">grid</span><span class="p">)</span> <span class="c1">#le fait de faire cette transformation nous permet de faire une mise à jour des valeurs hipothétiques</span>
         <span class="n">search_sol</span><span class="p">(</span><span class="n">sudoku_grid</span><span class="o">.</span><span class="n">make_grid</span><span class="p">(</span><span class="n">string</span><span class="p">),</span><span class="n">background</span> <span class="o">=</span> <span class="bp">True</span><span class="p">)</span>
+        <span class="k">print</span><span class="p">(</span><span class="s2">&quot; A random sudoku grid with remove cells from the grid given:&quot;</span><span class="p">)</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">ens_sol</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
             <span class="n">ens_sol</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
             <span class="n">remove</span><span class="p">(</span><span class="n">sudoku_grid</span><span class="o">.</span><span class="n">make_grid</span><span class="p">(</span><span class="n">string</span><span class="p">))</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">ens_sol</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
             <span class="n">cells</span><span class="o">.</span><span class="n">set_cellvalue</span><span class="p">(</span><span class="n">cell</span><span class="p">,</span><span class="n">value</span><span class="p">)</span>
-            <span class="k">print</span><span class="p">(</span><span class="s2">&quot; A random sudoku grid with remove cells from the grid given:&quot;</span><span class="p">)</span>
             <span class="n">sudoku_grid</span><span class="o">.</span><span class="n">print_grid</span><span class="p">(</span><span class="n">grid</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="make_image"><a class="viewcode-back" href="../sudoku_solver.html#sudoku_solver.make_image">[docs]</a><span class="k">def</span> <span class="nf">make_image</span><span class="p">(</span><span class="n">file_name</span><span class="o">=</span><span class="s2">&quot;arbre&quot;</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    create a picture with file_name.dot as name of the differents part of sol_way</span>
+
+<span class="sd">    :param file_name: (optional) the nale of the picture who is created</span>
+<span class="sd">    :type file_name: str</span>
+<span class="sd">    :return: None</span>
+<span class="sd">    :rtype: NoneType</span>
+<span class="sd">    :Action: create a picture of the resolved way</span>
+<span class="sd">    :UC: none</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">global</span> <span class="n">sol_way</span>
+
+    <span class="n">text</span> <span class="o">=</span> <span class="s1">&#39;digraph G {</span><span class="se">\n</span><span class="s1">   bgcolor=&quot;#FFFF00&quot;;</span><span class="se">\n</span><span class="s1">   node[style=filled];</span><span class="se">\n</span><span class="s1">&#39;</span>
+    <span class="k">for</span> <span class="n">ind_dic</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">sol_way</span><span class="p">)):</span>
+        <span class="c1">#le fait d&#39;avoir gardé le compteur de récursion nous premet d&#39;avoir des noms uniques et ainsi ne pas avoir les mêmes nom parce qu&#39;une case à été modifiée de la même manière mais dans deux branches de récursion différentes</span>
+        <span class="k">if</span> <span class="n">sol_way</span><span class="p">[</span><span class="n">ind_dic</span><span class="p">][</span><span class="s2">&quot;father&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;SUDO&quot;</span><span class="p">:</span>
+            <span class="n">text</span> <span class="o">+=</span> <span class="s1">&#39;   &quot;&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">sol_way</span><span class="p">[</span><span class="n">ind_dic</span><span class="p">][</span><span class="s2">&quot;father&quot;</span><span class="p">])</span><span class="o">+</span><span class="s1">&#39;&quot;[shape=hexagon, fillcolor=&quot;#FF0000&quot;];</span><span class="se">\n</span><span class="s1">&#39;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">text</span> <span class="o">+=</span> <span class="s1">&#39;   &quot;&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">sol_way</span><span class="p">[</span><span class="n">ind_dic</span><span class="p">][</span><span class="s2">&quot;father&quot;</span><span class="p">])</span><span class="o">+</span><span class="s1">&#39;&quot;[label=&quot;&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">sol_way</span><span class="p">[</span><span class="n">ind_dic</span><span class="p">][</span><span class="s2">&quot;father&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span><span class="o">+</span><span class="s1">&#39;&quot;];</span><span class="se">\n</span><span class="s1">&#39;</span>
+
+        <span class="k">if</span> <span class="n">sol_way</span><span class="p">[</span><span class="n">ind_dic</span><span class="p">][</span><span class="s2">&quot;resolved&quot;</span><span class="p">]:</span>
+            <span class="n">text</span> <span class="o">+=</span> <span class="s1">&#39;   &quot;&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">sol_way</span><span class="p">[</span><span class="n">ind_dic</span><span class="p">][</span><span class="s2">&quot;son&quot;</span><span class="p">])</span><span class="o">+</span><span class="s1">&#39;&quot;[label=&quot;&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">sol_way</span><span class="p">[</span><span class="n">ind_dic</span><span class="p">][</span><span class="s2">&quot;son&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span><span class="o">+</span><span class="s1">&#39;&quot;, shape=hexagon, fillcolor=&quot;#00FF00&quot;];</span><span class="se">\n</span><span class="s1">&#39;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">text</span> <span class="o">+=</span> <span class="s1">&#39;   &quot;&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">sol_way</span><span class="p">[</span><span class="n">ind_dic</span><span class="p">][</span><span class="s2">&quot;son&quot;</span><span class="p">])</span><span class="o">+</span><span class="s1">&#39;&quot;[label=&quot;&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">sol_way</span><span class="p">[</span><span class="n">ind_dic</span><span class="p">][</span><span class="s2">&quot;son&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span><span class="o">+</span><span class="s1">&#39;&quot;];</span><span class="se">\n</span><span class="s1">&#39;</span>
+
+        <span class="n">text</span> <span class="o">+=</span> <span class="s1">&#39;   &quot;&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">sol_way</span><span class="p">[</span><span class="n">ind_dic</span><span class="p">][</span><span class="s2">&quot;father&quot;</span><span class="p">])</span><span class="o">+</span><span class="s1">&#39;&quot;-&gt;&quot;&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">sol_way</span><span class="p">[</span><span class="n">ind_dic</span><span class="p">][</span><span class="s2">&quot;son&quot;</span><span class="p">])</span><span class="o">+</span><span class="s1">&#39;&quot;;</span><span class="se">\n</span><span class="s1">&#39;</span>
+
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file_name</span><span class="o">+</span><span class="s2">&quot;.dot&quot;</span><span class="p">,</span><span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">stream</span><span class="p">:</span>
+        <span class="n">stream</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">text</span><span class="o">+</span><span class="s2">&quot;}&quot;</span><span class="p">)</span>
+    <span class="kn">import</span> <span class="nn">os</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s2">&quot;dot -Tpng -o &quot;</span><span class="o">+</span><span class="n">file_name</span><span class="o">+</span><span class="s2">&quot;.png &quot;</span><span class="o">+</span><span class="n">file_name</span><span class="o">+</span><span class="s2">&quot;.dot&quot;</span><span class="p">)</span></div>
 
 
 
@@ -350,7 +356,7 @@
     </div>
     <div class="footer" role="contentinfo">
         ;<a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/fr/"> <img alt="Licence Creative Commons" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a>. <a href="http://www.fil.univ-lille1.fr">2016, HULSKEN Alexandre copyright =  KARTI Adeniss, Univ. Lille1</a>.
-      Last updated on 15/11/2016.
+      Last updated on 24/11/2016.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.6.
     </div>
   </body>

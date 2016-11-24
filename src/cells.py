@@ -17,12 +17,13 @@ This module provides cells' primitive operations for the sudoku solver.
 * `get_cellhipo`
 * `set_cellvalue`
 * `unset_cellhipothetic`
+* `NotCorrectValueError`
 """
 
 import sudoku_grid
 
 #############################
-# Exceptions for gthe grid
+# Exceptions for the grid
 #############################
 
 class NotCorrectValueError(Exception):

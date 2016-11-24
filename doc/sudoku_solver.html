@@ -218,34 +218,6 @@ return the reverse of a normal using</li>
 </dd></dl>
 
 </div>
-<div class="section" id="complete-1-hipothetic">
-<h2>COMPLETE 1 HIPOTHETIC<a class="headerlink" href="#complete-1-hipothetic" title="Permalink to this headline">¶</a></h2>
-<dl class="function">
-<dt id="sudoku_solver.complete_1hipo">
-<code class="descclassname">sudoku_solver.</code><code class="descname">complete_1hipo</code><span class="sig-paren">(</span><em>grid</em>, <em>talkative=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/sudoku_solver.html#complete_1hipo"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sudoku_solver.complete_1hipo" title="Permalink to this definition">¶</a></dt>
-<dd><p>while there is always a cell with a unique hipothetic solution, it&#8217;s replace this value and up-date the hipothetics values in the grid.
-:param grid: a sudoku&#8217;s grid
-:type grid: grid
-:param talkative: (optional) defaults set to False. If True,</p>
-<blockquote>
-<div>prints, all stages during the computating</div></blockquote>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">None</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">NoneType</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Action:</th><td class="field-body">repalce all cell with a unique hipothetic solution wile there is no one.</td>
-</tr>
-<tr class="field-even field"><th class="field-name">UC:</th><td class="field-body">none</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-</div>
 <div class="section" id="search-sol">
 <h2>SEARCH SOL<a class="headerlink" href="#search-sol" title="Permalink to this headline">¶</a></h2>
 <dl class="function">
@@ -307,6 +279,31 @@ the algorithm don&#8217;t print anything</li>
 </dd></dl>
 
 </div>
+<div class="section" id="make-image">
+<h2>MAKE IMAGE<a class="headerlink" href="#make-image" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="sudoku_solver.make_image">
+<code class="descclassname">sudoku_solver.</code><code class="descname">make_image</code><span class="sig-paren">(</span><em>file_name='arbre'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/sudoku_solver.html#make_image"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sudoku_solver.make_image" title="Permalink to this definition">¶</a></dt>
+<dd><p>create a picture with file_name.dot as name of the differents part of sol_way</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>file_name</strong> (<em>str</em>) &#8211; (optional) the nale of the picture who is created</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">None</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">NoneType</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Action:</th><td class="field-body">create a picture of the resolved way</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">UC:</th><td class="field-body">none</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
 </div>
 
 
@@ -325,9 +322,9 @@ the algorithm don&#8217;t print anything</li>
 <li><a class="reference internal" href="#not-solved">NOT SOLVED</a></li>
 <li><a class="reference internal" href="#ens-cell-0">ENS CELL 0</a></li>
 <li><a class="reference internal" href="#find-cell-min">FIND CELL MIN</a></li>
-<li><a class="reference internal" href="#complete-1-hipothetic">COMPLETE 1 HIPOTHETIC</a></li>
 <li><a class="reference internal" href="#search-sol">SEARCH SOL</a></li>
 <li><a class="reference internal" href="#remove-cells">REMOVE CELLS</a></li>
+<li><a class="reference internal" href="#make-image">MAKE IMAGE</a></li>
 </ul>
 </li>
 </ul>
@@ -376,7 +373,7 @@ the algorithm don&#8217;t print anything</li>
     </div>
     <div class="footer" role="contentinfo">
         ;<a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/fr/"> <img alt="Licence Creative Commons" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a>. <a href="http://www.fil.univ-lille1.fr">2016, HULSKEN Alexandre copyright =  KARTI Adeniss, Univ. Lille1</a>.
-      Last updated on 15/11/2016.
+      Last updated on 24/11/2016.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.6.
     </div>
   </body>
