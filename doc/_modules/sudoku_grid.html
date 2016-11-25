@@ -70,6 +70,8 @@
 <span class="sd">* `get_cell`</span>
 <span class="sd">* `get_nthsquare`</span>
 <span class="sd">* `print_grid`</span>
+<span class="sd">* `NotInGridError`</span>
+<span class="sd">* `NotGoodTypeError`</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
 
@@ -120,8 +122,8 @@
 <span class="sd">    :return: a grid of sudoku</span>
 <span class="sd">    :rtype: list of list of cells</span>
 <span class="sd">    :UC: none</span>
-
 <span class="sd">    :Examples:</span>
+
 <span class="sd">    &gt;&gt;&gt; grid = make_grid(&#39;1&#39;*81)</span>
 <span class="sd">    &gt;&gt;&gt; make_grid(&#39;1&#39;*80)</span>
 <span class="sd">    Traceback (most recent call last):</span>
@@ -156,8 +158,8 @@
 <span class="sd">    :return: a srting of values from the sudoku</span>
 <span class="sd">    :rtype: str</span>
 <span class="sd">    :UC: none</span>
-
 <span class="sd">    :Examples:</span>
+
 <span class="sd">    &gt;&gt;&gt; string = &quot;490001007000045030382600050003070401800902005907030600030006529020850000500700013&quot;</span>
 <span class="sd">    &gt;&gt;&gt; grid = make_grid(string)</span>
 <span class="sd">    &gt;&gt;&gt; grid2string(grid) == string</span>
@@ -185,8 +187,8 @@
 <span class="sd">    :return: a list of all cells in the nth line</span>
 <span class="sd">    :rtype: list of cells</span>
 <span class="sd">    :UC: nth must be an integer between 0 and 8</span>
-
 <span class="sd">    :Examples:</span>
+
 <span class="sd">    &gt;&gt;&gt; grid = make_grid(val_test)</span>
 <span class="sd">    &gt;&gt;&gt; [cells.get_cellvalue(c) for c in get_line(grid,0)]</span>
 <span class="sd">    [&#39;0&#39;, &#39;1&#39;, &#39;2&#39;, &#39;3&#39;, &#39;4&#39;, &#39;5&#39;, &#39;6&#39;, &#39;7&#39;, &#39;8&#39;]</span>
@@ -218,8 +220,8 @@
 <span class="sd">    :return: a list of all cells in the nth colomn</span>
 <span class="sd">    :rtype: list of cells</span>
 <span class="sd">    :UC: nth must be between 0 and 8</span>
-
 <span class="sd">    :Examples:</span>
+
 <span class="sd">    &gt;&gt;&gt; grid = make_grid(val_test)</span>
 <span class="sd">    &gt;&gt;&gt; [cells.get_cellvalue(c) for c in get_colomn(grid,8)]</span>
 <span class="sd">    [&#39;8&#39;, &#39;8&#39;, &#39;8&#39;, &#39;8&#39;, &#39;8&#39;, &#39;8&#39;, &#39;8&#39;, &#39;8&#39;, &#39;8&#39;]</span>
@@ -244,13 +246,14 @@
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    return all cells&#39; value in the nth square of the grid.</span>
 <span class="sd">    the disposition of nth&#39;s square in the grid:</span>
-<span class="sd">                +---+---+---+</span>
-<span class="sd">                | 0 | 1 | 2 |</span>
-<span class="sd">                +---+---+---+</span>
-<span class="sd">                | 3 | 4 | 5 |</span>
-<span class="sd">                +---+---+---+</span>
-<span class="sd">                | 6 | 7 | 8 |</span>
-<span class="sd">                +---+---+---+</span>
+
+<span class="sd">               `+---+---+---+`\n</span>
+<span class="sd">               `| 0 | 1 | 2 |`\n</span>
+<span class="sd">               `+---+---+---+`\n</span>
+<span class="sd">               `| 3 | 4 | 5 |`\n</span>
+<span class="sd">               `+---+---+---+`\n</span>
+<span class="sd">               `| 6 | 7 | 8 |`\n</span>
+<span class="sd">               `+---+---+---+`\n</span>
 <span class="sd">    </span>
 <span class="sd">    :param grid: the sudoku&#39;s grid</span>
 <span class="sd">    :type grid: grid</span>
@@ -259,8 +262,8 @@
 <span class="sd">    :return: a list of all cells in the nth square</span>
 <span class="sd">    :rtype: list of cells</span>
 <span class="sd">    :UC: nth must be between 0 and 8</span>
-
 <span class="sd">    :Examples:</span>
+
 <span class="sd">    &gt;&gt;&gt; grid = make_grid(val_test)</span>
 <span class="sd">    &gt;&gt;&gt; [cells.get_cellvalue(c) for c in get_square(grid,5)]</span>
 <span class="sd">    [&#39;6&#39;, &#39;7&#39;, &#39;8&#39;, &#39;6&#39;, &#39;7&#39;, &#39;8&#39;, &#39;6&#39;, &#39;7&#39;, &#39;8&#39;]</span>
@@ -294,8 +297,8 @@
 <span class="sd">    :return: the cell at coordonates nthline,nthcol</span>
 <span class="sd">    :rtype: cell</span>
 <span class="sd">    :UC: nthline and nthcol must be integers between 0 and 8</span>
-
 <span class="sd">    :Examples:</span>
+
 <span class="sd">    &gt;&gt;&gt; grid = make_grid()</span>
 <span class="sd">    &gt;&gt;&gt; get_cell(grid,0,0) == cells.create()</span>
 <span class="sd">    True</span>
@@ -341,8 +344,8 @@
 <span class="sd">    :type nthcol: int</span>
 <span class="sd">    :return: the number of the square at the coordonate nthline,nthcol</span>
 <span class="sd">    :rtype: int</span>
-
 <span class="sd">    :Examples:</span>
+
 <span class="sd">    &gt;&gt;&gt; get_nthsquare(8,8)</span>
 <span class="sd">    8</span>
 <span class="sd">    &gt;&gt;&gt; get_nthsquare(-1,8)</span>
@@ -378,8 +381,8 @@
 <span class="sd">    :rtype: NoneType</span>
 <span class="sd">    :Action: print the grid</span>
 <span class="sd">    :UC: none</span>
-<span class="sd">    </span>
 <span class="sd">    :Examples:</span>
+
 <span class="sd">    &gt;&gt;&gt; grid = make_grid(val_test)</span>
 <span class="sd">    &gt;&gt;&gt; print_grid(grid)</span>
 <span class="sd">    +-------+-------+-------+</span>
@@ -457,7 +460,7 @@
     </div>
     <div class="footer" role="contentinfo">
         ;<a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/fr/"> <img alt="Licence Creative Commons" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a>. <a href="http://www.fil.univ-lille1.fr">2016, HULSKEN Alexandre copyright =  KARTI Adeniss, Univ. Lille1</a>.
-      Last updated on 24/11/2016.
+      Last updated on 25/11/2016.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.6.
     </div>
   </body>

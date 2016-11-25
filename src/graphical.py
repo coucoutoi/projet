@@ -44,6 +44,7 @@ def create(string='0'*81):
         tk.PhotoImage(file=os.path.join(iconpath, "9.gif"))
         ]
     button_grid = list()
+
     for ind_line in range(9):
         button_grid.insert(ind_line,[])
         for ind_col in range(9):
@@ -52,25 +53,46 @@ def create(string='0'*81):
             button_grid[ind_line].insert(ind_col, button)
             button.config(command=partial(__incre,button_grid,grid,ind_line,ind_col))
             button.bind('<Button-3>',partial(__decre,button_grid=button_grid,grid=grid,ind_line=ind_line,ind_col=ind_col))
+
     for ind_square in range(9):
         button_list = sudoku_grid.get_square(button_grid,ind_square)
         for button in button_list:
             if ind_square%2:
                 button.config(bg="black")
+
+    talkative_check = tk.Checkbutton(win,text = "talkative",variable = tk.IntVar)
+    talkative_check.grid(column = 9,row = 1)
+    recursion_check = tk.Checkbutton(win,text = "recursion",variable = tk.IntVar)
+    recursion_check.grid(column = 9,row = 3)
+    image_check = tk.Checkbutton(win,text = "image",variable = tk.IntVar)
+    image_check.grid(column = 9,row = 5)
+    remove_check = tk.Checkbutton(win,text = "remove",variable = tk.IntVar)
+    remove_check.grid(column = 9,row = 7)
+
     start_button = tk.Button(win, text="start")
     start_button.grid(column=1,row=9)
     start_button.config(command = partial(run,grid=grid))
     raz_button = tk.Button(win, text="RAZ")
     raz_button.grid(column=4,row=9)
-    raz_button.config()
+    raz_button.config(command = partial(RAZ, grid = grid, button_grid = button_grid))
     quit_button = tk.Button(win, text="quit")
     quit_button.grid(column=7,row=9)
     quit_button.config(command = win.destroy)
+
     win.mainloop()
+
 
 def run(grid):
     sudoku_solver.search_sol(grid)
     sudoku_solver.make_image()
+
+def RAZ(grid,button_grid):
+    for ind_line in range(9):
+        for ind_col in range(9):
+            cell = sudoku_grid.get_cell(grid,ind_line,ind_col)
+            if int(cells.get_cellvalue(cell)):
+                cells.set_cellvalue(cell,'0')
+                __redraw(button_grid,grid,ind_line,ind_col)
 
 def __decre(self,button_grid,grid,ind_line,ind_col):
     cell = sudoku_grid.get_cell(grid,ind_line,ind_col)

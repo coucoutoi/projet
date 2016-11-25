@@ -72,8 +72,8 @@ def make_grid(string='0'*81):
     :return: a grid of sudoku
     :rtype: list of list of cells
     :UC: none
-
     :Examples:
+
     >>> grid = make_grid('1'*81)
     >>> make_grid('1'*80)
     Traceback (most recent call last):
@@ -108,8 +108,8 @@ def grid2string(grid):
     :return: a srting of values from the sudoku
     :rtype: str
     :UC: none
-
     :Examples:
+
     >>> string = "490001007000045030382600050003070401800902005907030600030006529020850000500700013"
     >>> grid = make_grid(string)
     >>> grid2string(grid) == string
@@ -137,8 +137,8 @@ def get_line(grid,nthline):
     :return: a list of all cells in the nth line
     :rtype: list of cells
     :UC: nth must be an integer between 0 and 8
-
     :Examples:
+
     >>> grid = make_grid(val_test)
     >>> [cells.get_cellvalue(c) for c in get_line(grid,0)]
     ['0', '1', '2', '3', '4', '5', '6', '7', '8']
@@ -170,8 +170,8 @@ def get_colomn(grid,nthcol):
     :return: a list of all cells in the nth colomn
     :rtype: list of cells
     :UC: nth must be between 0 and 8
-
     :Examples:
+
     >>> grid = make_grid(val_test)
     >>> [cells.get_cellvalue(c) for c in get_colomn(grid,8)]
     ['8', '8', '8', '8', '8', '8', '8', '8', '8']
@@ -196,13 +196,14 @@ def get_square(grid,nthsquare):
     """
     return all cells' value in the nth square of the grid.
     the disposition of nth's square in the grid:
-                +---+---+---+
-                | 0 | 1 | 2 |
-                +---+---+---+
-                | 3 | 4 | 5 |
-                +---+---+---+
-                | 6 | 7 | 8 |
-                +---+---+---+
+
+               `+---+---+---+`\n
+               `| 0 | 1 | 2 |`\n
+               `+---+---+---+`\n
+               `| 3 | 4 | 5 |`\n
+               `+---+---+---+`\n
+               `| 6 | 7 | 8 |`\n
+               `+---+---+---+`\n
     
     :param grid: the sudoku's grid
     :type grid: grid
@@ -211,8 +212,8 @@ def get_square(grid,nthsquare):
     :return: a list of all cells in the nth square
     :rtype: list of cells
     :UC: nth must be between 0 and 8
-
     :Examples:
+
     >>> grid = make_grid(val_test)
     >>> [cells.get_cellvalue(c) for c in get_square(grid,5)]
     ['6', '7', '8', '6', '7', '8', '6', '7', '8']
@@ -246,8 +247,8 @@ def get_cell(grid,nthline,nthcol):
     :return: the cell at coordonates nthline,nthcol
     :rtype: cell
     :UC: nthline and nthcol must be integers between 0 and 8
-
     :Examples:
+
     >>> grid = make_grid()
     >>> get_cell(grid,0,0) == cells.create()
     True
@@ -293,8 +294,8 @@ def get_nthsquare(nthline,nthcol):
     :type nthcol: int
     :return: the number of the square at the coordonate nthline,nthcol
     :rtype: int
-
     :Examples:
+
     >>> get_nthsquare(8,8)
     8
     >>> get_nthsquare(-1,8)
@@ -330,8 +331,8 @@ def print_grid(grid):
     :rtype: NoneType
     :Action: print the grid
     :UC: none
-    
     :Examples:
+
     >>> grid = make_grid(val_test)
     >>> print_grid(grid)
     +-------+-------+-------+

@@ -54,8 +54,8 @@ def MAJ_hipothetic(cell_list,hipo):
     :rtype: NoneType
     :Action: up-date the hipohtetics value of each cell of cell_list
     :UC: none
-
     :Examples:
+
     >>> cell_list = [cells.create() for i in range(9)]
     >>> for cell in cell_list: print(set(int(i) for i in cells.get_cellhipo(cell)))
     {1, 2, 3, 4, 5, 6, 7, 8, 9}
@@ -177,8 +177,8 @@ def ens_cell0(grid,reverse = False):
     :return: a list of all cell with a value at 0 if reverse is True and the reverse if not
     :rtype: list of cells
     :UC: none
-
     :Examples:
+    
     >>> grid = sudoku_grid.make_grid()
     >>> len(ens_cell0(grid))
     81

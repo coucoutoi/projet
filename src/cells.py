@@ -48,8 +48,8 @@ def create():
     :return: a new cell of a sudoku's grid.
     :rtype: cell
     :UC: none
-
     :Examples:
+
     >>> create() == {'hipothetic': set(str(i) for i in range(1,10)), 'value': '0'}
     True
     """
@@ -67,8 +67,8 @@ def get_cellvalue(cell):
     :return: the value of the cell
     :rtype: str
     :UC: none
-
     :Examples:
+
     >>> cell = create()
     >>> get_cellvalue(cell)
     '0'
@@ -82,8 +82,8 @@ def get_cellhipo(cell):
     :return: all of hipothetic values of the cell
     :rtype: set
     :UC: none
-    
     :Examples:
+
     >>> cell = create()
     >>> get_cellhipo(cell) == {str(i) for i in range(1,10)}
     True
@@ -105,8 +105,8 @@ def set_cellvalue(cell,value):
     :rtype: NoneType
     :Action: modify the value of the cell
     :UC: value must be between 0 and 9
-
     :Examples:
+
     >>> cell = create()
     >>> get_cellvalue(cell)
     '0'
@@ -143,8 +143,8 @@ def unset_cellhipothetic(cell,hipo):
     :rtype: NoneType
     :Action: unset hipo of the hipothetics value of the cell
     :UC: none
-
     :Examples:
+
     >>> cell = create()
     >>> unset_cellhipothetic(cell,'2')
     >>> '2' in get_cellhipo(cell)

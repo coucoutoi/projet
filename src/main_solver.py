@@ -22,25 +22,25 @@ args = parser.parse_args()
 if __name__ == '__main__':
     if args.graphical:
         graphical.create()
-
-    talkative = False
-    grid = sudoku_grid.make_grid(args.sudoku_string)
-
-    if args.remove:
-        sudoku_solver.remove(grid)
     else:
+        talkative = False
+        grid = sudoku_grid.make_grid(args.sudoku_string)
 
-        compt_rec = sudoku_solver.search_sol(grid,talkative=args.talkative)
+        if args.remove:
+            sudoku_solver.remove(grid)
+        else:
 
-        if args.recursion:
-            if compt_rec:
-               print("There are {:d} recursions used for the resolution.".format(compt_rec))
-            else:
-                print("The algorithm don't used any recursion.")
+            compt_rec = sudoku_solver.search_sol(grid,talkative=args.talkative)
 
-        if args.image:
-            sudoku_solver.make_image(args.image)
-        elif "-i" in sys.argv or "--image" in sys.argv:
-            sudoku_solver.make_image()
+            if args.recursion:
+                if compt_rec:
+                   print("There are {:d} recursions used for the resolution.".format(compt_rec))
+                else:
+                    print("The algorithm don't used any recursion.")
+
+            if args.image:
+                sudoku_solver.make_image(args.image)
+            elif "-i" in sys.argv or "--image" in sys.argv:
+                sudoku_solver.make_image()
 
 # eof
