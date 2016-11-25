@@ -48,8 +48,8 @@ def create(string='0'*81):
     for ind_line in range(9):
         button_grid.insert(ind_line,[])
         for ind_col in range(9):
-            button = tk.Button(win, padx=0, pady=0, width=30, height=30, image=img[0])
-            button.grid(column=ind_line, row=ind_col)
+            button = tk.Button(win, padx=0, pady=0, width=30, height=30, image=img[int(string[ind_line*9+ind_col])])
+            button.grid(column=ind_col, row=ind_line)
             button_grid[ind_line].insert(ind_col, button)
             button.config(command=partial(__incre,button_grid,grid,ind_line,ind_col))
             button.bind('<Button-3>',partial(__decre,button_grid=button_grid,grid=grid,ind_line=ind_line,ind_col=ind_col))
@@ -71,7 +71,7 @@ def create(string='0'*81):
 
     start_button = tk.Button(win, text="start")
     start_button.grid(column=1,row=9)
-    start_button.config(command = partial(run,grid=grid))
+    start_button.config(command = partial(run,grid=grid,button_grid=button_grid))
     raz_button = tk.Button(win, text="RAZ")
     raz_button.grid(column=4,row=9)
     raz_button.config(command = partial(RAZ, grid = grid, button_grid = button_grid))
@@ -82,9 +82,13 @@ def create(string='0'*81):
     win.mainloop()
 
 
-def run(grid):
-    sudoku_solver.search_sol(grid)
-    sudoku_solver.make_image()
+def run(grid,button_grid):
+    sudoku_solver.ens_sol = set()
+    sudoku_solver.search_sol(grid,background=True)
+    grid = sudoku_grid.make_grid(sudoku_solver.ens_sol.pop())
+    for ind_line in range(9):
+        for ind_col in range(9):
+            __redraw(button_grid,grid,ind_line,ind_col)
 
 def RAZ(grid,button_grid):
     for ind_line in range(9):
@@ -113,8 +117,6 @@ def __incre(button_grid,grid,ind_line,ind_col):
     __redraw(button_grid,grid,ind_line,ind_col)
 
 def __redraw(button_grid,grid,ind_line,ind_col):
-    for i in range(9):
-        for j in range(9):
-            button = sudoku_grid.get_cell(button_grid,ind_line,ind_col)
-            cell = sudoku_grid.get_cell(grid,ind_line,ind_col)
-            button.config(image=img[int(cell['value'])])
+    button = sudoku_grid.get_cell(button_grid,ind_line,ind_col)
+    cell = sudoku_grid.get_cell(grid,ind_line,ind_col)
+    button.config(image=img[int(cell['value'])])

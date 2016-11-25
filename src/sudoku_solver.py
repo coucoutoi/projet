@@ -163,8 +163,6 @@ def search_sol(grid,talkative=False,background=False):
             compt_rec += 1
             father = save_father
 
-    return compt_rec
-
 def ens_cell0(grid,reverse = False):
     """
     return all cells with a value equal at 0 or if reverse is True, return all cells with a value different at 0

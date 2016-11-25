@@ -30,11 +30,11 @@ if __name__ == '__main__':
             sudoku_solver.remove(grid)
         else:
 
-            compt_rec = sudoku_solver.search_sol(grid,talkative=args.talkative)
+            sudoku_solver.search_sol(grid,talkative=args.talkative)
 
             if args.recursion:
-                if compt_rec:
-                   print("There are {:d} recursions used for the resolution.".format(compt_rec))
+                if sudoku_solver.compt_rec:
+                   print("There are {:d} recursions used for the resolution.".format(sudoku_solver.compt_rec))
                 else:
                     print("The algorithm don't used any recursion.")
 
