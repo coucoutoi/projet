@@ -23,6 +23,8 @@ if __name__ == '__main__':
     if args.graphical:
         graphical.create()
     else:
+        sudoku_solver.compt_rec = 0
+        sudoku_solver.ens_sol = set()
         talkative = False
         grid = sudoku_grid.make_grid(args.sudoku_string)
 
