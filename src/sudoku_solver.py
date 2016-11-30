@@ -143,7 +143,10 @@ def search_sol(grid,talkative=False,background=False):
         if not talkative and not background: #cette condition nous permet de ne pas imprimer 2 fois de suite chaque grille résolue si l'on choisi de mettre l'obtion talkative à la fonction
             sudoku_grid.print_grid(grid)
         ens_sol.add(sudoku_grid.grid2string(grid))
-        sol_way[-1]["resolved"] = True
+        try:
+            sol_way[-1]["resolved"] = True
+        except:
+            pass
 
     elif not_solved(grid): #si la grille que l'on a est insoluble on passe à la suite sans rien faire.
         pass
@@ -198,31 +201,41 @@ def remove(grid):
 
     :param grid: a sudoku grid
     :type grid: grid
-    :return: None
-    :rtype: NoneType
-    :Action: print a random grid with more emptys cells but with one solution
+    :return: the string of a random sudoku's grid with removed cells
+    :rtype: str
     :UC: none
     """
     global ens_sol
 
     cell_list = ens_cell0(grid,reverse = True)
     if len(cell_list) <= 17: #il est impossible d'avoir une grille de sudoku avec moins de 17 remplies si l'on veut avoir une unique solution
-        print("The most number of cell was remove")
-        sudoku_grid.print_grid(grid)
+        ens_sol = set()
+        compt_rec = 0
+        father = "SUDO"
+        sol_way = list()
+
+        return sudoku_grid.grid2string(grid)
     else:
         cell = cell_list[random.randint(1,len(cell_list)-1)] #on récupère une cellule au hasard dans l'ensemble des cellules non vides
         value = cells.get_cellvalue(cell)
         cells.set_cellvalue(cell,'0')
         string = sudoku_grid.grid2string(grid) #le fait de faire cette transformation nous permet de faire une mise à jour des valeurs hipothétiques
         search_sol(sudoku_grid.make_grid(string),background = True)
-        print(" A random sudoku grid with remove cells from the grid given:")
         if len(ens_sol) == 1:
             ens_sol = set()
-            remove(sudoku_grid.make_grid(string))
+            compt_rec = 0
+            father = "SUDO"
+            sol_way = list()
+
+            return remove(sudoku_grid.make_grid(string))
         else:
             ens_sol = set()
+            compt_rec = 0
+            father = "SUDO"
+            sol_way = list()
+            
             cells.set_cellvalue(cell,value)
-            sudoku_grid.print_grid(grid)
+            return sudoku_grid.grid2string(grid)
 
 def make_image(file_name="arbre"):
     """

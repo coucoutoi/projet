@@ -29,7 +29,9 @@ if __name__ == '__main__':
         grid = sudoku_grid.make_grid(args.sudoku_string)
 
         if args.remove:
-            sudoku_solver.remove(grid)
+            grid = sudoku_grid.make_grid(sudoku_solver.remove(grid))
+            print("This is a random grid:")
+            sudoku_grid.print_grid(grid)
         else:
 
             sudoku_solver.search_sol(grid,talkative=args.talkative)

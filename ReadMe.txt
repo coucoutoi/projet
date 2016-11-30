@@ -7,4 +7,5 @@ Pour pouvoir utiliser et lancer votre sudoku solver, vous pouvez utiliser les 2 
 		1ère méthode -> lancez un terminal et lancer le fichier main_solver.py suivi seulement de l'option -gr (ou --graphical) puis vous pourez utiliser votre solver
 		2nde méthode -> ouvrez le fichier graphical.py dans un terminal idle puis lancez le programme, il vous suffira ensuite appeler la fonction create et vous pourrez utiliser votre solver
 
-Information supplémentaire: l'option graphique du solver ne fonctionne pas lorsque vous utilisez la première méthode donnée
+Information supplémentaire: -l'option graphique du solver ne fonctionne pas lorsque vous utilisez la première méthode donnée.
+			    -sous windows, la création de l'arbre ne se fait pas automatiquement, il faut utiliser la ligne de commande suivante: dot -Tpng -o arbre.png arbre.dot

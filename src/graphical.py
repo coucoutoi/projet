@@ -22,11 +22,13 @@ import os
 import tkinter as tk
 from functools import partial
 import sudoku_grid, cells, sudoku_solver
+from tkinter.messagebox import *
 
 img = []
 
 def create(string='0'*81):
-    global img,win
+    global img,win,grid,recursion_check,image_check,remove_check
+
     grid = sudoku_grid.make_grid(string)
     win = tk.Tk()
     win.title('Sudoku Solver')
@@ -51,7 +53,7 @@ def create(string='0'*81):
             button = tk.Button(win, padx=0, pady=0, width=30, height=30, image=img[int(string[ind_line*9+ind_col])])
             button.grid(column=ind_col, row=ind_line)
             button_grid[ind_line].insert(ind_col, button)
-            button.config(command=partial(__change,button_grid,grid,ind_line,ind_col))
+            button.config(command=partial(__change,button_grid,ind_line,ind_col))
 
     for ind_square in range(9):
         button_list = sudoku_grid.get_square(button_grid,ind_square)
@@ -61,28 +63,33 @@ def create(string='0'*81):
             else:
                 button.config(bg="white")
 
-    talkative_var = tk.IntVar()
-    talkative_check = tk.Checkbutton(win,text = "talkative",variable = talkative_var)
-    talkative_check.grid(column = 9,row = 1)
-
-    recursion_var = tk.IntVar()
-    recursion_check = tk.Checkbutton(win,text = "recursion",variable = recursion_var)
-    recursion_check.grid(column = 9,row = 3)
+    text = tk.Label(win,text = "options:",font = "bold 16 italic")
+    text.grid(column = 9,row = 1)
 
     image_var = tk.IntVar()
     image_check = tk.Checkbutton(win,text = "image",variable = image_var)
-    image_check.grid(column = 9,row = 5)
+    image_check.grid(column = 9,row = 2)
 
     remove_var = tk.IntVar()
     remove_check = tk.Checkbutton(win,text = "remove",variable = remove_var)
-    remove_check.grid(column = 9,row = 7)
+    remove_check.grid(column = 9,row = 3)
+    
+    recursion_var = tk.IntVar()
+    recursion_check = tk.Checkbutton(win,text = "recursion",variable = recursion_var)
+    recursion_check.grid(column = 9,row = 4)
+
+    enter_button = tk.Button(win, text = "Write a grid")
+    enter_button.grid(column = 9,row = 5)
+    enter_button.config(command = partial(__popup,button_grid))
 
     start_button = tk.Button(win, text="start")
     start_button.grid(column=1,row=9)
-    start_button.config(command = partial(__run,button_grid,grid,talkative=talkative_var,rec=recursion_var,img=image_var,rm=remove_var))
+    start_button.config(command = partial(__run,button_grid,rec=recursion_var,img=image_var,rm=remove_var))
+
     raz_button = tk.Button(win, text="RAZ")
     raz_button.grid(column=4,row=9)
-    raz_button.config(command = partial(__RAZ,button_grid,grid))
+    raz_button.config(command = partial(__RAZ,button_grid))
+
     quit_button = tk.Button(win, text="quit")
     quit_button.grid(column=7,row=9)
     quit_button.config(command = win.destroy)
@@ -90,14 +97,19 @@ def create(string='0'*81):
     win.mainloop()
 
 
-def __clavier(button_grid,grid,ind_line,ind_col,event):
+def __clavier(button_grid,ind_line,ind_col,event):
+    global grid
+
     value = event.keysym
     if value in set(str(i) for i in range(10)):
         cell = sudoku_grid.get_cell(grid,ind_line,ind_col)
         cells.set_cellvalue(cell,str(value))
-        __redraw(button_grid,grid,ind_line,ind_col)
+        __redraw(button_grid,ind_line,ind_col)
 
-def __change(button_grid,grid,ind_line,ind_col):
+
+def __change(button_grid,ind_line,ind_col):
+    global grid
+
     for ind_square in range(9):
         button_list = sudoku_grid.get_square(button_grid,ind_square)
         for button in button_list:
@@ -105,35 +117,93 @@ def __change(button_grid,grid,ind_line,ind_col):
                 button.config(bg="black")
             else:
                 button.config(bg="white")
+
     button = sudoku_grid.get_cell(button_grid,ind_line,ind_col)
     button.config(bg="blue")
-    win.bind("<Key>",partial(__clavier,button_grid,grid,ind_line,ind_col))
+    win.bind("<Key>",partial(__clavier,button_grid,ind_line,ind_col))
 
-def __run(button_grid,grid,talkative,rec,img,rm):
+
+def __run(button_grid,rec,img,rm):
+    global grid,recursion_ckek,image_check,remove_chek
+
+    sudoku_solver.sol_way = list()
     sudoku_solver.ens_sol = set()
+    sudoku_solver.father = "SUDO"
     sudoku_solver.compt_rec = 0
-    sudoku_solver.search_sol(grid,background=True)
-    grid = sudoku_grid.make_grid(sudoku_solver.ens_sol.pop())
-    for ind_line in range(9):
-        for ind_col in range(9):
-            __redraw(button_grid,grid,ind_line,ind_col)
-    if rec.get():
-        print(sudoku_solver.compt_rec)
-    elif img.get():
-        sudoku_solver.make_image()
-    elif rm.get():
-        sudoku_solver.remove(grid)
 
-def __RAZ(button_grid,grid):
+    if rm.get():
+        grid = sudoku_grid.make_grid(sudoku_solver.remove(grid))
+
+        for ind_line in range(9):
+            for ind_col in range(9):
+                __redraw(button_grid,ind_line,ind_col)
+    else:
+        sudoku_solver.search_sol(grid,background=True)
+        grid = sudoku_grid.make_grid(sudoku_solver.ens_sol.pop())
+
+        for ind_line in range(9):
+            for ind_col in range(9):
+                __redraw(button_grid,ind_line,ind_col)
+
+        if rec.get():
+            showinfo("Recursion","Le programme a effecté "+str(sudoku_solver.compt_rec)+" recursions")
+        elif img.get():
+            sudoku_solver.make_image()
+
+    recursion_check.deselect()
+    image_check.deselect()
+    remove_check.deselect()
+
+
+def __RAZ(button_grid):
+    global grid
+
     for ind_line in range(9):
         for ind_col in range(9):
             cell = sudoku_grid.get_cell(grid,ind_line,ind_col)
             if int(cells.get_cellvalue(cell)):
                 cells.set_cellvalue(cell,'0')
-                __redraw(button_grid,grid,ind_line,ind_col)
+            __redraw(button_grid,ind_line,ind_col)
 
-def __redraw(button_grid,grid,ind_line,ind_col):
+
+def __redraw(button_grid,ind_line,ind_col):
+    global grid
+
     button = sudoku_grid.get_cell(button_grid,ind_line,ind_col)
     cell = sudoku_grid.get_cell(grid,ind_line,ind_col)
     value = cells.get_cellvalue(cell)
     button.config(image=img[int(value)])
+
+
+def __popup(button_grid):
+    global popup,enter
+    popup = tk.Tk()
+
+    label = tk.Label(popup,text = "Enter a new your grid")
+    label.pack(side = 'top')
+
+    string = tk.StringVar()    
+    enter = tk.Entry(popup,textvariable = string)
+    enter.bind("<Return>",partial(__write,button_grid))
+    enter.pack()
+
+    button = tk.Button(popup,text = "Ok")
+    button.bind("<Button-1>",partial(__write,button_grid))
+    button.pack(side = 'bottom')
+
+    popup.mainloop()
+
+
+def __write(button_grid,self):
+    global grid
+
+    try:
+        string = enter.get()
+        grid = sudoku_grid.make_grid(string)
+        for ind_line in range(9):
+            for ind_col in range(9):
+                __redraw(button_grid,ind_line,ind_col)
+    except:
+        showerror("NotGoodValueError","You will enter 81 integers between 0 and 9 without anything else for create a new grid")
+
+    popup.destroy()
