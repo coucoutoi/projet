@@ -158,3 +158,5 @@ def unset_cellhipothetic(cell,hipo):
 if __name__ == '__main__':
     import doctest
     doctest.testmod()
+
+# eof

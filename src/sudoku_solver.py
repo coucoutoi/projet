@@ -19,9 +19,12 @@ This module provides sudoku solver's primitive operations
 * `complete_1hipo`
 * `ens_cell0`
 * `remove`
+* `make_image`
 """
 
 
+from os import system
+from time import sleep
 import sudoku_grid, cells, random
 
 ##############################################
@@ -117,6 +120,34 @@ def not_solved(grid):
                 return True #renvoie True si une cellules ne possède aucune valeur hipothetic et que sa valeur est 0
     return False
 
+
+def is_solved(grid):
+    """
+    say if grid is a resolved grid
+
+    :param grid: a sudoku's grid
+    :type grid: grid
+    :return: True if it's resolved and False if not
+    :rtype: bool
+    :UC: none
+    """
+    for ind_line in range(9):
+        cell_list = sudoku_grid.get_line(grid,ind_line)
+        if len(set(cells.get_cellvalue(cell) for cell in cell_list)) != 9:
+            return False
+
+    for ind_col in range(9):
+        cell_list = sudoku_grid.get_colomn(grid,ind_col)
+        if len(set(cells.get_cellvalue(cell) for cell in cell_list)) != 9:
+            return False
+
+    for ind_square in range(9):
+        cell_list = sudoku_grid.get_square(grid,ind_square)
+        if len(set(cells.get_cellvalue(cell) for cell in cell_list)) != 9:
+            return False
+    return True
+
+
 def search_sol(grid,talkative=False,background=False):
     """
     this algorithm search all solutions of a sudoku
@@ -137,16 +168,18 @@ def search_sol(grid,talkative=False,background=False):
     global sol_way, ens_sol, father, compt_rec
 
     if talkative:
+        system("clear")
         sudoku_grid.print_grid(grid)
-
-    if len(ens_cell0(grid)) == 0: #si la grille est résolue (il n'y a aucune cellule à valeur 0), on imprimera la grille et stockera la chaine de caractère correspondante à cette grille dans une variable globale
-        if not talkative and not background: #cette condition nous permet de ne pas imprimer 2 fois de suite chaque grille résolue si l'on choisi de mettre l'obtion talkative à la fonction
-            sudoku_grid.print_grid(grid)
-        ens_sol.add(sudoku_grid.grid2string(grid))
-        try:
-            sol_way[-1]["resolved"] = True
-        except:
-            pass
+        sleep(0.1)
+    if len(ens_cell0(grid)) == 0: # on vérifie si il n'y a aucune cellule à valeur 0
+        if is_solved(grid): #si la solution de la grille est résolu, on imprimera la grille et stockera la chaine de caractère correspondante à cette grille dans une variable globale
+            if not talkative and not background: #cette condition nous permet de ne pas imprimer 2 fois de suite chaque grille résolue si l'on choisi de mettre l'obtion talkative à la fonction
+                sudoku_grid.print_grid(grid)
+            ens_sol.add(sudoku_grid.grid2string(grid))
+            try:
+                sol_way[-1]["resolved"] = True
+            except:
+                pass
 
     elif not_solved(grid): #si la grille que l'on a est insoluble on passe à la suite sans rien faire.
         pass
@@ -161,7 +194,7 @@ def search_sol(grid,talkative=False,background=False):
             father = [(str(hipo),cell_min[2],cell_min[1]),compt_rec] # on réattribue la nouvelle valuer de father
             cells.set_cellvalue(cell_min[0],hipo)
             string = sudoku_grid.grid2string(grid)
-            grid_bis = sudoku_grid.make_grid(string)
+            grid_bis = sudoku_grid.make_grid(string) #on utilise une variable temporaire pour tester la valeur attribuée
             search_sol(grid_bis, talkative = talkative, background = background)
             compt_rec += 1
             father = save_father
@@ -209,7 +242,7 @@ def remove(grid):
 
     cell_list = ens_cell0(grid,reverse = True)
     if len(cell_list) <= 17: #il est impossible d'avoir une grille de sudoku avec moins de 17 remplies si l'on veut avoir une unique solution
-        ens_sol = set()
+        ens_sol = set() #on réinitialise les variables globales
         compt_rec = 0
         father = "SUDO"
         sol_way = list()
@@ -222,14 +255,14 @@ def remove(grid):
         string = sudoku_grid.grid2string(grid) #le fait de faire cette transformation nous permet de faire une mise à jour des valeurs hipothétiques
         search_sol(sudoku_grid.make_grid(string),background = True)
         if len(ens_sol) == 1:
-            ens_sol = set()
+            ens_sol = set() #on réinitialise les variables globales
             compt_rec = 0
             father = "SUDO"
             sol_way = list()
 
             return remove(sudoku_grid.make_grid(string))
         else:
-            ens_sol = set()
+            ens_sol = set() #on réinitialise les variables globales
             compt_rec = 0
             father = "SUDO"
             sol_way = list()
@@ -267,11 +300,13 @@ def make_image(file_name="arbre"):
 
     with open(file_name+".dot",'w') as stream:
         stream.write(text+"}")
-    import os
-    os.system("dot -Tpng -o "+file_name+".png "+file_name+".dot")
+
+    system("dot -Tpng -o "+file_name+".png "+file_name+".dot")
 
 
 
 if __name__ == '__main__':
     import doctest
     doctest.testmod()
+
+# eof
