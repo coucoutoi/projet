@@ -1,11 +1,23 @@
-Pour pouvoir utiliser et lancer votre sudoku solver, vous pouvez utiliser les 2 modes diffÃ©rentes:
-	# LE MODE TEXTUEL #
-		1Ã¨re mÃ©thode -> lancez un terminal et lancer le fichier main_solver.py suivi de la grille sous forme d'une suite de nombre avec des 0 pour symboliser une case vide (pour avoir plus d'informations sur les diffÃ©rentes options disponible de votre solver, lancer le fichier suivi de -h ou --help pour appliquer la fonction d'aide)
-		2nde mÃ©thode -> ouvrez le fichier sudoku_solver.py dans un terminal idle puis lancez le programme, il vous suffira ensuite de crÃ©er une grille avec la fonction make_grid du module sudoku_grid (celui-ci est dÃ©jÃ  importÃ©, utiliser une ligne de code sous cette forme: >>> gird = sudoku_grid.make_grid(string) oÃ¹ string correspond Ã  votre chaÃ®ne de caractÃ¨re reprÃ©sentant la grille) et de lui apliquer la fonction search_sol (vous pourrez alors utiliser cette ligne de code: >>> search_sol(grid))
+HULSKEN Alexandre & KARTI Adeniss
 
-	# LE MODE GRAPHIQUE #
-		1Ã¨re mÃ©thode -> lancez un terminal et lancer le fichier main_solver.py suivi seulement de l'option -gr (ou --graphical) puis vous pourez utiliser votre solver
-		2nde mÃ©thode -> ouvrez le fichier graphical.py dans un terminal idle puis lancez le programme, il vous suffira ensuite appeler la fonction create et vous pourrez utiliser votre solver
+	SUDOKU SOLVER
 
-Information supplÃ©mentaire: -sous, windows, l'option graphique du solver ne fonctionne pas lorsque vous utilisez la premiÃ¨re mÃ©thode donnÃ©e.
-			    -sous windows, la crÃ©ation de l'arbre ne se fait pas automatiquement dans le module graphique, il faut utiliser la ligne de commande suivante: dot -Tpng -o arbre.png arbre.dot
+Le solver a été entièrement réalisé.
+Il est possible d'utiliser plusieurs extensions sous forme d'options au programme:
+   * une option qui fait un affichage pas à pas
+   * une option qui construit une image de l'arbre de résolution
+   * une option qui fait un calcul du coût de récursion
+   * une option qui construit une sous grille à celle donnée avec moins de cellules définies tout en gardant une unique solution
+   * un module graphique de solver qui possède toutes les options définies dans le module textuel avvec la possibilité d'écrire une nouvelle grille à tout moment
+   * un module graphique de jeu qui possède de nombreuses options (tel que la sauvegarde de la partie dans une fichier .grd, une extention créé pour l'occasion, un reset des cases remplies, l'ouverture d'un jeu enregistré ou d'une grille de l'un des fichiers fournis en fonction du choix de difficulté, etc...)
+   * un module de gestion total des modules graphiques
+
+Les exemples possibles à utiliser pour le module textuel à partir du main sont:
+* python3 main_projet.py -h
+* python3 main_projet.py 495381267671245938382697154263578400814962375957134682738426500129853746546791823
+* python3 main_projet.py 495381267671245938382697154263578491814962375957134682738416529129853746546729813 -rm
+* python3 main_projet.py 000500420700100000300000000000038000040000050000070000150600000000000803000000002 -i lArbreTestRienQuePourVous -rec
+* python3 main_projet.py 495381267671245938382697154263578400814962375957134682738426500129853746546791823 -i
+* python3 main_projet.py 490001007000045030382600050003070401800902005907030600030006529020850000500700013 -t
+* python3 main_projet.py 490001007000045030382600050003070401800902005907030600030006529020850000500700013 -rm -t
+* python3 main_projet.py -gr

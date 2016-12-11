@@ -15,17 +15,18 @@ This module provides sudoku solver's primitive operations
 * `MAJ_hipothetic`
 * `find_cell_min`
 * `not_solved`
+* `is_solved`
 * `search_sol`
-* `complete_1hipo`
 * `ens_cell0`
 * `remove`
 * `make_image`
 """
 
 
-from os import system
+import os
 from time import sleep
-import sudoku_grid, cells, random
+import sudoku_grid, cells
+import random
 
 ##############################################
 # Functions for grid's setup and management
@@ -168,10 +169,10 @@ def search_sol(grid,talkative=False,background=False):
     global sol_way, ens_sol, father, compt_rec
 
     if talkative:
-        system("clear")
+        os.system("clear")
         sudoku_grid.print_grid(grid)
         sleep(0.1)
-    if len(ens_cell0(grid)) == 0: # on vérifie si il n'y a aucune cellule à valeur 0
+    if not len(ens_cell0(grid)): # on vérifie si il n'y a aucune cellule à valeur 0
         if is_solved(grid): #si la solution de la grille est résolu, on imprimera la grille et stockera la chaine de caractère correspondante à cette grille dans une variable globale
             if not talkative and not background: #cette condition nous permet de ne pas imprimer 2 fois de suite chaque grille résolue si l'on choisi de mettre l'obtion talkative à la fonction
                 sudoku_grid.print_grid(grid)
@@ -301,7 +302,9 @@ def make_image(file_name="arbre"):
     with open(file_name+".dot",'w') as stream:
         stream.write(text+"}")
 
-    system("dot -Tpng -o "+file_name+".png "+file_name+".dot")
+    if os.name == "nt":
+        os.system("bash")
+    os.system("dot -Tpng -o "+file_name+".png "+file_name+".dot")
 
 
 

@@ -9,6 +9,10 @@ UP-DATE HIPOTHETIC
 ------------------
 .. autofunction:: sudoku_solver.MAJ_hipothetic
 
+IS SOLVED
+---------
+.. autofunction:: sudoku_solver.is_solved
+
 NOT SOLVED
 ----------
 .. autofunction:: sudoku_solver.not_solved

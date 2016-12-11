@@ -25,7 +25,7 @@ This module provides grid's primitive operations for the sudoku solver.
 """
 
 
-import cells,sudoku_solver
+import cells, sudoku_solver
 
 
 #############################

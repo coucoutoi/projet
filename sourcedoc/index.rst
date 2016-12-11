@@ -9,3 +9,4 @@
    cells
    sudoku_grid
    sudoku_solver
+   graphical
