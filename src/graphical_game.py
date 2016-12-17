@@ -182,6 +182,11 @@ def __RAZ(button_grid):
     for ind_line in range(9):
         for ind_col in range(9):
             __redraw(button_grid,ind_line,ind_col)
+            button = sudoku_grid.get_cell(button_grid, ind_line, ind_col)
+            if not button["bg"] in ("grey", "white", "blue"):
+                ind_square = sudoku_grid.get_nthsquare(ind_line, ind_col)
+                color_list = ["white", "grey"]
+                button.config(bg = color_list[ind_square%2])
 
 
 def __clavier(button_grid,ind_line,ind_col,event):
@@ -229,8 +234,10 @@ def __redraw(button_grid,ind_line,ind_col,solver=False):
     cell = sudoku_grid.get_cell(grid,ind_line,ind_col)
     value = cells.get_cellvalue(cell)
     button.config(image=img[int(value)])
-    if sudoku_solver.is_solved(grid) and not len(sudoku_solver.ens_cell0(grid)) and not solver:
-        showinfo("CONGRATULATIONS","You have finished the sudoku")
+    if sudoku_solver.is_solved(grid) and not len(sudoku_solver.ens_cell0(grid)):
+        __disabled_grid(button_grid)
+        if not solver:
+            showinfo("CONGRATULATIONS","You have finished the sudoku")
 
 
 def __open_grid(button_grid,save = False):
@@ -272,6 +279,7 @@ def __choose_diff(button_grid):
     This function manage a popup to choose a difficulty of grid.
     """
     root = tk.Tk()
+    root.title("Choose difficulty")
 
     label = tk.Label(root, text = "Choose a difficulty:")
     label.pack()
@@ -355,12 +363,13 @@ def __solve(button_grid):
     """
     This function resolved the sudoku grid and print one of its solutions
     """
-    global grid, string
+    global grid, string, img
 
     if not len(sudoku_solver.ens_cell0(grid, reverse = True)):
         showerror("ERROR","Open a grid before before wanted to solved it...")
         return None
 
+    temp_grid = grid
     try:
         sudoku_solver.search_sol(sudoku_grid.make_grid(string), background = True)
     except:
@@ -376,11 +385,36 @@ def __solve(button_grid):
 
     for ind_line in range(9):
         for ind_col in range(9):
+            button = sudoku_grid.get_cell(button_grid, ind_line, ind_col)
+            if button["bg"] in ("red", "green"):
+                ind_square = sudoku_grid.get_nthsquare(ind_line, ind_col)
+                if ind_square%2:
+                    button.config(bg = "grey")
+                else:
+                    button.config(bg = "white")
+
             __redraw(button_grid, ind_line, ind_col, solver = True)
+
+
+def __disabled_grid(button_grid):
+    """
+    This function disabled all button of the grid and get its initial color.
+    """
+    for ind_line in range(9):
+        for ind_col in range(9):
+            button = sudoku_grid.get_cell(button_grid, ind_line, ind_col)
+            button.config(state = "disabled")
+            ind_square = sudoku_grid.get_nthsquare(ind_line, ind_col)
+            if ind_square%2:
+                button.config(bg = "grey")
+            else:
+                button.config(bg = "white")
+                
 
 
 def __correction(button_grid):
     """
+    This function manage the correction of values enter by the user.
     """
     global grid, string
 

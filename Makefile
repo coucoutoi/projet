@@ -1,5 +1,5 @@
 PROJECT=sudoku solver
-AUTHOR= HULSKEN Alexandre & KARTI Adeniss
+AUTHOR= HULSKEN Alexandre and KARTI Adeniss
 PYTHONPATH=./src
 export PYTHONPATH
 SPHINXBUILD=sphinx-build

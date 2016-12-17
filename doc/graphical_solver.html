@@ -1,0 +1,304 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>graphical_solver module &mdash; sudoku solver 0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="sudoku solver 0 documentation" href="index.html" />
+    <link rel="next" title="graphical_game module" href="graphical_game.html" />
+    <link rel="prev" title="sudoku_solver module" href="sudoku_solver.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="graphical_game.html" title="graphical_game module"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="sudoku_solver.html" title="sudoku_solver module"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">sudoku solver 0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-graphical_solver">
+<span id="graphical-solver-module"></span><h1><a class="reference internal" href="#module-graphical_solver" title="graphical_solver"><code class="xref py py-mod docutils literal"><span class="pre">graphical_solver</span></code></a> module<a class="headerlink" href="#module-graphical_solver" title="Permalink to this headline">¶</a></h1>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">mod:</th><td class="field-body"><cite>graphical_solver</cite> module</td>
+</tr>
+<tr class="field-even field"><th class="field-name">author:</th><td class="field-body">HULSKEN Alexandre &amp; KARTI Adeniss</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">date:</th><td class="field-body">2016, november/december</td>
+</tr>
+</tbody>
+</table>
+<p>This module provides graphicals&#8217; primitive operations for the sudoku solver.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Provides:</th><td class="field-body"></td>
+</tr>
+</tbody>
+</table>
+<ul class="simple">
+<li><cite>create</cite></li>
+<li><cite>help_option</cite></li>
+<li><cite>__write</cite></li>
+<li><cite>__RAZ</cite></li>
+<li><cite>__popup</cite></li>
+<li><cite>__clavier</cite></li>
+<li><cite>__change</cite></li>
+<li><cite>__run</cite></li>
+<li><cite>__redraw</cite></li>
+<li><cite>__ativate</cite></li>
+</ul>
+<dl class="function">
+<dt id="graphical_solver.create">
+<code class="descclassname">graphical_solver.</code><code class="descname">create</code><span class="sig-paren">(</span><em>string='000000000000000000000000000000000000000000000000000000000000000000000000000000000'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphical_solver.html#create"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#graphical_solver.create" title="Permalink to this definition">¶</a></dt>
+<dd><p>this function creates the graphical board from a solver. It also
+launches the event loop. Thus, this is the only function to run to
+have a functional graphical board.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>string</strong> (<em>str</em>) &#8211; the sudoku</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">None</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">NoneType</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="graphical_solver.__write">
+<code class="descclassname">graphical_solver.</code><code class="descname">__write</code><span class="sig-paren">(</span><em>button_grid</em>, <em>self</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphical_solver.html#__write"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#graphical_solver.__write" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function write the new grid or shows an error if not a good value</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>button_grid</strong> (list of list of <code class="docutils literal"><span class="pre">button</span></code>) &#8211; the board of buttons</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="graphical_solver.__RAZ">
+<code class="descclassname">graphical_solver.</code><code class="descname">__RAZ</code><span class="sig-paren">(</span><em>button_grid</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphical_solver.html#__RAZ"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#graphical_solver.__RAZ" title="Permalink to this definition">¶</a></dt>
+<dd><p>This funciton redraws the board with all cell&#8217;s values at &#8216;0&#8217;.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>button_grid</strong> (list of list of <code class="docutils literal"><span class="pre">button</span></code>) &#8211; the board of buttons</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="graphical_solver.__popup">
+<code class="descclassname">graphical_solver.</code><code class="descname">__popup</code><span class="sig-paren">(</span><em>button_grid</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphical_solver.html#__popup"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#graphical_solver.__popup" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function coordonates the popup to enter a new grid</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>button_grid</strong> (list of list of <code class="docutils literal"><span class="pre">button</span></code>) &#8211; the board of buttons</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="graphical_solver.__clavier">
+<code class="descclassname">graphical_solver.</code><code class="descname">__clavier</code><span class="sig-paren">(</span><em>button_grid</em>, <em>ind_line</em>, <em>ind_col</em>, <em>event</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphical_solver.html#__clavier"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#graphical_solver.__clavier" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function reads the event key system and attributes a value of the cell at coordonates ind_line,ind_col</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>button_grid</strong> (list of list of <code class="docutils literal"><span class="pre">button</span></code>) &#8211; the board of buttons</li>
+<li><strong>ind_line</strong> (<em>int</em>) &#8211; the line of the cell</li>
+<li><strong>ind_col</strong> (<em>int</em>) &#8211; the column of the cell</li>
+<li><strong>event</strong> (<em>event</em>) &#8211; the event who caused the function&#8217;s call</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="graphical_solver.__change">
+<code class="descclassname">graphical_solver.</code><code class="descname">__change</code><span class="sig-paren">(</span><em>button_grid</em>, <em>ind_line</em>, <em>ind_col</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphical_solver.html#__change"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#graphical_solver.__change" title="Permalink to this definition">¶</a></dt>
+<dd><p>this function attributes a new event for cells</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>button_grid</strong> (list of list of <code class="docutils literal"><span class="pre">button</span></code>) &#8211; the board of buttons</li>
+<li><strong>ind_line</strong> (<em>int</em>) &#8211; the line of the cell</li>
+<li><strong>ind_col</strong> (<em>int</em>) &#8211; the column of the cell</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="graphical_solver.__run">
+<code class="descclassname">graphical_solver.</code><code class="descname">__run</code><span class="sig-paren">(</span><em>button_grid</em>, <em>rec</em>, <em>img</em>, <em>rm</em>, <em>t</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphical_solver.html#__run"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#graphical_solver.__run" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function starts and coordonates the solver algorithm</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>button_grid</strong> (list of list of <code class="docutils literal"><span class="pre">button</span></code>) &#8211; the board of buttons</li>
+<li><strong>rec</strong> &#8211; the value of the recursion checker</li>
+<li><strong>img</strong> &#8211; the value of the image checker</li>
+<li><strong>rm</strong> &#8211; the value of the remove checker</li>
+<li><strong>t</strong> &#8211; the value of the talkative checker</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="graphical_solver.__redraw">
+<code class="descclassname">graphical_solver.</code><code class="descname">__redraw</code><span class="sig-paren">(</span><em>button_grid</em>, <em>ind_line</em>, <em>ind_col</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphical_solver.html#__redraw"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#graphical_solver.__redraw" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function draws the board. Position ind_line and ind_col are used to test
+which number icon has to be drawn.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>button_grid</strong> (list of list of <code class="docutils literal"><span class="pre">button</span></code>) &#8211; the board of buttons</li>
+<li><strong>ind_line</strong> (<em>int</em>) &#8211; the line of the cell</li>
+<li><strong>ind_col</strong> (<em>int</em>) &#8211; the column of the cell</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="graphical_solver.__activate">
+<code class="descclassname">graphical_solver.</code><code class="descname">__activate</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphical_solver.html#__activate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#graphical_solver.__activate" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function ables the enter_button</p>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="index.html">
+              <img class="logo" src="_static/logo_FIL.png" alt="Logo"/>
+            </a></p>
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="sudoku_solver.html"
+                        title="previous chapter"><code class="docutils literal"><span class="pre">sudoku_solver</span></code> module</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="graphical_game.html"
+                        title="next chapter"><code class="docutils literal"><span class="pre">graphical_game</span></code> module</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/graphical_solver.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="graphical_game.html" title="graphical_game module"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="sudoku_solver.html" title="sudoku_solver module"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">sudoku solver 0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        ;<a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/fr/"> <img alt="Licence Creative Commons" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a>. <a href="http://www.fil.univ-lille1.fr">2016, HULSKEN Alexandre and KARTI Adeniss, Univ. Lille1</a>.
+      Last updated on 12/12/2016.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.6.
+    </div>
+  </body>
+</html>

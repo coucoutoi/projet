@@ -1,0 +1,511 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>graphical_solver &mdash; sudoku solver 0 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="sudoku solver 0 documentation" href="../index.html" />
+    <link rel="up" title="Module code" href="index.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">sudoku solver 0 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for graphical_solver</h1><div class="highlight"><pre>
+<span class="ch">#!/usr/bin/python3</span>
+<span class="c1"># -*- coding: utf-8 -*-</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">:mod: `graphical_solver` module</span>
+
+<span class="sd">:author: HULSKEN Alexandre &amp; KARTI Adeniss</span>
+
+<span class="sd">:date: 2016, november/december</span>
+
+<span class="sd">This module provides graphicals&#39; primitive operations for the sudoku solver.</span>
+
+<span class="sd">:Provides:</span>
+
+<span class="sd">* `create`</span>
+<span class="sd">* `help_option`</span>
+<span class="sd">* `__write`</span>
+<span class="sd">* `__RAZ`</span>
+<span class="sd">* `__popup`</span>
+<span class="sd">* `__clavier`</span>
+<span class="sd">* `__change`</span>
+<span class="sd">* `__run`</span>
+<span class="sd">* `__redraw`</span>
+<span class="sd">* `__ativate`</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">tkinter</span> <span class="kn">as</span> <span class="nn">tk</span>
+<span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">partial</span>
+<span class="kn">import</span> <span class="nn">sudoku_grid</span><span class="o">,</span> <span class="nn">cells</span><span class="o">,</span> <span class="nn">sudoku_solver</span>
+<span class="kn">from</span> <span class="nn">tkinter.messagebox</span> <span class="kn">import</span> <span class="o">*</span>
+
+<span class="n">img</span> <span class="o">=</span> <span class="p">[]</span>
+
+<div class="viewcode-block" id="create"><a class="viewcode-back" href="../graphical_solver.html#graphical_solver.create">[docs]</a><span class="k">def</span> <span class="nf">create</span><span class="p">(</span><span class="n">string</span><span class="o">=</span><span class="s1">&#39;0&#39;</span><span class="o">*</span><span class="mi">81</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    this function creates the graphical board from a solver. It also</span>
+<span class="sd">    launches the event loop. Thus, this is the only function to run to</span>
+<span class="sd">    have a functional graphical board.</span>
+
+<span class="sd">    :param string: the sudoku</span>
+<span class="sd">    :type string: str</span>
+<span class="sd">    :return: None</span>
+<span class="sd">    :rtype: NoneType</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">global</span> <span class="n">img</span><span class="p">,</span><span class="n">win</span><span class="p">,</span><span class="n">grid</span><span class="p">,</span><span class="n">recursion_check</span><span class="p">,</span><span class="n">image_check</span><span class="p">,</span><span class="n">remove_check</span><span class="p">,</span><span class="n">talkative_check</span><span class="p">,</span><span class="n">start_button</span><span class="p">,</span><span class="n">enter_button</span>
+
+    <span class="n">grid</span> <span class="o">=</span> <span class="n">sudoku_grid</span><span class="o">.</span><span class="n">make_grid</span><span class="p">(</span><span class="n">string</span><span class="p">)</span>
+    <span class="n">win</span> <span class="o">=</span> <span class="n">tk</span><span class="o">.</span><span class="n">Tk</span><span class="p">()</span>
+    <span class="n">win</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Sudoku Solver&#39;</span><span class="p">)</span>
+    <span class="n">iconpath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">__file__</span><span class="p">)),</span> <span class="s2">&quot;icons&quot;</span><span class="p">)</span>
+    <span class="n">img</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="n">tk</span><span class="o">.</span><span class="n">PhotoImage</span><span class="p">(</span><span class="nb">file</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">iconpath</span><span class="p">,</span> <span class="s2">&quot;0.gif&quot;</span><span class="p">)),</span>
+        <span class="n">tk</span><span class="o">.</span><span class="n">PhotoImage</span><span class="p">(</span><span class="nb">file</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">iconpath</span><span class="p">,</span> <span class="s2">&quot;1.gif&quot;</span><span class="p">)),</span>
+        <span class="n">tk</span><span class="o">.</span><span class="n">PhotoImage</span><span class="p">(</span><span class="nb">file</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">iconpath</span><span class="p">,</span> <span class="s2">&quot;2.gif&quot;</span><span class="p">)),</span>
+        <span class="n">tk</span><span class="o">.</span><span class="n">PhotoImage</span><span class="p">(</span><span class="nb">file</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">iconpath</span><span class="p">,</span> <span class="s2">&quot;3.gif&quot;</span><span class="p">)),</span>
+        <span class="n">tk</span><span class="o">.</span><span class="n">PhotoImage</span><span class="p">(</span><span class="nb">file</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">iconpath</span><span class="p">,</span> <span class="s2">&quot;4.gif&quot;</span><span class="p">)),</span>
+        <span class="n">tk</span><span class="o">.</span><span class="n">PhotoImage</span><span class="p">(</span><span class="nb">file</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">iconpath</span><span class="p">,</span> <span class="s2">&quot;5.gif&quot;</span><span class="p">)),</span>
+        <span class="n">tk</span><span class="o">.</span><span class="n">PhotoImage</span><span class="p">(</span><span class="nb">file</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">iconpath</span><span class="p">,</span> <span class="s2">&quot;6.gif&quot;</span><span class="p">)),</span>
+        <span class="n">tk</span><span class="o">.</span><span class="n">PhotoImage</span><span class="p">(</span><span class="nb">file</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">iconpath</span><span class="p">,</span> <span class="s2">&quot;7.gif&quot;</span><span class="p">)),</span>
+        <span class="n">tk</span><span class="o">.</span><span class="n">PhotoImage</span><span class="p">(</span><span class="nb">file</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">iconpath</span><span class="p">,</span> <span class="s2">&quot;8.gif&quot;</span><span class="p">)),</span>
+        <span class="n">tk</span><span class="o">.</span><span class="n">PhotoImage</span><span class="p">(</span><span class="nb">file</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">iconpath</span><span class="p">,</span> <span class="s2">&quot;9.gif&quot;</span><span class="p">))</span>
+        <span class="p">]</span>
+    <span class="n">button_grid</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+
+    <span class="n">grid_frame</span> <span class="o">=</span> <span class="n">tk</span><span class="o">.</span><span class="n">Frame</span><span class="p">(</span><span class="n">win</span><span class="p">,</span><span class="n">bd</span><span class="o">=</span><span class="mf">1.5</span><span class="p">,</span><span class="n">bg</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">)</span>
+    <span class="n">grid_frame</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">column</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="n">row</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="n">columnspan</span><span class="o">=</span><span class="mi">9</span><span class="p">,</span><span class="n">rowspan</span><span class="o">=</span><span class="mi">9</span><span class="p">,</span><span class="n">padx</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span><span class="n">pady</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">ind_line</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">9</span><span class="p">):</span>
+        <span class="n">button_grid</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">ind_line</span><span class="p">,[])</span>
+        <span class="k">for</span> <span class="n">ind_col</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">9</span><span class="p">):</span>
+            <span class="n">cell</span> <span class="o">=</span> <span class="n">sudoku_grid</span><span class="o">.</span><span class="n">get_cell</span><span class="p">(</span><span class="n">grid</span><span class="p">,</span> <span class="n">ind_line</span><span class="p">,</span> <span class="n">ind_col</span><span class="p">)</span>
+            <span class="n">value</span> <span class="o">=</span> <span class="n">cells</span><span class="o">.</span><span class="n">get_cellvalue</span><span class="p">(</span><span class="n">cell</span><span class="p">)</span>
+            
+            <span class="n">button</span> <span class="o">=</span> <span class="n">tk</span><span class="o">.</span><span class="n">Button</span><span class="p">(</span><span class="n">grid_frame</span><span class="p">,</span> <span class="n">padx</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">pady</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">image</span><span class="o">=</span><span class="n">img</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">value</span><span class="p">)])</span>
+            <span class="n">button</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">column</span><span class="o">=</span><span class="n">ind_col</span><span class="p">,</span> <span class="n">row</span><span class="o">=</span><span class="n">ind_line</span><span class="p">)</span>
+            <span class="n">button_grid</span><span class="p">[</span><span class="n">ind_line</span><span class="p">]</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">ind_col</span><span class="p">,</span> <span class="n">button</span><span class="p">)</span>
+            <span class="n">button</span><span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="n">command</span><span class="o">=</span><span class="n">partial</span><span class="p">(</span><span class="n">__change</span><span class="p">,</span><span class="n">button_grid</span><span class="p">,</span><span class="n">ind_line</span><span class="p">,</span><span class="n">ind_col</span><span class="p">))</span>
+
+    <span class="k">for</span> <span class="n">ind_square</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">9</span><span class="p">):</span>
+        <span class="n">button_list</span> <span class="o">=</span> <span class="n">sudoku_grid</span><span class="o">.</span><span class="n">get_square</span><span class="p">(</span><span class="n">button_grid</span><span class="p">,</span><span class="n">ind_square</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">button</span> <span class="ow">in</span> <span class="n">button_list</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">ind_square</span><span class="o">%</span><span class="mi">2</span><span class="p">:</span>
+                <span class="n">button</span><span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="n">bg</span><span class="o">=</span><span class="s2">&quot;grey&quot;</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">button</span><span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="n">bg</span><span class="o">=</span><span class="s2">&quot;white&quot;</span><span class="p">)</span>
+
+    <span class="n">options_frame</span> <span class="o">=</span> <span class="n">tk</span><span class="o">.</span><span class="n">Frame</span><span class="p">(</span><span class="n">win</span><span class="p">)</span>
+    <span class="n">options_frame</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">column</span><span class="o">=</span><span class="mi">9</span><span class="p">,</span><span class="n">row</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="n">rowspan</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+    
+    <span class="n">text</span> <span class="o">=</span> <span class="n">tk</span><span class="o">.</span><span class="n">Label</span><span class="p">(</span><span class="n">options_frame</span><span class="p">,</span><span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;options:&quot;</span><span class="p">,</span><span class="n">font</span> <span class="o">=</span> <span class="s2">&quot;bold 16 italic&quot;</span><span class="p">)</span>
+    <span class="n">text</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span><span class="n">pady</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+
+    <span class="n">image_var</span> <span class="o">=</span> <span class="n">tk</span><span class="o">.</span><span class="n">IntVar</span><span class="p">()</span>
+    <span class="n">image_check</span> <span class="o">=</span> <span class="n">tk</span><span class="o">.</span><span class="n">Checkbutton</span><span class="p">(</span><span class="n">options_frame</span><span class="p">,</span><span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;arbre&quot;</span><span class="p">,</span><span class="n">variable</span> <span class="o">=</span> <span class="n">image_var</span><span class="p">)</span>
+    <span class="n">image_check</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span><span class="n">sticky</span><span class="o">=</span><span class="s2">&quot;nw&quot;</span><span class="p">,</span><span class="n">padx</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span><span class="n">pady</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+
+    <span class="n">remove_var</span> <span class="o">=</span> <span class="n">tk</span><span class="o">.</span><span class="n">IntVar</span><span class="p">()</span>
+    <span class="n">remove_check</span> <span class="o">=</span> <span class="n">tk</span><span class="o">.</span><span class="n">Checkbutton</span><span class="p">(</span><span class="n">options_frame</span><span class="p">,</span><span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;remove&quot;</span><span class="p">,</span><span class="n">variable</span> <span class="o">=</span> <span class="n">remove_var</span><span class="p">)</span>
+    <span class="n">remove_check</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span><span class="n">sticky</span><span class="o">=</span><span class="s2">&quot;nw&quot;</span><span class="p">,</span><span class="n">padx</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span><span class="n">pady</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+
+    <span class="n">talkative_var</span> <span class="o">=</span> <span class="n">tk</span><span class="o">.</span><span class="n">IntVar</span><span class="p">()</span>
+    <span class="n">talkative_check</span> <span class="o">=</span> <span class="n">tk</span><span class="o">.</span><span class="n">Checkbutton</span><span class="p">(</span><span class="n">options_frame</span><span class="p">,</span><span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;talkative&quot;</span><span class="p">,</span><span class="n">variable</span> <span class="o">=</span> <span class="n">talkative_var</span><span class="p">)</span>
+    <span class="n">talkative_check</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span><span class="n">sticky</span><span class="o">=</span><span class="s2">&quot;nw&quot;</span><span class="p">,</span><span class="n">padx</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span><span class="n">pady</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+    
+    <span class="n">recursion_var</span> <span class="o">=</span> <span class="n">tk</span><span class="o">.</span><span class="n">IntVar</span><span class="p">()</span>
+    <span class="n">recursion_check</span> <span class="o">=</span> <span class="n">tk</span><span class="o">.</span><span class="n">Checkbutton</span><span class="p">(</span><span class="n">options_frame</span><span class="p">,</span><span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;recursion&quot;</span><span class="p">,</span><span class="n">variable</span> <span class="o">=</span> <span class="n">recursion_var</span><span class="p">)</span>
+    <span class="n">recursion_check</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span> <span class="o">=</span> <span class="mi">5</span><span class="p">,</span><span class="n">sticky</span><span class="o">=</span><span class="s2">&quot;nw&quot;</span><span class="p">,</span><span class="n">padx</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span><span class="n">pady</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+
+    <span class="n">enter_button</span> <span class="o">=</span> <span class="n">tk</span><span class="o">.</span><span class="n">Button</span><span class="p">(</span><span class="n">options_frame</span><span class="p">,</span> <span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;Write a grid&quot;</span><span class="p">)</span>
+    <span class="n">enter_button</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span> <span class="o">=</span> <span class="mi">6</span><span class="p">,</span><span class="n">padx</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span><span class="n">pady</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
+    <span class="n">enter_button</span><span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="n">bd</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span><span class="n">command</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span><span class="n">__popup</span><span class="p">,</span><span class="n">button_grid</span><span class="p">))</span>
+
+    <span class="n">image</span> <span class="o">=</span> <span class="n">tk</span><span class="o">.</span><span class="n">PhotoImage</span><span class="p">(</span><span class="nb">file</span> <span class="o">=</span> <span class="s1">&#39;icons/help-icon.png&#39;</span><span class="p">)</span>
+    <span class="n">can</span> <span class="o">=</span> <span class="n">tk</span><span class="o">.</span><span class="n">Canvas</span><span class="p">(</span><span class="n">options_frame</span><span class="p">,</span><span class="n">width</span> <span class="o">=</span> <span class="mi">40</span><span class="p">,</span><span class="n">height</span> <span class="o">=</span> <span class="mi">40</span><span class="p">)</span>
+    <span class="n">item</span> <span class="o">=</span> <span class="n">can</span><span class="o">.</span><span class="n">create_image</span><span class="p">(</span><span class="mi">24</span><span class="p">,</span><span class="mi">24</span><span class="p">,</span><span class="n">image</span> <span class="o">=</span> <span class="n">image</span><span class="p">)</span>
+    <span class="n">can</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span> <span class="o">=</span> <span class="mi">7</span><span class="p">)</span>
+    <span class="n">can</span><span class="o">.</span><span class="n">bind</span><span class="p">(</span><span class="s2">&quot;&lt;Button-1&gt;&quot;</span><span class="p">,</span><span class="n">help_option</span><span class="p">)</span>
+    
+
+    <span class="n">start_button</span> <span class="o">=</span> <span class="n">tk</span><span class="o">.</span><span class="n">Button</span><span class="p">(</span><span class="n">win</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s2">&quot;run&quot;</span><span class="p">)</span>
+    <span class="n">start_button</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">column</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">row</span><span class="o">=</span><span class="mi">9</span><span class="p">,</span><span class="n">pady</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+    <span class="n">start_button</span><span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="n">bd</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span><span class="n">command</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span><span class="n">__run</span><span class="p">,</span><span class="n">button_grid</span><span class="p">,</span><span class="n">rec</span><span class="o">=</span><span class="n">recursion_var</span><span class="p">,</span><span class="n">img</span><span class="o">=</span><span class="n">image_var</span><span class="p">,</span><span class="n">rm</span><span class="o">=</span><span class="n">remove_var</span><span class="p">,</span><span class="n">t</span><span class="o">=</span><span class="n">talkative_var</span><span class="p">))</span>
+
+    <span class="n">raz_button</span> <span class="o">=</span> <span class="n">tk</span><span class="o">.</span><span class="n">Button</span><span class="p">(</span><span class="n">win</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s2">&quot;RAZ&quot;</span><span class="p">)</span>
+    <span class="n">raz_button</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">column</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span><span class="n">row</span><span class="o">=</span><span class="mi">9</span><span class="p">)</span>
+    <span class="n">raz_button</span><span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="n">bd</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span><span class="n">command</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span><span class="n">__RAZ</span><span class="p">,</span><span class="n">button_grid</span><span class="p">))</span>
+
+    <span class="n">quit_button</span> <span class="o">=</span> <span class="n">tk</span><span class="o">.</span><span class="n">Button</span><span class="p">(</span><span class="n">win</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s2">&quot;exit&quot;</span><span class="p">)</span>
+    <span class="n">quit_button</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">column</span><span class="o">=</span><span class="mi">7</span><span class="p">,</span><span class="n">row</span><span class="o">=</span><span class="mi">9</span><span class="p">)</span>
+    <span class="n">quit_button</span><span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="n">bd</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span><span class="n">command</span> <span class="o">=</span> <span class="n">back</span><span class="p">)</span>
+
+    <span class="n">win</span><span class="o">.</span><span class="n">mainloop</span><span class="p">()</span></div>
+
+
+<span class="k">def</span> <span class="nf">help_option</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Create a window to explain how do use the graphical solver</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">first_text</span> <span class="o">=</span> <span class="s2">&quot;This is a little algorithm of sudoku solver coded by Alexandre &amp; Adeniss&quot;</span>
+    <span class="n">help_text</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+
+<span class="s2">    In this window, you can see several things, and we will see all for explain how do you use this sudoku solver.</span>
+
+<span class="s2">    For enter a grid:</span>
+<span class="s2">    - You can click on the button &quot;write a grid&quot; for open a popup.</span>
+<span class="s2">        In the entry of this, you do enter a sequence of integers between 1 and 9</span>
+<span class="s2">        and if you want to have an empty cell, enter 0.</span>
+<span class="s2">        For validate your entry, you can click on the &quot;ok&quot; button or on the keyboard key enter.</span>
+<span class="s2">    - You can also select a cell with a left click and use your keyboard for enter a number in this cell.</span>
+
+<span class="s2">    For reset your window, you must click on button &quot;RAZ&quot; and it&#39;s ok.</span>
+
+<span class="s2">    For used the different option of your solver, you can check checkers on rigth:</span>
+<span class="s2">        - The &quot;arbre&quot; checker:</span>
+<span class="s2">            if it used, the algorithm create a PNG picture of the sudoku&#39;s tree resolution</span>
+<span class="s2">        - The &quot;remove&quot; checker:</span>
+<span class="s2">            if it used, the algorithm remove cells to give a new gid with only one solution</span>
+<span class="s2">            WARNING: if you use this option, you can&#39;t an another option.</span>
+<span class="s2">        - The &quot;talkative&quot; checker:</span>
+<span class="s2">            this option print step of all steps of the solution</span>
+<span class="s2">        - The &quot;recursion&quot; checker:</span>
+<span class="s2">            open a popup to say how many recursions are used for resolved the sudoku</span>
+
+<span class="s2">    For run your solver with options&#39; wanted, click on the button &#39;write&#39;</span>
+<span class="s2">    If the sudoku have many solutions, the algorithm print all, one per one with a break of 3s</span>
+
+<span class="s2">    Finally, I hope you know what it&#39;s the button &#39;exit&#39;... ;)</span>
+<span class="s2">    &quot;&quot;&quot;</span>
+    <span class="n">window</span> <span class="o">=</span> <span class="n">tk</span><span class="o">.</span><span class="n">Tk</span><span class="p">()</span>
+    <span class="n">window</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;HELP&quot;</span><span class="p">)</span>
+
+    <span class="n">label1</span> <span class="o">=</span> <span class="n">tk</span><span class="o">.</span><span class="n">Label</span><span class="p">(</span><span class="n">window</span><span class="p">,</span><span class="n">text</span> <span class="o">=</span> <span class="n">first_text</span><span class="p">)</span>
+    <span class="n">label2</span> <span class="o">=</span> <span class="n">tk</span><span class="o">.</span><span class="n">Label</span><span class="p">(</span><span class="n">window</span><span class="p">,</span><span class="n">text</span> <span class="o">=</span> <span class="n">help_text</span><span class="p">,</span><span class="n">justify</span> <span class="o">=</span> <span class="s1">&#39;left&#39;</span><span class="p">)</span>
+    <span class="n">label1</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="n">padx</span> <span class="o">=</span> <span class="mi">5</span><span class="p">,</span><span class="n">pady</span> <span class="o">=</span> <span class="mi">5</span><span class="p">)</span>
+    <span class="n">label2</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="n">padx</span> <span class="o">=</span> <span class="mi">5</span><span class="p">)</span>
+
+    <span class="n">button</span> <span class="o">=</span> <span class="n">tk</span><span class="o">.</span><span class="n">Button</span><span class="p">(</span><span class="n">window</span><span class="p">,</span><span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;close&quot;</span><span class="p">,</span><span class="n">command</span> <span class="o">=</span> <span class="n">window</span><span class="o">.</span><span class="n">destroy</span><span class="p">)</span>
+    <span class="n">button</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="n">pady</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+
+    <span class="n">window</span><span class="o">.</span><span class="n">mainloop</span><span class="p">()</span>
+
+
+<div class="viewcode-block" id="__clavier"><a class="viewcode-back" href="../graphical_solver.html#graphical_solver.__clavier">[docs]</a><span class="k">def</span> <span class="nf">__clavier</span><span class="p">(</span><span class="n">button_grid</span><span class="p">,</span><span class="n">ind_line</span><span class="p">,</span><span class="n">ind_col</span><span class="p">,</span><span class="n">event</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This function reads the event key system and attributes a value of the cell at coordonates ind_line,ind_col</span>
+
+<span class="sd">    :param button_grid: the board of buttons</span>
+<span class="sd">    :type button_grid: list of list of ``button``</span>
+<span class="sd">    :param ind_line: the line of the cell</span>
+<span class="sd">    :type ind_line: int</span>
+<span class="sd">    :param ind_col: the column of the cell</span>
+<span class="sd">    :type ind_col: int</span>
+<span class="sd">    :param event: the event who caused the function&#39;s call</span>
+<span class="sd">    :type event: event</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">global</span> <span class="n">grid</span>
+
+    <span class="n">value</span> <span class="o">=</span> <span class="n">event</span><span class="o">.</span><span class="n">keysym</span>
+    <span class="k">if</span> <span class="n">value</span> <span class="ow">in</span> <span class="nb">set</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">))</span><span class="o">.</span><span class="n">union</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="s2">&quot;KP_&quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">))):</span>
+        <span class="n">cell</span> <span class="o">=</span> <span class="n">sudoku_grid</span><span class="o">.</span><span class="n">get_cell</span><span class="p">(</span><span class="n">grid</span><span class="p">,</span><span class="n">ind_line</span><span class="p">,</span><span class="n">ind_col</span><span class="p">)</span>
+        <span class="n">cells</span><span class="o">.</span><span class="n">set_cellvalue</span><span class="p">(</span><span class="n">cell</span><span class="p">,</span><span class="nb">str</span><span class="p">(</span><span class="n">value</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]))</span>
+        <span class="n">__redraw</span><span class="p">(</span><span class="n">button_grid</span><span class="p">,</span><span class="n">ind_line</span><span class="p">,</span><span class="n">ind_col</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="__change"><a class="viewcode-back" href="../graphical_solver.html#graphical_solver.__change">[docs]</a><span class="k">def</span> <span class="nf">__change</span><span class="p">(</span><span class="n">button_grid</span><span class="p">,</span><span class="n">ind_line</span><span class="p">,</span><span class="n">ind_col</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    this function attributes a new event for cells</span>
+
+<span class="sd">    :param button_grid: the board of buttons</span>
+<span class="sd">    :type button_grid: list of list of ``button``</span>
+<span class="sd">    :param ind_line: the line of the cell</span>
+<span class="sd">    :type ind_line: int</span>
+<span class="sd">    :param ind_col: the column of the cell</span>
+<span class="sd">    :type ind_col: int</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">global</span> <span class="n">grid</span>
+
+    <span class="k">for</span> <span class="n">ind_square</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">9</span><span class="p">):</span>
+        <span class="n">button_list</span> <span class="o">=</span> <span class="n">sudoku_grid</span><span class="o">.</span><span class="n">get_square</span><span class="p">(</span><span class="n">button_grid</span><span class="p">,</span><span class="n">ind_square</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">button</span> <span class="ow">in</span> <span class="n">button_list</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">ind_square</span><span class="o">%</span><span class="mi">2</span><span class="p">:</span>
+                <span class="n">button</span><span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="n">bg</span><span class="o">=</span><span class="s2">&quot;grey&quot;</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">button</span><span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="n">bg</span><span class="o">=</span><span class="s2">&quot;white&quot;</span><span class="p">)</span>
+
+    <span class="n">button</span> <span class="o">=</span> <span class="n">sudoku_grid</span><span class="o">.</span><span class="n">get_cell</span><span class="p">(</span><span class="n">button_grid</span><span class="p">,</span><span class="n">ind_line</span><span class="p">,</span><span class="n">ind_col</span><span class="p">)</span>
+    <span class="n">button</span><span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="n">bg</span><span class="o">=</span><span class="s2">&quot;blue&quot;</span><span class="p">)</span>
+    <span class="n">win</span><span class="o">.</span><span class="n">bind</span><span class="p">(</span><span class="s2">&quot;&lt;Key&gt;&quot;</span><span class="p">,</span><span class="n">partial</span><span class="p">(</span><span class="n">__clavier</span><span class="p">,</span><span class="n">button_grid</span><span class="p">,</span><span class="n">ind_line</span><span class="p">,</span><span class="n">ind_col</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="__run"><a class="viewcode-back" href="../graphical_solver.html#graphical_solver.__run">[docs]</a><span class="k">def</span> <span class="nf">__run</span><span class="p">(</span><span class="n">button_grid</span><span class="p">,</span><span class="n">rec</span><span class="p">,</span><span class="n">img</span><span class="p">,</span><span class="n">rm</span><span class="p">,</span><span class="n">t</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This function starts and coordonates the solver algorithm</span>
+
+<span class="sd">    :param button_grid: the board of buttons</span>
+<span class="sd">    :type button_grid: list of list of ``button``</span>
+<span class="sd">    :param rec: the value of the recursion checker</span>
+<span class="sd">    :param img: the value of the image checker</span>
+<span class="sd">    :param rm: the value of the remove checker</span>
+<span class="sd">    :param t: the value of the talkative checker</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">global</span> <span class="n">grid</span><span class="p">,</span><span class="n">recursion_check</span><span class="p">,</span><span class="n">image_check</span><span class="p">,</span><span class="n">remove_chek</span><span class="p">,</span><span class="n">talkative_chack</span><span class="p">,</span><span class="n">start_button</span>
+
+    <span class="n">sudoku_solver</span><span class="o">.</span><span class="n">sol_way</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+    <span class="n">sudoku_solver</span><span class="o">.</span><span class="n">ens_sol</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+    <span class="n">sudoku_solver</span><span class="o">.</span><span class="n">father</span> <span class="o">=</span> <span class="s2">&quot;SUDO&quot;</span>
+    <span class="n">sudoku_solver</span><span class="o">.</span><span class="n">compt_rec</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="k">if</span> <span class="n">rm</span><span class="o">.</span><span class="n">get</span><span class="p">()</span> <span class="ow">and</span> <span class="p">(</span><span class="n">rec</span><span class="o">.</span><span class="n">get</span><span class="p">()</span> <span class="ow">or</span> <span class="n">img</span><span class="o">.</span><span class="n">get</span><span class="p">()</span> <span class="ow">or</span> <span class="n">t</span><span class="o">.</span><span class="n">get</span><span class="p">()):</span>
+        <span class="n">showerror</span><span class="p">(</span><span class="s2">&quot;Error&quot;</span><span class="p">,</span><span class="s2">&quot;You can&#39;t use the remove option with an another option.&quot;</span><span class="p">)</span>
+
+    <span class="k">elif</span> <span class="n">rm</span><span class="o">.</span><span class="n">get</span><span class="p">():</span>
+        <span class="n">grid</span> <span class="o">=</span> <span class="n">sudoku_grid</span><span class="o">.</span><span class="n">make_grid</span><span class="p">(</span><span class="n">sudoku_solver</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">grid</span><span class="p">))</span>
+
+        <span class="k">for</span> <span class="n">ind_line</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">9</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">ind_col</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">9</span><span class="p">):</span>
+                <span class="n">__redraw</span><span class="p">(</span><span class="n">button_grid</span><span class="p">,</span><span class="n">ind_line</span><span class="p">,</span><span class="n">ind_col</span><span class="p">)</span>
+
+    <span class="k">else</span><span class="p">:</span>
+        <span class="kn">from</span> <span class="nn">time</span> <span class="kn">import</span> <span class="n">sleep</span>
+
+        <span class="n">string</span> <span class="o">=</span> <span class="n">sudoku_grid</span><span class="o">.</span><span class="n">grid2string</span><span class="p">(</span><span class="n">grid</span><span class="p">)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">sudoku_solver</span><span class="o">.</span><span class="n">ens_cell0</span><span class="p">(</span><span class="n">grid</span><span class="p">,</span><span class="n">reverse</span><span class="o">=</span><span class="bp">True</span><span class="p">))</span> <span class="o">&lt;</span> <span class="mi">17</span><span class="p">:</span>
+                <span class="n">showerror</span><span class="p">(</span><span class="s2">&quot;Error&quot;</span><span class="p">,</span><span class="s2">&quot;You give a grid too hard to solved for this little algorithm&quot;</span><span class="p">)</span>
+                <span class="k">return</span> <span class="bp">None</span>
+
+            <span class="n">sudoku_solver</span><span class="o">.</span><span class="n">search_sol</span><span class="p">(</span><span class="n">sudoku_grid</span><span class="o">.</span><span class="n">make_grid</span><span class="p">(</span><span class="n">string</span><span class="p">),</span><span class="n">background</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+ 
+            <span class="k">if</span> <span class="n">t</span><span class="o">.</span><span class="n">get</span><span class="p">():</span>
+                <span class="k">for</span> <span class="n">dic</span> <span class="ow">in</span> <span class="n">sudoku_solver</span><span class="o">.</span><span class="n">sol_way</span><span class="p">:</span>
+                    <span class="n">grid</span> <span class="o">=</span> <span class="n">sudoku_grid</span><span class="o">.</span><span class="n">make_grid</span><span class="p">(</span><span class="n">dic</span><span class="p">[</span><span class="s2">&quot;string&quot;</span><span class="p">])</span>
+                    <span class="k">for</span> <span class="n">ind_line</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">9</span><span class="p">):</span>
+                        <span class="k">for</span> <span class="n">ind_col</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">9</span><span class="p">):</span>
+                            <span class="n">__redraw</span><span class="p">(</span><span class="n">button_grid</span><span class="p">,</span><span class="n">ind_line</span><span class="p">,</span><span class="n">ind_col</span><span class="p">)</span>
+                    <span class="n">sleep</span><span class="p">(</span><span class="mf">0.1</span><span class="p">)</span>
+                    <span class="n">win</span><span class="o">.</span><span class="n">update</span><span class="p">()</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">sudoku_solver</span><span class="o">.</span><span class="n">ens_sol</span><span class="p">):</span>
+                    <span class="k">for</span> <span class="n">sol</span> <span class="ow">in</span> <span class="n">sudoku_solver</span><span class="o">.</span><span class="n">ens_sol</span><span class="p">:</span>
+                        <span class="n">grid</span> <span class="o">=</span> <span class="n">sudoku_grid</span><span class="o">.</span><span class="n">make_grid</span><span class="p">(</span><span class="n">sol</span><span class="p">)</span>
+
+                        <span class="k">for</span> <span class="n">ind_line</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">9</span><span class="p">):</span>
+                            <span class="k">for</span> <span class="n">ind_col</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">9</span><span class="p">):</span>
+                                <span class="n">__redraw</span><span class="p">(</span><span class="n">button_grid</span><span class="p">,</span><span class="n">ind_line</span><span class="p">,</span><span class="n">ind_col</span><span class="p">)</span>
+                        <span class="n">sleep</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+                        <span class="n">win</span><span class="o">.</span><span class="n">update</span><span class="p">()</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">showwarning</span><span class="p">(</span><span class="s2">&quot;WARNING&quot;</span><span class="p">,</span><span class="s2">&quot;There is no solution find for this grid&quot;</span><span class="p">)</span>
+        <span class="k">except</span> <span class="n">RecursionError</span><span class="p">:</span>
+            <span class="n">showerror</span><span class="p">(</span><span class="s2">&quot;Error&quot;</span><span class="p">,</span><span class="s2">&quot;You give a grid too hard to solved for this little algorithm&quot;</span><span class="p">)</span>
+
+
+        <span class="k">if</span> <span class="n">rec</span><span class="o">.</span><span class="n">get</span><span class="p">():</span>
+            <span class="n">showinfo</span><span class="p">(</span><span class="s2">&quot;Recursion&quot;</span><span class="p">,</span><span class="s2">&quot;Le programme a effecté &quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">sudoku_solver</span><span class="o">.</span><span class="n">compt_rec</span><span class="p">)</span><span class="o">+</span><span class="s2">&quot; recursions&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">img</span><span class="o">.</span><span class="n">get</span><span class="p">():</span>
+            <span class="n">sudoku_solver</span><span class="o">.</span><span class="n">make_image</span><span class="p">()</span>
+
+    <span class="n">recursion_check</span><span class="o">.</span><span class="n">deselect</span><span class="p">()</span>
+    <span class="n">image_check</span><span class="o">.</span><span class="n">deselect</span><span class="p">()</span>
+    <span class="n">remove_check</span><span class="o">.</span><span class="n">deselect</span><span class="p">()</span>
+    <span class="n">talkative_check</span><span class="o">.</span><span class="n">deselect</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="__RAZ"><a class="viewcode-back" href="../graphical_solver.html#graphical_solver.__RAZ">[docs]</a><span class="k">def</span> <span class="nf">__RAZ</span><span class="p">(</span><span class="n">button_grid</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This funciton redraws the board with all cell&#39;s values at &#39;0&#39;.</span>
+
+<span class="sd">    :param button_grid: the board of buttons</span>
+<span class="sd">    :type button_grid: list of list of ``button``</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">global</span> <span class="n">grid</span>
+
+    <span class="k">for</span> <span class="n">ind_line</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">9</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">ind_col</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">9</span><span class="p">):</span>
+            <span class="n">cell</span> <span class="o">=</span> <span class="n">sudoku_grid</span><span class="o">.</span><span class="n">get_cell</span><span class="p">(</span><span class="n">grid</span><span class="p">,</span><span class="n">ind_line</span><span class="p">,</span><span class="n">ind_col</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">int</span><span class="p">(</span><span class="n">cells</span><span class="o">.</span><span class="n">get_cellvalue</span><span class="p">(</span><span class="n">cell</span><span class="p">)):</span>
+                <span class="n">cells</span><span class="o">.</span><span class="n">set_cellvalue</span><span class="p">(</span><span class="n">cell</span><span class="p">,</span><span class="s1">&#39;0&#39;</span><span class="p">)</span>
+            <span class="n">__redraw</span><span class="p">(</span><span class="n">button_grid</span><span class="p">,</span><span class="n">ind_line</span><span class="p">,</span><span class="n">ind_col</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="__redraw"><a class="viewcode-back" href="../graphical_solver.html#graphical_solver.__redraw">[docs]</a><span class="k">def</span> <span class="nf">__redraw</span><span class="p">(</span><span class="n">button_grid</span><span class="p">,</span><span class="n">ind_line</span><span class="p">,</span><span class="n">ind_col</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This function draws the board. Position ind_line and ind_col are used to test</span>
+<span class="sd">    which number icon has to be drawn.</span>
+
+<span class="sd">    :param button_grid: the board of buttons</span>
+<span class="sd">    :type button_grid: list of list of ``button``</span>
+<span class="sd">    :param ind_line: the line of the cell</span>
+<span class="sd">    :type ind_line: int</span>
+<span class="sd">    :param ind_col: the column of the cell</span>
+<span class="sd">    :type ind_col: int</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">global</span> <span class="n">grid</span>
+
+    <span class="n">button</span> <span class="o">=</span> <span class="n">sudoku_grid</span><span class="o">.</span><span class="n">get_cell</span><span class="p">(</span><span class="n">button_grid</span><span class="p">,</span><span class="n">ind_line</span><span class="p">,</span><span class="n">ind_col</span><span class="p">)</span>
+    <span class="n">cell</span> <span class="o">=</span> <span class="n">sudoku_grid</span><span class="o">.</span><span class="n">get_cell</span><span class="p">(</span><span class="n">grid</span><span class="p">,</span><span class="n">ind_line</span><span class="p">,</span><span class="n">ind_col</span><span class="p">)</span>
+    <span class="n">value</span> <span class="o">=</span> <span class="n">cells</span><span class="o">.</span><span class="n">get_cellvalue</span><span class="p">(</span><span class="n">cell</span><span class="p">)</span>
+    <span class="n">button</span><span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="n">image</span><span class="o">=</span><span class="n">img</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">value</span><span class="p">)])</span></div>
+
+
+<div class="viewcode-block" id="__activate"><a class="viewcode-back" href="../graphical_solver.html#graphical_solver.__activate">[docs]</a><span class="k">def</span> <span class="nf">__activate</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This function ables the enter_button</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">global</span> <span class="n">enter_button</span>
+    <span class="n">enter_button</span><span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="n">state</span> <span class="o">=</span> <span class="s1">&#39;normal&#39;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="__popup"><a class="viewcode-back" href="../graphical_solver.html#graphical_solver.__popup">[docs]</a><span class="k">def</span> <span class="nf">__popup</span><span class="p">(</span><span class="n">button_grid</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This function coordonates the popup to enter a new grid</span>
+
+<span class="sd">    :param button_grid: the board of buttons</span>
+<span class="sd">    :type button_grid: list of list of ``button``</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">global</span> <span class="n">popup</span><span class="p">,</span><span class="n">enter</span><span class="p">,</span><span class="n">enter_button</span>
+    <span class="n">popup</span> <span class="o">=</span> <span class="n">tk</span><span class="o">.</span><span class="n">Tk</span><span class="p">()</span>
+
+    <span class="n">enter_button</span><span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="n">state</span> <span class="o">=</span> <span class="s1">&#39;disable&#39;</span><span class="p">)</span>
+
+    <span class="n">label</span> <span class="o">=</span> <span class="n">tk</span><span class="o">.</span><span class="n">Label</span><span class="p">(</span><span class="n">popup</span><span class="p">,</span><span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;Enter a new your grid&quot;</span><span class="p">)</span>
+    <span class="n">label</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="n">side</span> <span class="o">=</span> <span class="s1">&#39;top&#39;</span><span class="p">)</span>
+
+    <span class="n">string</span> <span class="o">=</span> <span class="n">tk</span><span class="o">.</span><span class="n">StringVar</span><span class="p">()</span>    
+    <span class="n">enter</span> <span class="o">=</span> <span class="n">tk</span><span class="o">.</span><span class="n">Entry</span><span class="p">(</span><span class="n">popup</span><span class="p">,</span><span class="n">textvariable</span> <span class="o">=</span> <span class="n">string</span><span class="p">)</span>
+    <span class="n">enter</span><span class="o">.</span><span class="n">bind</span><span class="p">(</span><span class="s2">&quot;&lt;Return&gt;&quot;</span><span class="p">,</span><span class="n">partial</span><span class="p">(</span><span class="n">__write</span><span class="p">,</span><span class="n">button_grid</span><span class="p">))</span>
+    <span class="n">enter</span><span class="o">.</span><span class="n">pack</span><span class="p">()</span>
+
+    <span class="n">button</span> <span class="o">=</span> <span class="n">tk</span><span class="o">.</span><span class="n">Button</span><span class="p">(</span><span class="n">popup</span><span class="p">,</span><span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;Ok&quot;</span><span class="p">)</span>
+    <span class="n">button</span><span class="o">.</span><span class="n">bind</span><span class="p">(</span><span class="s2">&quot;&lt;Button-1&gt;&quot;</span><span class="p">,</span><span class="n">partial</span><span class="p">(</span><span class="n">__write</span><span class="p">,</span><span class="n">button_grid</span><span class="p">))</span>
+    <span class="n">button</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="n">side</span> <span class="o">=</span> <span class="s1">&#39;bottom&#39;</span><span class="p">)</span>
+
+    <span class="n">popup</span><span class="o">.</span><span class="n">bind</span><span class="p">(</span><span class="s2">&quot;&lt;Destroy&gt;&quot;</span><span class="p">,</span><span class="n">__activate</span><span class="p">)</span>
+    <span class="n">popup</span><span class="o">.</span><span class="n">mainloop</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="__write"><a class="viewcode-back" href="../graphical_solver.html#graphical_solver.__write">[docs]</a><span class="k">def</span> <span class="nf">__write</span><span class="p">(</span><span class="n">button_grid</span><span class="p">,</span><span class="bp">self</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This function write the new grid or shows an error if not a good value</span>
+
+<span class="sd">    :param button_grid: the board of buttons</span>
+<span class="sd">    :type button_grid: list of list of ``button``</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">global</span> <span class="n">grid</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">string</span> <span class="o">=</span> <span class="n">enter</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+        <span class="n">grid</span> <span class="o">=</span> <span class="n">sudoku_grid</span><span class="o">.</span><span class="n">make_grid</span><span class="p">(</span><span class="n">string</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">ind_line</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">9</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">ind_col</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">9</span><span class="p">):</span>
+                <span class="n">__redraw</span><span class="p">(</span><span class="n">button_grid</span><span class="p">,</span><span class="n">ind_line</span><span class="p">,</span><span class="n">ind_col</span><span class="p">)</span>
+    <span class="k">except</span><span class="p">:</span>
+        <span class="n">showerror</span><span class="p">(</span><span class="s2">&quot;NotGoodValueError&quot;</span><span class="p">,</span><span class="s2">&quot;You will enter 81 integers between 0 and 9 without anything else for create a new grid&quot;</span><span class="p">)</span>
+
+    <span class="n">popup</span><span class="o">.</span><span class="n">destroy</span><span class="p">()</span></div>
+
+
+<span class="k">def</span> <span class="nf">back</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This funtcion manage if the user want to quit the GUI or return to the main window</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">global</span> <span class="n">win</span>
+    <span class="kn">import</span> <span class="nn">graphical_main</span>
+
+    <span class="n">ask</span> <span class="o">=</span> <span class="n">askyesno</span><span class="p">(</span><span class="s2">&quot;Exit&quot;</span><span class="p">,</span><span class="s2">&quot;Do you want to return to the main window of the GUI?&quot;</span><span class="p">)</span>
+    <span class="n">win</span><span class="o">.</span><span class="n">destroy</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">ask</span><span class="p">:</span>
+        <span class="n">graphical_main</span><span class="o">.</span><span class="n">main</span><span class="p">()</span>
+    
+
+<span class="c1"># eof</span>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/logo_FIL.png" alt="Logo"/>
+            </a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">sudoku solver 0 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        ;<a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/fr/"> <img alt="Licence Creative Commons" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a>. <a href="http://www.fil.univ-lille1.fr">2016, HULSKEN Alexandre and KARTI Adeniss, Univ. Lille1</a>.
+      Last updated on 13/12/2016.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.6.
+    </div>
+  </body>
+</html>

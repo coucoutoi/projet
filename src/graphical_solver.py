@@ -270,11 +270,10 @@ def __run(button_grid,rec,img,rm,t):
  
             if t.get():
                 for dic in sudoku_solver.sol_way:
-                    grid = sudoku_grid.make_grid(string)
-                    move = dic['son'][0]
-                    cell = sudoku_grid.get_cell(grid,move[1],move[2])
-                    cells.set_cellvalue(cell,move[0])
-                    __redraw(button_grid,move[1],move[2])
+                    grid = sudoku_grid.make_grid(dic["string"])
+                    for ind_line in range(9):
+                        for ind_col in range(9):
+                            __redraw(button_grid,ind_line,ind_col)
                     sleep(0.1)
                     win.update()
             else:

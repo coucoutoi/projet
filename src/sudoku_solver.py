@@ -190,12 +190,13 @@ def search_sol(grid,talkative=False,background=False):
         cell_min = find_cell_min(grid) #on cherche la cellule ayant le plus de contraintes
         list_hipo = cells.get_cellhipo(cell_min[0])
         for hipo in list_hipo: #pour chaque valeur hipothetiques de la cellule, on applique l'une de ces valeurs puis on stock la chaine de caractère correspondant à la grille obtenu dans une liste
-            sol_way += [{"resolved":False,'father':father,'son':[(str(hipo),cell_min[2],cell_min[1]),compt_rec]}] #on sauvegarde la modifivation que l'on a fait en y sauvegardant le compteur de récursion ce qui nous sera utile dans la fonction make_image
-            save_father = father #on sauvegarde father temporairement
-            father = [(str(hipo),cell_min[2],cell_min[1]),compt_rec] # on réattribue la nouvelle valuer de father
             cells.set_cellvalue(cell_min[0],hipo)
             string = sudoku_grid.grid2string(grid)
             grid_bis = sudoku_grid.make_grid(string) #on utilise une variable temporaire pour tester la valeur attribuée
+
+            sol_way += [{"string":string,"resolved":False,'father':father,'son':[(str(hipo),cell_min[2],cell_min[1]),compt_rec]}] #on sauvegarde la modifivation que l'on a fait en y sauvegardant le compteur de récursion ce qui nous sera utile dans la fonction make_image
+            save_father = father #on sauvegarde father temporairement
+            father = [(str(hipo),cell_min[2],cell_min[1]),compt_rec] # on réattribue la nouvelle valuer de father
             search_sol(grid_bis, talkative = talkative, background = background)
             compt_rec += 1
             father = save_father

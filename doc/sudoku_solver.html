@@ -1,0 +1,413 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>sudoku_solver module &mdash; sudoku solver 0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="sudoku solver 0 documentation" href="index.html" />
+    <link rel="next" title="graphical_solver module" href="graphical_solver.html" />
+    <link rel="prev" title="sudoku_grid module" href="sudoku_grid.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="graphical_solver.html" title="graphical_solver module"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="sudoku_grid.html" title="sudoku_grid module"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">sudoku solver 0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-sudoku_solver">
+<span id="sudoku-solver-module"></span><h1><a class="reference internal" href="#module-sudoku_solver" title="sudoku_solver"><code class="xref py py-mod docutils literal"><span class="pre">sudoku_solver</span></code></a> module<a class="headerlink" href="#module-sudoku_solver" title="Permalink to this headline">¶</a></h1>
+<p><a class="reference internal" href="#module-sudoku_solver" title="sudoku_solver"><code class="xref py py-mod docutils literal"><span class="pre">sudoku_solver</span></code></a> module</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">author:</th><td class="field-body">HULSKEN Alexandre &amp; KARTI Adeniss</td>
+</tr>
+<tr class="field-even field"><th class="field-name">date:</th><td class="field-body">2016, november</td>
+</tr>
+</tbody>
+</table>
+<p>This module provides sudoku solver&#8217;s primitive operations</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Provides:</th><td class="field-body"></td>
+</tr>
+</tbody>
+</table>
+<ul class="simple">
+<li><cite>MAJ_hipothetic</cite></li>
+<li><cite>find_cell_min</cite></li>
+<li><cite>not_solved</cite></li>
+<li><cite>is_solved</cite></li>
+<li><cite>search_sol</cite></li>
+<li><cite>ens_cell0</cite></li>
+<li><cite>remove</cite></li>
+<li><cite>make_image</cite></li>
+</ul>
+<div class="section" id="up-date-hipothetic">
+<h2>UP-DATE HIPOTHETIC<a class="headerlink" href="#up-date-hipothetic" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="sudoku_solver.MAJ_hipothetic">
+<code class="descclassname">sudoku_solver.</code><code class="descname">MAJ_hipothetic</code><span class="sig-paren">(</span><em>cell_list</em>, <em>hipo</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/sudoku_solver.html#MAJ_hipothetic"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sudoku_solver.MAJ_hipothetic" title="Permalink to this definition">¶</a></dt>
+<dd><p>up-date the cells&#8217; hipothetics values of cell_list with the value of the other cells of cell_value</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>cell_list</strong> (<em>list</em>) &#8211; a list of cells</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">None</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">NoneType</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Action:</th><td class="field-body">up-date the hipohtetics value of each cell of cell_list</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">UC:</th><td class="field-body">none</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Examples:</th><td class="field-body"></td>
+</tr>
+</tbody>
+</table>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">cell_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">cells</span><span class="o">.</span><span class="n">create</span><span class="p">()</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">9</span><span class="p">)]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">cell</span> <span class="ow">in</span> <span class="n">cell_list</span><span class="p">:</span> <span class="k">print</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">cells</span><span class="o">.</span><span class="n">get_cellhipo</span><span class="p">(</span><span class="n">cell</span><span class="p">)))</span>
+<span class="go">{1, 2, 3, 4, 5, 6, 7, 8, 9}</span>
+<span class="go">{1, 2, 3, 4, 5, 6, 7, 8, 9}</span>
+<span class="go">{1, 2, 3, 4, 5, 6, 7, 8, 9}</span>
+<span class="go">{1, 2, 3, 4, 5, 6, 7, 8, 9}</span>
+<span class="go">{1, 2, 3, 4, 5, 6, 7, 8, 9}</span>
+<span class="go">{1, 2, 3, 4, 5, 6, 7, 8, 9}</span>
+<span class="go">{1, 2, 3, 4, 5, 6, 7, 8, 9}</span>
+<span class="go">{1, 2, 3, 4, 5, 6, 7, 8, 9}</span>
+<span class="go">{1, 2, 3, 4, 5, 6, 7, 8, 9}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cells</span><span class="o">.</span><span class="n">set_cellvalue</span><span class="p">(</span><span class="n">cell_list</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">MAJ_hipothetic</span><span class="p">(</span><span class="n">cell_list</span><span class="p">,</span><span class="s1">&#39;1&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">cell</span> <span class="ow">in</span> <span class="n">cell_list</span><span class="p">:</span> <span class="k">print</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">cells</span><span class="o">.</span><span class="n">get_cellhipo</span><span class="p">(</span><span class="n">cell</span><span class="p">)))</span>
+<span class="go">set()</span>
+<span class="go">{2, 3, 4, 5, 6, 7, 8, 9}</span>
+<span class="go">{2, 3, 4, 5, 6, 7, 8, 9}</span>
+<span class="go">{2, 3, 4, 5, 6, 7, 8, 9}</span>
+<span class="go">{2, 3, 4, 5, 6, 7, 8, 9}</span>
+<span class="go">{2, 3, 4, 5, 6, 7, 8, 9}</span>
+<span class="go">{2, 3, 4, 5, 6, 7, 8, 9}</span>
+<span class="go">{2, 3, 4, 5, 6, 7, 8, 9}</span>
+<span class="go">{2, 3, 4, 5, 6, 7, 8, 9}</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="is-solved">
+<h2>IS SOLVED<a class="headerlink" href="#is-solved" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="sudoku_solver.is_solved">
+<code class="descclassname">sudoku_solver.</code><code class="descname">is_solved</code><span class="sig-paren">(</span><em>grid</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/sudoku_solver.html#is_solved"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sudoku_solver.is_solved" title="Permalink to this definition">¶</a></dt>
+<dd><p>say if grid is a resolved grid</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>grid</strong> (<em>grid</em>) &#8211; a sudoku&#8217;s grid</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">True if it&#8217;s resolved and False if not</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">bool</td>
+</tr>
+<tr class="field-even field"><th class="field-name">UC:</th><td class="field-body">none</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="not-solved">
+<h2>NOT SOLVED<a class="headerlink" href="#not-solved" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="sudoku_solver.not_solved">
+<code class="descclassname">sudoku_solver.</code><code class="descname">not_solved</code><span class="sig-paren">(</span><em>grid</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/sudoku_solver.html#not_solved"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sudoku_solver.not_solved" title="Permalink to this definition">¶</a></dt>
+<dd><p>say if it&#8217;s impossible to find solution of the sudoku&#8217;s grid</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>grid</strong> (<em>grid</em>) &#8211; a sudoku&#8217;s grid</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">True if it&#8217;s impossible to find solution and False if not</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">bool</td>
+</tr>
+<tr class="field-even field"><th class="field-name">UC:</th><td class="field-body">none</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="ens-cell-0">
+<h2>ENS CELL 0<a class="headerlink" href="#ens-cell-0" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="sudoku_solver.ens_cell0">
+<code class="descclassname">sudoku_solver.</code><code class="descname">ens_cell0</code><span class="sig-paren">(</span><em>grid</em>, <em>reverse=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/sudoku_solver.html#ens_cell0"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sudoku_solver.ens_cell0" title="Permalink to this definition">¶</a></dt>
+<dd><p>return all cells with a value equal at 0 or if reverse is True, return all cells with a value different at 0</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>grid</strong> (<em>grid</em>) &#8211; a sudoku grid</li>
+<li><strong>reverse</strong> (<em>bool</em>) &#8211; (optional) defaults set to False. If True,
+return the reverse of a normal using</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">a list of all cell with a value at 0 if reverse is True and the reverse if not</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first">list of cells</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">UC:</th><td class="field-body"><p class="first">none</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Examples:</th><td class="field-body"></td>
+</tr>
+</tbody>
+</table>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">grid</span> <span class="o">=</span> <span class="n">sudoku_grid</span><span class="o">.</span><span class="n">make_grid</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">len</span><span class="p">(</span><span class="n">ens_cell0</span><span class="p">(</span><span class="n">grid</span><span class="p">))</span>
+<span class="go">81</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">len</span><span class="p">(</span><span class="n">ens_cell0</span><span class="p">(</span><span class="n">grid</span><span class="p">,</span><span class="n">reverse</span><span class="o">=</span><span class="bp">True</span><span class="p">))</span>
+<span class="go">0</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="find-cell-min">
+<h2>FIND CELL MIN<a class="headerlink" href="#find-cell-min" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="sudoku_solver.find_cell_min">
+<code class="descclassname">sudoku_solver.</code><code class="descname">find_cell_min</code><span class="sig-paren">(</span><em>grid</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/sudoku_solver.html#find_cell_min"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sudoku_solver.find_cell_min" title="Permalink to this definition">¶</a></dt>
+<dd><p>search the cell of the grid with the highter contraints</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>grid</strong> (<em>grid</em>) &#8211; a sudoku&#8217;s grid</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">the cell with the most contraints</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">cell</td>
+</tr>
+<tr class="field-even field"><th class="field-name">UC:</th><td class="field-body">none</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="search-sol">
+<h2>SEARCH SOL<a class="headerlink" href="#search-sol" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="sudoku_solver.search_sol">
+<code class="descclassname">sudoku_solver.</code><code class="descname">search_sol</code><span class="sig-paren">(</span><em>grid</em>, <em>talkative=False</em>, <em>background=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/sudoku_solver.html#search_sol"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sudoku_solver.search_sol" title="Permalink to this definition">¶</a></dt>
+<dd><p>this algorithm search all solutions of a sudoku</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>grid</strong> &#8211; a sudoku&#8217;s grid</li>
+<li><strong>talkative</strong> (<em>bool</em>) &#8211; (optional) defaults set to False. If True,
+prints, all stages during the computating</li>
+<li><strong>background</strong> (<em>bool</em>) &#8211; (optional) defaults set to False. If True,
+the algorithm don&#8217;t print anything</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">the number of recursion used by the function</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first">int</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Action:</th><td class="field-body"><p class="first">print all solutions of the grid</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">UC:</th><td class="field-body"><p class="first last">none</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="remove-cells">
+<h2>REMOVE CELLS<a class="headerlink" href="#remove-cells" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="sudoku_solver.remove">
+<code class="descclassname">sudoku_solver.</code><code class="descname">remove</code><span class="sig-paren">(</span><em>grid</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/sudoku_solver.html#remove"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sudoku_solver.remove" title="Permalink to this definition">¶</a></dt>
+<dd><p>print a random grid with removing cells from grid with one solution</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>grid</strong> (<em>grid</em>) &#8211; a sudoku grid</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">the string of a random sudoku&#8217;s grid with removed cells</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">str</td>
+</tr>
+<tr class="field-even field"><th class="field-name">UC:</th><td class="field-body">none</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="make-image">
+<h2>MAKE IMAGE<a class="headerlink" href="#make-image" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="sudoku_solver.make_image">
+<code class="descclassname">sudoku_solver.</code><code class="descname">make_image</code><span class="sig-paren">(</span><em>file_name='arbre'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/sudoku_solver.html#make_image"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sudoku_solver.make_image" title="Permalink to this definition">¶</a></dt>
+<dd><p>create a picture with file_name.dot as name of the differents part of sol_way</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>file_name</strong> (<em>str</em>) &#8211; (optional) the nale of the picture who is created</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">None</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">NoneType</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Action:</th><td class="field-body">create a picture of the resolved way</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">UC:</th><td class="field-body">none</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="index.html">
+              <img class="logo" src="_static/logo_FIL.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#"><code class="docutils literal"><span class="pre">sudoku_solver</span></code> module</a><ul>
+<li><a class="reference internal" href="#up-date-hipothetic">UP-DATE HIPOTHETIC</a></li>
+<li><a class="reference internal" href="#is-solved">IS SOLVED</a></li>
+<li><a class="reference internal" href="#not-solved">NOT SOLVED</a></li>
+<li><a class="reference internal" href="#ens-cell-0">ENS CELL 0</a></li>
+<li><a class="reference internal" href="#find-cell-min">FIND CELL MIN</a></li>
+<li><a class="reference internal" href="#search-sol">SEARCH SOL</a></li>
+<li><a class="reference internal" href="#remove-cells">REMOVE CELLS</a></li>
+<li><a class="reference internal" href="#make-image">MAKE IMAGE</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="sudoku_grid.html"
+                        title="previous chapter"><code class="docutils literal"><span class="pre">sudoku_grid</span></code> module</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="graphical_solver.html"
+                        title="next chapter"><code class="docutils literal"><span class="pre">graphical_solver</span></code> module</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/sudoku_solver.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="graphical_solver.html" title="graphical_solver module"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="sudoku_grid.html" title="sudoku_grid module"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">sudoku solver 0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        ;<a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/fr/"> <img alt="Licence Creative Commons" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a>. <a href="http://www.fil.univ-lille1.fr">2016, HULSKEN Alexandre and KARTI Adeniss, Univ. Lille1</a>.
+      Last updated on 12/12/2016.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.6.
+    </div>
+  </body>
+</html>
